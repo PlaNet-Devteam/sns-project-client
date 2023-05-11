@@ -299,6 +299,10 @@
           background-image: url('../../../assets/intro/mercury.svg');
         }
 
+        &--venus {
+          background-image: url('../../../assets/intro/venus.svg');
+        }
+
         &--earth {
           background-image: url('../../../assets/intro/earth.svg');
         }
@@ -397,9 +401,22 @@
     color: white;
   }
 
+  &.btn-ghost {
+    background-color: transparent;
+    border-color: white;
+    border-width: 2px;
+    border-style: solid;
+    color: white;
+  }
+
   &.btn-md {
-    font-size: 1.125rem;
+    font-size: 1rem;
     height: 3.75rem;
+  }
+
+  &.btn-sm {
+    font-size: 0.875rem;
+    height: 3rem;
   }
 
   &.en {
