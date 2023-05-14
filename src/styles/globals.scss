@@ -16,13 +16,12 @@ button {
 :root {
   --border-color: #35395b;
   --bg-color: #1f2349;
-  --button-secondary-color: #5356a5;
   --danger-color: #932f42;
   --success-color: #2f9381;
   --white: #fff;
   --black: #000;
-
-  /* background: var(--button-primary-color); */
+  --essential-color: #1ba2f3;
+  --button-secondary-color: #5356a5;
   --button-primary-color: linear-gradient(
     270deg,
     #5322e0 3.82%,
