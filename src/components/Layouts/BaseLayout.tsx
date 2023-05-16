@@ -2,6 +2,7 @@ import axios, { InternalAxiosRequestConfig } from 'axios';
 import { useRouter } from 'next/router';
 import React, { ReactNode, useEffect } from 'react';
 
+axios.defaults.withCredentials = true;
 // 테스트 용
 
 interface BaseProps {
@@ -17,21 +18,20 @@ export const api = axios.create({
   },
 });
 
-api.interceptors.request.use((config: InternalAxiosRequestConfig<any>) => {
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('accessToken');
-
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-  }
-  return config;
-});
-
 function BaseLayout({ children }: BaseProps) {
   const router = useRouter();
 
   useEffect(() => {
+    api.interceptors.request.use((config: InternalAxiosRequestConfig<any>) => {
+      if (typeof window !== 'undefined') {
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+          config.headers['Authorization'] = `Bearer ${token}`;
+        }
+      }
+      return config;
+    });
+
     if (typeof window !== 'undefined') {
       accessToken = localStorage.getItem('accessToken');
       console.log(accessToken);
