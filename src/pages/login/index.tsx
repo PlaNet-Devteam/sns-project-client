@@ -1,10 +1,13 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useState } from 'react';
 import Link from 'next/link';
-import useForm from '@/hooks/useForm';
-import { AuthLoginDto, AuthLoginType } from '@/common/types/auth';
-import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import { api } from '@/components/Layouts/BaseLayout';
+import { useMutation } from '@tanstack/react-query';
+import useForm from '@/hooks/useForm';
+import { api } from '@/core/base.service';
+import { AuthLoginType } from '@/core/types/auth';
+import JwtStorageService from '@/core/utils/jwt-storage';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import ErrorMessage from '@/components/common/ErrorMessage';
 
 function Login() {
   const {
@@ -24,33 +27,38 @@ function Login() {
   // } = useForm(new AuthLoginDto());
 
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState([]);
 
-  const { mutateAsync, isLoading } = useMutation((formData: AuthLoginDto) =>
-    api.post('/auth/login', formData),
+  // TODO : API 함수 호출하는 부분 서비스 관심사 분리
+  const createUser = async (formData: AuthLoginType) => {
+    const { data } = await api.post('/auth/login', formData);
+    return data.data;
+  };
+
+  const { mutateAsync, isLoading, isError } = useMutation(
+    (formData: AuthLoginType) => createUser(formData),
   );
 
   const onSubmitForm = async (
     event: FormEvent<HTMLFormElement>,
-    formData: AuthLoginDto,
+    formData: AuthLoginType,
   ) => {
     event.preventDefault();
     try {
-      const res = await mutateAsync(formData);
-      console.log(res);
-      if (res.data.data) {
-        localStorage.setItem('accessToken', res.data.data.accessToken);
-        localStorage.setItem('refreshToken', res.data.data.refreshToken);
+      const { accessToken } = await mutateAsync(formData);
+      if (accessToken) {
+        JwtStorageService.setToken(accessToken);
         onReset();
-        router.push('/profile');
+        router.replace('/profile');
       }
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      setErrorMessage(error?.response?.data.message);
     }
   };
   isLoading;
   return (
     <div className="login">
-      <div>{isLoading && <div>로딩중................</div>}</div>
+      {isLoading && <LoadingSpinner />}
       <div className="container content-area">
         <div className="middle-area form-area">
           <div>
@@ -87,12 +95,14 @@ function Login() {
                   </div>
                 </div>
               </div>
+              {isError && <ErrorMessage errorMessage={errorMessage} />}
               <div className="btn-group">
                 <button className="btn btn-primary btn-md en" type="submit">
                   LOGIN
                 </button>
               </div>
             </form>
+
             <div className="text-group">
               <p className=" text-center text-white text-sm">
                 비밀번호를 잊으셨나요?

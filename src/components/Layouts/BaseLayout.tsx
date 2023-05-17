@@ -1,47 +1,25 @@
-import axios, { InternalAxiosRequestConfig } from 'axios';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import React, { ReactNode, useEffect } from 'react';
-
-axios.defaults.withCredentials = true;
-// 테스트 용
-
-interface BaseProps {
-  children?: ReactNode;
-}
-
-let accessToken: string | null;
-
-export const api = axios.create({
-  baseURL: 'http://localhost:4300',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+import { BaseProps } from '@/core/types/common';
+import JwtStorageService from '@/core/utils/jwt-storage';
 
 function BaseLayout({ children }: BaseProps) {
   const router = useRouter();
 
   useEffect(() => {
-    api.interceptors.request.use((config: InternalAxiosRequestConfig<any>) => {
-      if (typeof window !== 'undefined') {
-        const token = localStorage.getItem('accessToken');
-        if (token) {
-          config.headers['Authorization'] = `Bearer ${token}`;
-        }
-      }
-      return config;
-    });
-
     if (typeof window !== 'undefined') {
-      accessToken = localStorage.getItem('accessToken');
-      console.log(accessToken);
+      const accessToken = JwtStorageService.getToken();
       if (!accessToken) {
-        router.push('/login');
+        router.replace('/login');
       }
     }
-  }, []);
+  }, [router]);
 
-  return <div className="layout-container">{children}</div>;
+  return (
+    <main className="app-main">
+      <div className="layout-container">{children}</div>
+    </main>
+  );
 }
 
 export default BaseLayout;

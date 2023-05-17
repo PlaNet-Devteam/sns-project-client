@@ -1,19 +1,19 @@
 import React from 'react';
-import ProfileFeedList from '@/components/Profile/ProfileFeedList';
 import ProfileLayout from '@/components/Layouts/ProfileLayout';
+import ProfileFeedList from '@/components/Profile/ProfileFeedList';
 
 const dummyFeeds: any[] = [
   {
     id: 1,
-    title: 'FEED 1',
+    title: 'BOOMARK 1',
   },
   {
     id: 2,
-    title: 'FEED 2',
+    title: 'BOOMARK 2',
   },
 ];
 
-function Profile() {
+function Bookmark() {
   return (
     <ProfileLayout>
       <ProfileFeedList feeds={dummyFeeds} />
@@ -21,4 +21,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default Bookmark;
