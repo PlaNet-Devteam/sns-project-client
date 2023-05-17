@@ -13,6 +13,7 @@
   }
 
   &.close {
+    display: none;
     animation: modal_bottom_bg_close 0.3s;
   }
 }

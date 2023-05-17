@@ -1,12 +1,12 @@
-import useModal from '@/hooks/useModal';
-import classNames from 'classnames';
 import React, { ReactNode, useEffect, useState } from 'react';
+import classNames from 'classnames';
+// import useModal from '@/hooks/useModal';
 
 interface ModalProps {
   variant?: 'default' | 'primary';
   isModalOpen: boolean;
   onClose: () => void;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 type VariantTypes = {
@@ -25,11 +25,11 @@ function ModalBottom({
   onClose,
   children,
 }: ModalProps) {
-  const isOpen = useModal(isModalOpen, 200);
-  if (!isOpen) return null;
+  //   const isOpen = useModal(isModalOpen, 200);
+  //   if (!isOpen) return null;
   return (
     <div
-      className={isOpen ? 'modalBottom open' : 'modalBottom close'}
+      className={isModalOpen ? 'modalBottom open' : 'modalBottom close'}
       onClick={onClose}
     >
       <section

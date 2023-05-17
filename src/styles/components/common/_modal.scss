@@ -14,6 +14,7 @@
   }
 
   &.close {
+    display: none;
     animation: modal_bg_close 0.1s;
   }
 }
