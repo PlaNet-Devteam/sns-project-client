@@ -1,17 +1,17 @@
 import React, { ReactNode } from 'react';
 import Link from 'next/link';
-import classNames from 'classnames';
 import Image from 'next/image';
+import classNames from 'classnames';
 
 type ButtonProps = {
-  variant?: 'default' | 'primary' | 'secondary' | 'danger' | 'dashed';
+  variant?: 'default' | 'primary' | 'secondary' | 'essential';
   size?: 'sm' | 'md' | 'lg';
   color?: 'essential' | 'white' | 'black' | 'success' | 'danger';
-  full?: boolean;
-  en?: boolean;
+  isFull?: boolean;
+  isEnglish?: boolean;
   children?: ReactNode;
   className?: string;
-  disabled?: boolean;
+  isDisabled?: boolean;
   to?: string | undefined;
   type?: 'button' | 'submit' | undefined;
   onClick?: (
@@ -26,6 +26,7 @@ type VariantTypes = {
   default: string;
   primary: string;
   secondary: string;
+  essential: string;
 };
 
 type SizeTypes = {
@@ -52,6 +53,7 @@ const VARIANTS: VariantTypes = {
   default: 'default',
   primary: 'primary',
   secondary: 'secondary',
+  essential: 'essential',
 };
 
 const COLORS: ColorTypes = {
@@ -63,16 +65,16 @@ const COLORS: ColorTypes = {
 };
 
 const Button = ({
-  type,
   variant = 'default',
   color,
   size = 'md',
-  full,
-  en,
+  isFull,
+  isEnglish,
   children,
   className,
-  disabled,
+  isDisabled,
   to,
+  type,
   onClick,
 }: ButtonProps) => {
   const classNameValues = classNames(
@@ -80,9 +82,9 @@ const Button = ({
     SIZES[size as keyof SizeTypes],
     VARIANTS[variant as keyof VariantTypes],
     COLORS[color as keyof ColorTypes],
-    { is_full: full },
-    { is_english: en },
-    { is_disabled: disabled },
+    { is_full: isFull },
+    { is_english: isEnglish },
+    { is_disabled: isDisabled },
     className,
   );
 
@@ -100,7 +102,7 @@ const Button = ({
     <button
       type={type}
       className={classNameValues}
-      disabled={disabled}
+      disabled={isDisabled}
       onClick={onClick}
     >
       <span className="icon">{children}</span>

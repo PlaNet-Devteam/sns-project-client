@@ -1,12 +1,12 @@
-import useModal from '@/hooks/useModal';
-import classNames from 'classnames';
 import React, { ReactNode, useEffect, useState } from 'react';
+import classNames from 'classnames';
+import useModal from '@/hooks/useModal';
 
 interface ModalProps {
   variant?: 'default' | 'primary';
   isModalOpen: boolean;
   onClose: () => void;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 type VariantTypes = {
