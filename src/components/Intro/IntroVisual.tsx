@@ -1,5 +1,5 @@
-import LogoTitleSVG from '@/assets/intro/logo_title.svg';
 import Link from 'next/link';
+import LogoTitleSVG from '@/assets/intro/logo_title.svg';
 
 function IntroVisual() {
   return (
