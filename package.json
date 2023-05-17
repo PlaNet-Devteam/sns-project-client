@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --cache",
     "postinstall": "husky install",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "storybook": "storybook dev -s ./public -p 6006 ",
+    "build-storybook": "storybook build public"
   },
   "lint-staged": {
     "**/*.{tsx,ts,jsx,js}": [
@@ -29,14 +31,23 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^7.0.12",
+    "@storybook/addon-interactions": "^7.0.12",
+    "@storybook/addon-links": "^7.0.12",
+    "@storybook/blocks": "^7.0.12",
+    "@storybook/nextjs": "^7.0.12",
+    "@storybook/react": "^7.0.12",
+    "@storybook/testing-library": "^0.0.14-next.2",
     "@svgr/webpack": "^7.0.0",
     "@types/classnames": "^2.3.1",
+    "classnames": "^2.3.2",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.4",
     "eslint-config-prettier": "^8.8.0",
-    "prettier": "^2.8.8",
+    "eslint-plugin-storybook": "^0.6.12",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.2",
-    "classnames": "^2.3.2"
+    "prettier": "^2.8.8",
+    "storybook": "^7.0.12"
   }
 }
