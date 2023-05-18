@@ -1,22 +1,22 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import useModal from '@/hooks/useModal';
+import { BaseProps } from '@/core/types/common';
 
-interface ModalProps {
+interface ModalProps extends BaseProps {
   variant?: 'default' | 'primary';
   isModalOpen: boolean;
   onClickCloseModal: () => void;
-  children?: ReactNode;
 }
 
-type VariantTypes = {
+interface VariantType {
   default: string;
   primary: string;
-};
+}
 
-const VARIANTS: VariantTypes = {
-  default: 'default',
-  primary: 'primary',
+const VARIANTS: VariantType = {
+  default: 'modalBottom-section--default',
+  primary: 'modalBottom-section--primary',
 };
 
 function ModalBottom({
@@ -29,21 +29,25 @@ function ModalBottom({
   if (!isOpen) return null;
   return (
     <div
-      className={isOpen ? 'modalBottom open' : 'modalBottom close'}
+      className={
+        isOpen
+          ? 'modalBottom modalBottom--opened'
+          : 'modalBottom modalBottom--closed'
+      }
       onClick={onClickCloseModal}
     >
       <section
         className={classNames(
-          VARIANTS[variant as keyof VariantTypes],
+          VARIANTS[variant as keyof VariantType],
           isModalOpen
-            ? 'modalBottom_section open'
-            : 'modalBottom_section close',
+            ? 'modalBottom-section modalBottom-section--opened'
+            : 'modalBottom-section modalBottom-section--closed',
         )}
       >
-        <header className="modalBottom_header">
-          <button className="modalBottom_header_button" />
+        <header className="modalBottom-header">
+          <button className="modalBottom-header__button" />
         </header>
-        <main className="modalBottom_main">{children}</main>
+        <main className="modalBottom-main">{children}</main>
       </section>
     </div>
   );

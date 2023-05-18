@@ -7,41 +7,41 @@
   z-index: 99;
   background-color: rgba(0, 0, 0, 0.6);
 
-  &.open {
+  &--opened {
     display: flex;
     align-items: center;
-    animation: modal_bg_show 0.1s;
+    animation: modal--bg-opened 0.1s;
   }
 
-  &.close {
-    animation: modal_bg_close 0.1s;
+  &--closed {
+    animation: modal--bg-closed 0.1s;
   }
 }
 
-.modal_section {
+.modal-section {
   width: 100%;
   max-width: 21.5rem;
   margin: 0 auto;
   border-radius: var(--border-radius-lg);
   overflow: hidden;
 
-  &.default {
+  &--default {
     background: #262626;
   }
-  &.primary {
+  &--primary {
     background: linear-gradient(180deg, #5323e0 0%, #5fafd4 100%);
   }
 
-  &.open {
-    animation: modal_show 0.1s;
+  &--opened {
+    animation: modal--opened 0.1s;
   }
 
-  &.close {
-    animation: modal_close 0.1s;
+  &--closed {
+    animation: modal--closed 0.1s;
   }
 }
 
-.modal_header {
+.modal-header {
   height: 3.5rem;
   display: flex;
   justify-content: center;
@@ -49,7 +49,7 @@
   padding: 1rem 3rem 1rem 3rem;
   color: var(--white);
 
-  button {
+  &__button {
     position: absolute;
     top: 1rem;
     right: 1rem;
@@ -64,7 +64,7 @@
   }
 }
 
-.modal_main {
+.modal-main {
   max-height: 25.75rem;
   overflow-x: hidden;
   overflow-y: auto;
@@ -89,7 +89,7 @@
   }
 }
 
-@keyframes modal_show {
+@keyframes modal--opened {
   from {
     opacity: 0;
     margin-top: -50px;
@@ -99,7 +99,7 @@
     margin-top: 0;
   }
 }
-@keyframes modal_bg_show {
+@keyframes modal-bg--opened {
   from {
     opacity: 0;
   }
@@ -108,7 +108,7 @@
   }
 }
 
-@keyframes modal_close {
+@keyframes modal--closed {
   from {
     margin-bottom: 0px;
   }
@@ -116,7 +116,7 @@
     margin-bottom: -50px;
   }
 }
-@keyframes modal_bg_close {
+@keyframes modal-bg--closed {
   from {
     opacity: 1;
   }

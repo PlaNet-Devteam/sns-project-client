@@ -1,50 +1,52 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import useModal from '@/hooks/useModal';
+import { BaseProps } from '@/core/types/common';
 
-interface ModalProps {
+interface ModalProps extends BaseProps {
   variant?: 'default' | 'primary';
+  headerText?: string;
   isModalOpen: boolean;
   onClickCloseModal: () => void;
-  headerText?: string;
-  children?: ReactNode;
 }
 
-type VariantTypes = {
+interface VariantType {
   default: string;
   primary: string;
-};
+}
 
-const VARIANTS: VariantTypes = {
-  default: 'default',
-  primary: 'primary',
+const VARIANTS: VariantType = {
+  default: 'modal-section--default',
+  primary: 'modal-section--primary',
 };
 
 function Modal({
   variant = 'default',
+  headerText,
   isModalOpen,
   onClickCloseModal,
-  headerText,
   children,
 }: ModalProps) {
   const isOpen = useModal(isModalOpen, 100);
   if (!isOpen) return null;
   return (
-    <div className={isOpen ? 'modal open' : 'modal close'}>
-      {isModalOpen ? (
-        <section
-          className={classNames(
-            VARIANTS[variant as keyof VariantTypes],
-            isModalOpen ? 'modal_section open' : 'modal_section close',
-          )}
-        >
-          <header className="modal_header">
-            {headerText}
-            <button onClick={onClickCloseModal}>&times;</button>
-          </header>
-          <main className="modal_main">{children}</main>
-        </section>
-      ) : null}
+    <div className={isOpen ? 'modal modal--opened' : 'modal modal--closed'}>
+      <section
+        className={classNames(
+          VARIANTS[variant as keyof VariantType],
+          isModalOpen
+            ? 'modal-section modal-section--opened'
+            : 'modal-section modal-section--closed',
+        )}
+      >
+        <header className="modal-header">
+          {headerText}
+          <button className="modal-header__button" onClick={onClickCloseModal}>
+            &times;
+          </button>
+        </header>
+        <main className="modal-main">{children}</main>
+      </section>
     </div>
   );
 }
