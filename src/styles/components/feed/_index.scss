@@ -1,0 +1,47 @@
+* {
+    background-color: #1F2349;
+    color: white;
+    padding: 0px 4px 0px 4px;
+}
+.main_container{
+    margin-top: 5px;
+}
+.profile_container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+.profile_text{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    width: 390px;
+}
+.upload_time{
+    color: gray;
+    font-size: 13px;
+}
+.subscription_text_container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+.subscription_icon_container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 1px solid #949bc7;
+    border-width: 1px 0px 1px 0px;
+}
+.subscription_icon{
+    padding: 0px 50px 0px 50px;
+}
+.feed_text{
+    margin-bottom: 5px;
+}
+.feed_image{
+    width: 100%;
+}
