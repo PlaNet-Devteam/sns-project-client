@@ -7,80 +7,92 @@
   border: 0;
   text-decoration: none;
 
-  svg {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-right: 0.5rem;
-  }
-
   // size
-  &.sm {
+  &-size--sm {
     font-size: var(--font-size-sm);
     height: 3rem;
   }
-  &.md {
+  &-size--md {
     font-size: var(--font-size-md);
     height: 3.75rem;
   }
-  &.lg {
+  &-size--lg {
     font-size: var(--font-size-lg);
     height: 4rem;
   }
 
   // variant
-  &.default {
+  &-bg--default {
     background: var(--white);
     color: var(--black);
   }
-  &.primary {
+  &-bg--primary {
     background: var(--button-primary-color);
     color: var(--white);
   }
-  &.secondary {
+  &-bg--secondary {
     background: var(--button-secondary-color);
     color: var(--white);
   }
-  &.essential {
+  &-bg--essential {
     background: var(--essential-color);
     color: var(--white);
   }
 
   // text color
-  &.text_essential {
+  &-text--essential {
     color: var(--essential-color);
   }
-  &.text_white {
+  &-text--white {
     color: var(--white);
   }
-  &.text_black {
+  &-text--black {
     color: var(--black);
   }
-  &.text_success {
+  &-text--success {
     color: var(--success-color);
   }
-  &.text_danger {
+  &-text--danger {
     color: var(--danger-color);
   }
 
   // full size
-  &.is_full {
+  &-size--full {
     width: 100%;
   }
 
   // english
-  &.is_english {
+  &-text--english {
     letter-spacing: 0.4rem;
   }
 
   // disabeld
-  &.is_disabled {
+  &--disabled {
     opacity: 0.3;
     cursor: not-allowed;
   }
 }
 
-.icon {
+.button__image {
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  &-size--sm svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+  }
+
+  &-size--md svg {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.5rem;
+  }
+
+  &-size--lg svg {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 0.5rem;
+  }
 }

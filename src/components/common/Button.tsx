@@ -1,67 +1,75 @@
+import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import classNames from 'classnames';
-import React, { ReactNode } from 'react';
-
-type ButtonProps = {
+import { BaseProps } from '@/core/types/common';
+interface ButtonProps extends BaseProps {
   variant?: 'default' | 'primary' | 'secondary' | 'essential';
   size?: 'sm' | 'md' | 'lg';
   color?: 'essential' | 'white' | 'black' | 'success' | 'danger';
   isFull?: boolean;
   isEnglish?: boolean;
-  children?: ReactNode;
-  className?: string;
   isDisabled?: boolean;
   to?: string | undefined;
   type?: 'button' | 'submit' | undefined;
+  iconSize?: 'sm' | 'md' | 'lg';
   onClick?: (
-    e:
+    event:
       | React.MouseEvent<Element, MouseEvent>
-      | React.FormEvent<HTMLFormElement>
-      | any,
+      | React.FormEvent<HTMLFormElement>,
   ) => void;
-};
+}
 
-type VariantTypes = {
+interface VariantType {
   default: string;
   primary: string;
   secondary: string;
   essential: string;
-};
+}
 
-type SizeTypes = {
+interface SizeType {
   sm: string;
   md: string;
   lg: string;
-};
+}
 
-type ColorTypes = {
+interface ColorType {
   essential: string;
   white: string;
   black: string;
   success: string;
   danger: string;
+}
+interface IconSizeType {
+  sm: string;
+  md: string;
+  lg: string;
+}
+
+const SIZES: SizeType = {
+  sm: 'button-size--sm',
+  md: 'button-size--md',
+  lg: 'button-size--lg',
 };
 
-const SIZES: SizeTypes = {
-  sm: 'sm',
-  md: 'md',
-  lg: 'lg',
+const VARIANTS: VariantType = {
+  default: 'button-bg--default',
+  primary: 'button-bg--primary',
+  secondary: 'button-bg--secondary',
+  essential: 'button-bg--essential',
 };
 
-const VARIANTS: VariantTypes = {
-  default: 'default',
-  primary: 'primary',
-  secondary: 'secondary',
-  essential: 'essential',
+const COLORS: ColorType = {
+  essential: 'button-text--essential',
+  white: 'button-text--white',
+  black: 'button-text--black',
+  success: 'button-text--success',
+  danger: 'button-text--danger',
 };
 
-const COLORS: ColorTypes = {
-  essential: 'text_essential',
-  white: 'text_white',
-  black: 'text_black',
-  success: 'text_success',
-  danger: 'text_danger',
+const ICON_SIZES: IconSizeType = {
+  sm: 'button__image-size--sm',
+  md: 'button__image-size--md',
+  lg: 'button__image-size--lg',
 };
 
 const Button = ({
@@ -75,24 +83,31 @@ const Button = ({
   isDisabled,
   to,
   type,
+  iconSize = 'sm',
   onClick,
 }: ButtonProps) => {
   const classNameValues = classNames(
     'button',
-    SIZES[size as keyof SizeTypes],
-    VARIANTS[variant as keyof VariantTypes],
-    COLORS[color as keyof ColorTypes],
-    { is_full: isFull },
-    { is_english: isEnglish },
-    { is_disabled: isDisabled },
+    SIZES[size as keyof SizeType],
+    VARIANTS[variant as keyof VariantType],
+    COLORS[color as keyof ColorType],
+    { 'button-size--full': isFull },
+    { 'button-text--english': isEnglish },
+    { 'button--disabled': isDisabled },
     className,
   );
-
   // 링크 기능을 하는 버튼 (to props를 사용했을 때)
   if (to) {
     return (
       <Link href={to} className={classNameValues}>
-        {children}
+        <span
+          className={classNames(
+            'button__image',
+            ICON_SIZES[iconSize as keyof IconSizeType],
+          )}
+        >
+          {children}
+        </span>
       </Link>
     );
   }
@@ -105,7 +120,14 @@ const Button = ({
       disabled={isDisabled}
       onClick={onClick}
     >
-      <span className="icon">{children}</span>
+      <span
+        className={classNames(
+          'button__image',
+          ICON_SIZES[iconSize as keyof IconSizeType],
+        )}
+      >
+        {children}
+      </span>
     </button>
   );
 
