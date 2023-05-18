@@ -1,0 +1,18 @@
+.profile-counts {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 2rem 0;
+
+  &__box {
+    text-align: center;
+    color: white;
+  }
+  &__title {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  &__count {
+    font-size: 1.5rem;
+  }
+}
