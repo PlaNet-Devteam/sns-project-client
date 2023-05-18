@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import classNames from 'classnames';
+import React, { ReactNode } from 'react';
 
 type ButtonProps = {
   variant?: 'default' | 'primary' | 'secondary' | 'essential';
