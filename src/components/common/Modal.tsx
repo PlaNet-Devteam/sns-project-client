@@ -5,7 +5,7 @@ import useModal from '@/hooks/useModal';
 interface ModalProps {
   variant?: 'default' | 'primary';
   isModalOpen: boolean;
-  onClose: () => void;
+  onClickCloseModal: () => void;
   headerText?: string;
   children?: ReactNode;
 }
@@ -23,7 +23,7 @@ const VARIANTS: VariantTypes = {
 function Modal({
   variant = 'default',
   isModalOpen,
-  onClose,
+  onClickCloseModal,
   headerText,
   children,
 }: ModalProps) {
@@ -40,7 +40,7 @@ function Modal({
         >
           <header className="modal_header">
             {headerText}
-            <button onClick={onClose}>&times;</button>
+            <button onClick={onClickCloseModal}>&times;</button>
           </header>
           <main className="modal_main">{children}</main>
         </section>
