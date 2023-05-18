@@ -10,6 +10,7 @@
   svg {
     width: 1.5rem;
     height: 1.5rem;
+    margin-right: 0.5rem;
   }
 
   // size
@@ -76,4 +77,10 @@
     opacity: 0.3;
     cursor: not-allowed;
   }
+}
+
+.icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
