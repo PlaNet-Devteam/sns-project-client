@@ -1,8 +1,17 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import sample from '../../../public/image/sample.png';
+import IsLike from '../../assets/icons/icon_isLike.svg';
+import NoLike from '../../assets/icons/icon_noLike.svg';
 
 const Comment: React.FC = () => {
+  const [isLike, setIsLike] = useState<boolean>(false);
+
+  const toggleHandler = () => {
+    setIsLike(!isLike);
+    console.log(isLike);
+  };
+
   return (
     <>
       <div className="comment">
@@ -22,7 +31,11 @@ const Comment: React.FC = () => {
             <div className="comment__reply-count">답글 00개 더보기</div>
           </div>
         </div>
-        <div className="comment__isLike">좋아요</div>
+        {isLike ? (
+          <IsLike className="comment__isLike" onClick={toggleHandler} />
+        ) : (
+          <NoLike className="comment__isLike" onClick={toggleHandler} />
+        )}
       </div>
     </>
   );

@@ -33,11 +33,16 @@
     margin-bottom: 0.25rem;
   }
   .comment__content {
-    // width: max-content;
     font-size: var(--font-size-xs);
     font-weight: 300;
     margin-bottom: 0.25rem;
   }
+  .comment__add-reply {
+    font-size: var(--font-size-xxs);
+    font-weight: 400;
+    margin-bottom: 0.25rem;
+  }
+
   .comment__like-reply {
     font-size: var(--font-size-xxs);
     display: flex;
@@ -46,11 +51,8 @@
     .comment__like-count {
       margin-right: 0.25rem;
     }
+    .comment__reply-count {
+      margin-right: 0.25rem;
+    }
   }
-}
-
-.comment__add-reply {
-  font-size: var(--font-size-xxs);
-  font-weight: 400;
-  margin-bottom: 0.25rem;
 }
