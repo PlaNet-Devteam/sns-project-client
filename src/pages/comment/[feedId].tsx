@@ -7,11 +7,13 @@ export default function CommentPage() {
     <>
       <main>
         <Header></Header>
-        <Comment></Comment>
-        <Comment></Comment>
-        <Comment></Comment>
-        <Comment></Comment>
-        <Comment></Comment>
+        <div className="comment__contatiner">
+          <Comment></Comment>
+          <Comment></Comment>
+          <Comment></Comment>
+          <Comment></Comment>
+          <Comment></Comment>
+        </div>
         <Input></Input>
       </main>
     </>

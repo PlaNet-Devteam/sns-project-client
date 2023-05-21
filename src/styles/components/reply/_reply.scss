@@ -1,0 +1,58 @@
+.reply {
+  max-width: 28rem;
+  min-width: 12rem;
+  width: 100%;
+  height: 6rem;
+  display: grid;
+  grid-template-columns: 1.5fr 10fr 1.5fr;
+  padding: 1rem;
+  color: white;
+
+  .reply__profile-image {
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--border-radius-xl);
+    justify-self: center;
+    align-self: flex-start;
+    margin: 0.25rem;
+  }
+  .reply__isLike {
+    font-size: var(--font-size-xs);
+    justify-self: center;
+    align-self: center;
+    font-weight: 300;
+  }
+}
+
+.reply__info {
+  align-self: center;
+  margin-left: 0.5rem;
+  .reply__user-name {
+    font-size: var(--font-size-xs);
+    font-weight: 650;
+    margin-bottom: 0.25rem;
+  }
+  .reply__content {
+    font-size: var(--font-size-xs);
+    font-weight: 300;
+    margin-bottom: 0.25rem;
+  }
+  .reply__add-reply {
+    font-size: var(--font-size-xxs);
+    font-weight: 400;
+    margin-bottom: 0.25rem;
+  }
+
+  .reply__like-reply {
+    font-size: var(--font-size-xxs);
+    display: flex;
+    font-weight: 300;
+    margin-bottom: 0.25rem;
+    .reply__like-count {
+      margin-right: 0.25rem;
+    }
+    .reply__reply-count {
+      margin-right: 0.25rem;
+    }
+  }
+}
