@@ -1,0 +1,77 @@
+.profile-info {
+  position: relative;
+  padding: 3rem 0 1rem;
+  &__background {
+    position: absolute;
+    display: block;
+    width: 30rem;
+    height: 30rem;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -20rem);
+    border-radius: 50%;
+    overflow: hidden;
+    &:before {
+      display: block;
+      content: '';
+      position: absolute;
+      width: inherit;
+      height: inherit;
+      background-color: #1a375f;
+      background-image: url('../../../assets/profile/space.svg');
+      background-position: bottom center;
+      background-size: cover;
+      transform-origin: center center;
+      animation: rotate 100s infinite linear both;
+    }
+  }
+  &__title {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 1rem;
+  }
+  &__desc {
+    &__image {
+      position: relative;
+      z-index: 1;
+      background: var(--button-primary-color);
+      margin: 0 auto;
+      width: 7.5rem;
+      height: 7.5rem;
+      border-radius: 50%;
+      overflow: hidden;
+      padding: 0.5rem;
+
+      &--figure {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: white;
+        img {
+          aspect-ratio: 1.5;
+          object-fit: cover;
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+    &__nickname {
+      text-align: center;
+      margin-top: 1rem;
+      color: white;
+    }
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  from {
+    transform: rotate(360deg);
+  }
+}

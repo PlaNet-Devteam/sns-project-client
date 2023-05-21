@@ -1,0 +1,90 @@
+.login {
+  background-color: #1f2349;
+  display: grid;
+  min-height: 100vh;
+}
+.container {
+  max-width: 390px;
+  width: 100%;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.form-area {
+  .sns-login {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba($color: #5356a5, $alpha: 0.5);
+  }
+  .text-group {
+    margin-top: 2rem;
+  }
+}
+
+.content-area {
+  display: grid;
+  grid-template-rows: 1fr 6rem;
+  .middle-area {
+    display: grid;
+    align-items: center;
+  }
+
+  .bottom-area {
+    display: grid;
+    align-items: center;
+  }
+}
+
+.form-group {
+  + .btn-group {
+    margin-top: 1.5rem;
+  }
+}
+
+.input-group {
+  + .input-group {
+    margin-top: 1rem;
+  }
+}
+
+.input-field {
+  input {
+    width: 100%;
+    height: 3rem;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    border: 0;
+    outline: 0;
+    font-size: 0.875rem;
+    color: white;
+    background-color: rgba($color: white, $alpha: 0.1);
+    &::placeholder {
+      color: rgba($color: white, $alpha: 0.5);
+    }
+  }
+}
+
+.text-link {
+  color: #5ea1d5;
+  text-decoration: none;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-white {
+  color: white;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-md {
+  font-size: 1rem;
+}
+
+.text-lg {
+  font-size: 1.25rem;
+}

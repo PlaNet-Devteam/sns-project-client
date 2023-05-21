@@ -1,0 +1,16 @@
+.error-message {
+  padding: 1rem 0;
+  color: #e1004d;
+  p {
+    &:before {
+      display: block;
+      content: '-';
+      margin: 0 0.5rem;
+      float: left;
+    }
+    span {
+      display: block;
+      overflow: hidden;
+    }
+  }
+}
