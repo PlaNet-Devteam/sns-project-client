@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { CookiesProvider } from 'react-cookie';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import BaseLayout from '@/components/Layouts/BaseLayout';
 import NoneLayout from '@/components/Layouts/NoneLayout';
@@ -28,8 +29,10 @@ export default function App({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {getLayout()}
-    </QueryClientProvider>
+    <CookiesProvider>
+      <QueryClientProvider client={queryClient}>
+        {getLayout()}
+      </QueryClientProvider>
+    </CookiesProvider>
   );
 }

@@ -4,7 +4,10 @@ import { useQuery } from '@tanstack/react-query';
 import { BaseProps } from '@/core/types/common';
 import { USER_API } from '@/core';
 import { api } from '@/core/base.service';
-import JwtStorageService from '@/core/utils/jwt-storage';
+import JwtStorageService, {
+  ACCESS_TOKEN,
+  REFRESH_TOKEN,
+} from '@/core/utils/jwt-storage';
 import ProfileInfo from '../Profile/ProfileInfo';
 import ProfileCount from '../Profile/ProfileCount';
 import ProfileFeedTabs from '../Profile/ProfileFeedTabs';
@@ -20,7 +23,8 @@ const ProfileLayout = ({ children }: BaseProps) => {
   const { data: profile } = useQuery(['user'], () => getFindMe());
 
   const onLogoutHandler = () => {
-    JwtStorageService.removeToken();
+    JwtStorageService.removeToken(ACCESS_TOKEN);
+    JwtStorageService.removeToken(REFRESH_TOKEN);
     router.replace('/login');
   };
 

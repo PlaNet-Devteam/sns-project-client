@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { BaseProps } from '@/core/types/common';
-import JwtStorageService from '@/core/utils/jwt-storage';
+import JwtStorageService, { ACCESS_TOKEN } from '@/core/utils/jwt-storage';
 
 function BaseLayout({ children }: BaseProps) {
   const router = useRouter();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const accessToken = JwtStorageService.getToken();
+      const accessToken = JwtStorageService.getToken(ACCESS_TOKEN);
       if (!accessToken) {
         router.replace('/login');
       }

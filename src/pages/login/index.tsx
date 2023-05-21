@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import useForm from '@/hooks/useForm';
 import { api } from '@/core/base.service';
 import { AuthLoginType } from '@/core/types/auth';
-import JwtStorageService from '@/core/utils/jwt-storage';
+import JwtStorageService, { ACCESS_TOKEN } from '@/core/utils/jwt-storage';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ErrorMessage from '@/components/common/ErrorMessage';
 
@@ -47,11 +47,12 @@ function Login() {
     try {
       const { accessToken } = await mutateAsync(formData);
       if (accessToken) {
-        JwtStorageService.setToken(accessToken);
+        JwtStorageService.setToken(ACCESS_TOKEN, accessToken);
         onReset();
         router.replace('/profile');
       }
     } catch (error: any) {
+      console.log('error?.response', error?.response);
       setErrorMessage(error?.response?.data.message);
     }
   };
