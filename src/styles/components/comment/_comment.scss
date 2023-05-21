@@ -1,4 +1,4 @@
-.container {
+.comment {
   max-width: 28rem;
   min-width: 12rem;
   width: 100%;
@@ -8,7 +8,7 @@
   padding: 1rem;
   color: white;
 
-  .profile-image {
+  .comment__profile-image {
     width: 2rem;
     height: 2rem;
     border-radius: var(--border-radius-xl);
@@ -16,7 +16,7 @@
     align-self: flex-start;
     margin: 0.25rem;
   }
-  .isLike {
+  .comment__isLike {
     font-size: var(--font-size-xs);
     justify-self: center;
     align-self: center;
@@ -24,32 +24,32 @@
   }
 }
 
-.comment-info {
+.comment__info {
   align-self: center;
   margin-left: 0.5rem;
-  .user-name {
+  .comment__user-name {
     font-size: var(--font-size-xs);
     font-weight: 650;
     margin-bottom: 0.25rem;
   }
-  .comment-content {
+  .comment__content {
     // width: max-content;
     font-size: var(--font-size-xs);
     font-weight: 300;
     margin-bottom: 0.25rem;
   }
-  .like-reply {
+  .comment__like-reply {
     font-size: var(--font-size-xxs);
     display: flex;
     font-weight: 300;
     margin-bottom: 0.25rem;
-    .like-count {
+    .comment__like-count {
       margin-right: 0.25rem;
     }
   }
 }
 
-.add-count {
+.comment__add-reply {
   font-size: var(--font-size-xxs);
   font-weight: 400;
   margin-bottom: 0.25rem;

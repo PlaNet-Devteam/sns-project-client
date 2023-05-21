@@ -3,4 +3,7 @@
 @use './intro';
 @use './login';
 @use './profile';
+@use './comment/index';
 @use './comment/comment';
+@use './comment/header';
+@use './comment/input';

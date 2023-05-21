@@ -1,0 +1,22 @@
+.header {
+  position: sticky;
+  width: 100;
+  height: 60px;
+  display: grid;
+  color: white;
+  grid-template-columns: 1fr 3.5fr 1fr;
+  border-bottom: 1px solid white;
+
+  .header__button {
+    font-size: 15px;
+    font-weight: 00;
+    justify-self: center;
+    align-self: center;
+    cursor: pointer;
+  }
+  .header__content {
+    justify-self: center;
+    align-self: center;
+    cursor: pointer;
+  }
+}
