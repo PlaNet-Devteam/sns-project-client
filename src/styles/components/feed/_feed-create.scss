@@ -1,0 +1,38 @@
+.feed-create {
+  background-color: var(--bg-color);
+  display: grid;
+  min-height: 100vh;
+}
+
+.feed-create-form {
+  max-width: 390px;
+  width: 100%;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.feed-create-form-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--white);
+  font-size: large;
+}
+
+.feed-create-form-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+}
+
+.feed-create-form-content-image {
+  margin-top: 1rem;
+  color: var(--white);
+}
+
+.feed-create-form-button {
+  height: 20%;
+}
