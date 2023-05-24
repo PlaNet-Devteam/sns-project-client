@@ -6,6 +6,18 @@ interface ErrorMessageProps extends BaseProps {
 }
 
 const ErrorMessage = ({ errorMessage }: ErrorMessageProps) => {
+  if (typeof errorMessage === 'string') {
+    return (
+      <div className="error-message">
+        {errorMessage && (
+          <p>
+            <span>{errorMessage}</span>
+          </p>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="error-message">
       {errorMessage &&
