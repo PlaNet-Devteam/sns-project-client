@@ -3,13 +3,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
 import useForm from '@/hooks/useForm';
-import { api } from '@/core/base.service';
 import { AuthLoginType } from '@/core/types/auth';
 import JwtStorageService, { ACCESS_TOKEN } from '@/core/utils/jwt-storage';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ErrorMessage from '@/components/common/ErrorMessage';
+import AuthService from '@/services/auth';
 
-function Login() {
+const Login = () => {
   const {
     formData: authLogin,
     onChange,
@@ -29,14 +29,8 @@ function Login() {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState([]);
 
-  // TODO : API 함수 호출하는 부분 서비스 관심사 분리
-  const createUser = async (formData: AuthLoginType) => {
-    const { data } = await api.post('/auth/login', formData);
-    return data.data;
-  };
-
   const { mutateAsync, isLoading, isError } = useMutation(
-    (formData: AuthLoginType) => createUser(formData),
+    (formData: AuthLoginType) => AuthService.login(formData),
   );
 
   const onSubmitForm = async (
@@ -47,7 +41,7 @@ function Login() {
     try {
       const { accessToken } = await mutateAsync(formData);
       if (accessToken) {
-        JwtStorageService.setToken(ACCESS_TOKEN, accessToken);
+        JwtStorageService.setToken(ACCESS_TOKEN, `${accessToken}`);
         onReset();
         router.replace('/profile');
       }
@@ -124,6 +118,6 @@ function Login() {
       </div>
     </div>
   );
-}
+};
 
 export default Login;
