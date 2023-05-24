@@ -8,6 +8,10 @@ import BaseLayout from '@/components/Layouts/BaseLayout';
 import NoneLayout from '@/components/Layouts/NoneLayout';
 import '@/styles/globals.scss';
 
+if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
+  import('../mocks');
+}
+
 const queryClient = new QueryClient();
 const routes = ['/', '/login', '/signup'];
 const accessToken = JwtStorageService.getToken(ACCESS_TOKEN);
