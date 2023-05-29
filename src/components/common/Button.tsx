@@ -3,7 +3,7 @@ import Link from 'next/link';
 import classNames from 'classnames';
 import { BaseProps } from '@/core/types/common';
 interface ButtonProps extends BaseProps {
-  variant?: 'default' | 'primary' | 'secondary' | 'essential';
+  variant?: 'default' | 'primary' | 'secondary' | 'essential' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   color?: 'essential' | 'white' | 'black' | 'success' | 'danger';
   isFull?: boolean;
@@ -24,6 +24,7 @@ interface VariantType {
   primary: string;
   secondary: string;
   essential: string;
+  ghost: string;
 }
 
 interface SizeType {
@@ -56,6 +57,7 @@ const VARIANTS: VariantType = {
   primary: 'button-bg--primary',
   secondary: 'button-bg--secondary',
   essential: 'button-bg--essential',
+  ghost: 'button-bg--ghost',
 };
 
 const COLORS: ColorType = {

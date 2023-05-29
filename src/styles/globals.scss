@@ -70,8 +70,8 @@ button {
   background-color: var(--bg-color);
   min-height: 100vh;
   overflow: hidden;
-
   .layout-container {
+    width: 100%;
     max-width: 390px;
     margin: 0 auto;
   }

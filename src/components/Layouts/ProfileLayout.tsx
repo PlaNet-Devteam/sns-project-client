@@ -1,7 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
-import Link from 'next/link';
 import { BaseProps } from '@/core/types/common';
 import JwtStorageService, {
   ACCESS_TOKEN,
@@ -11,6 +10,8 @@ import UserService from '@/services/user';
 import ProfileInfo from '../Profile/ProfileInfo';
 import ProfileCount from '../Profile/ProfileCount';
 import ProfileFeedTabs from '../Profile/ProfileFeedTabs';
+import Button from '../common/Button';
+import ButtonGroup from '../common/ButtonGroup';
 
 const ProfileLayout = ({ children }: BaseProps) => {
   const router = useRouter();
@@ -32,14 +33,18 @@ const ProfileLayout = ({ children }: BaseProps) => {
             <ProfileFeedTabs />
             {children}
           </section>
-          <div>
-            <button
-              className="btn btn-primary btn-md en"
+          <ButtonGroup>
+            <Button
+              size="md"
+              variant="primary"
+              type="button"
+              isEnglish
+              isFull
               onClick={onLogoutHandler}
             >
               LOGOUT
-            </button>
-          </div>
+            </Button>
+          </ButtonGroup>
         </div>
       )}
     </>

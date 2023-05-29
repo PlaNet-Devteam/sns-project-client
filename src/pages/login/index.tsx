@@ -8,6 +8,9 @@ import JwtStorageService, { ACCESS_TOKEN } from '@/core/utils/jwt-storage';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ErrorMessage from '@/components/common/ErrorMessage';
 import AuthService from '@/services/auth';
+import Button from '@/components/common/Button';
+import ButtonGroup from '@/components/common/ButtonGroup';
+import IconGoogle from '@/assets/icons/icon_google.svg';
 
 const Login = () => {
   const {
@@ -50,17 +53,24 @@ const Login = () => {
       setErrorMessage(error?.response?.data.message);
     }
   };
-  isLoading;
+
   return (
-    <div className="login">
+    <div className="login grid">
       {isLoading && <LoadingSpinner />}
-      <div className="container content-area">
-        <div className="middle-area form-area">
-          <div>
+      <div className="layout-container content-area">
+        <div className="middle-area">
+          <div className="form-area">
             <div className="sns-login">
-              <button className="btn btn-sm btn-ghost">
+              <Button
+                size="sm"
+                color="white"
+                variant="ghost"
+                type="button"
+                isFull
+              >
+                <IconGoogle />
                 Google 계정으로 로그인
-              </button>
+              </Button>
             </div>
             <form
               className="login-form"
@@ -91,11 +101,17 @@ const Login = () => {
                 </div>
               </div>
               {isError && <ErrorMessage errorMessage={errorMessage} />}
-              <div className="btn-group">
-                <button className="btn btn-primary btn-md en" type="submit">
+              <ButtonGroup>
+                <Button
+                  size="md"
+                  variant="primary"
+                  type="submit"
+                  isEnglish
+                  isFull
+                >
                   LOGIN
-                </button>
-              </div>
+                </Button>
+              </ButtonGroup>
             </form>
 
             <div className="text-group">
@@ -108,7 +124,7 @@ const Login = () => {
         <div className="bottom-area">
           <div className="text-group">
             <p className=" text-center text-white text-sm">
-              계정이 없으신가요?
+              <span>계정이 없으신가요?</span>
               <Link href="/signup" className="text-link">
                 가입하기
               </Link>

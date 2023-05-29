@@ -39,21 +39,54 @@
     color: var(--white);
   }
 
+  &-bg--ghost {
+    background-color: transparent;
+    border-color: var(--white);
+    border-width: 2px;
+    border-style: solid;
+    color: var(--white);
+    svg {
+      * {
+        fill: var(--white);
+      }
+    }
+  }
+
   // text color
   &-text--essential {
     color: var(--essential-color);
   }
   &-text--white {
     color: var(--white);
+    svg {
+      * {
+        fill: var(--white);
+      }
+    }
   }
   &-text--black {
     color: var(--black);
+    svg {
+      * {
+        fill: var(--black);
+      }
+    }
   }
   &-text--success {
     color: var(--success-color);
+    svg {
+      * {
+        fill: var(--success-color);
+      }
+    }
   }
   &-text--danger {
     color: var(--danger-color);
+    svg {
+      * {
+        fill: var(--danger-color);
+      }
+    }
   }
 
   // full size
