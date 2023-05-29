@@ -1,0 +1,8 @@
+@mixin layout-padding {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.inner-container {
+  @include layout-padding;
+}

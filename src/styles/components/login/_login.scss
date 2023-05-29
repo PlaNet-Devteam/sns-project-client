@@ -1,4 +1,8 @@
+@import '../../utils';
+
 .form-area {
+  @include layout-padding;
+
   .sns-login {
     padding-bottom: 2rem;
     margin-bottom: 2rem;
