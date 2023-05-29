@@ -1,4 +1,4 @@
-import { USER_API } from '@/core';
+import { USER_API, UserCreateType } from '@/core';
 import { api } from '@/core/base.service';
 
 const UserService = () => {
@@ -7,8 +7,14 @@ const UserService = () => {
     return data.data;
   };
 
+  const createUser = async (formData: UserCreateType) => {
+    const { data } = await api.post(USER_API.USER, formData);
+    return data.data;
+  };
+
   return {
     getFindMe,
+    createUser,
   };
 };
 
