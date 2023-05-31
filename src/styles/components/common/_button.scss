@@ -1,0 +1,98 @@
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0.5rem;
+  border-radius: var(--border-radius-md);
+  border: 0;
+  text-decoration: none;
+
+  // size
+  &-size--sm {
+    font-size: var(--font-size-sm);
+    height: 3rem;
+  }
+  &-size--md {
+    font-size: var(--font-size-md);
+    height: 3.75rem;
+  }
+  &-size--lg {
+    font-size: var(--font-size-lg);
+    height: 4rem;
+  }
+
+  // variant
+  &-bg--default {
+    background: var(--white);
+    color: var(--black);
+  }
+  &-bg--primary {
+    background: var(--button-primary-color);
+    color: var(--white);
+  }
+  &-bg--secondary {
+    background: var(--button-secondary-color);
+    color: var(--white);
+  }
+  &-bg--essential {
+    background: var(--essential-color);
+    color: var(--white);
+  }
+
+  // text color
+  &-text--essential {
+    color: var(--essential-color);
+  }
+  &-text--white {
+    color: var(--white);
+  }
+  &-text--black {
+    color: var(--black);
+  }
+  &-text--success {
+    color: var(--success-color);
+  }
+  &-text--danger {
+    color: var(--danger-color);
+  }
+
+  // full size
+  &-size--full {
+    width: 100%;
+  }
+
+  // english
+  &-text--english {
+    letter-spacing: 0.4rem;
+  }
+
+  // disabeld
+  &--disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.button__image {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &-size--sm svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+  }
+
+  &-size--md svg {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.5rem;
+  }
+
+  &-size--lg svg {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 0.5rem;
+  }
+}
