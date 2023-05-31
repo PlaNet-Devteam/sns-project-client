@@ -9,16 +9,6 @@ export default function ReplyPage() {
         <Header></Header>
         <div className="reply__contatiner">
           <Reply></Reply>
-          <Reply></Reply>
-          <Reply></Reply>
-          <Reply></Reply>
-          <Reply></Reply>
-          <Reply></Reply>
-          <Reply></Reply>
-          <Reply></Reply>
-          <Reply></Reply>
-          <Reply></Reply>
-          <Reply></Reply>
         </div>
         <Input></Input>
       </main>

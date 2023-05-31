@@ -2,7 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 import sample from '../../../public/image/sample.png';
 
-const Input: React.FC = () => {
+const Input = () => {
   return (
     <>
       <div className="reply__input">

@@ -80,4 +80,39 @@ export const handlers = [
       }),
     );
   }),
+  rest.get('https://example.com/comment/1', (req, res, ctx) => {
+    return res(
+      ctx.json({
+        comment: [
+          {
+            userId: 1,
+            feedId: 1,
+            comment: '댓글 1등!!',
+            likeCount: 18,
+            replyCount: 2,
+            created_at: '2023-05-14 22:15:26.091535',
+            updated_at: '2023-05-15 22:15:26.091535',
+          },
+          {
+            userId: 2,
+            feedId: 1,
+            comment: '댓글 2등!!',
+            likeCount: 15,
+            replyCount: 13,
+            created_at: '2023-05-14 23:15:26.091535',
+            updated_at: '2023-05-15 23:15:26.091535',
+          },
+          {
+            userId: 3,
+            feedId: 1,
+            comment: '댓글 3등!!',
+            likeCount: 20,
+            replyCount: 15,
+            created_at: '2023-05-14 23:25:26.091535',
+            updated_at: '2023-05-15 23:25:26.091535',
+          },
+        ],
+      }),
+    );
+  }),
 ];
