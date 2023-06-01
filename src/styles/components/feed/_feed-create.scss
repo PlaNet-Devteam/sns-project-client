@@ -1,7 +1,5 @@
 .feed-create {
-  background-color: var(--bg-color);
-  display: grid;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .feed-create-form {
@@ -9,9 +7,12 @@
   width: 100%;
   margin: 0 auto;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.feed-create-form-header {
+.feed-create-form-image {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -20,19 +21,19 @@
   font-size: large;
 }
 
-.feed-create-form-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 80%;
-}
-
-.feed-create-form-content-image {
+.feed-create-form-image__image {
   margin-top: 1rem;
   color: var(--white);
 }
 
-.feed-create-form-button {
-  height: 20%;
+.feed-create-form-input {
+  flex-grow: 0;
+  margin-bottom: 3rem;
+  &__label {
+    cursor: pointer;
+  }
+
+  &__input {
+    display: none;
+  }
 }
