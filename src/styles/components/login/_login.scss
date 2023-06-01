@@ -1,0 +1,14 @@
+@import '../../utils';
+
+.form-area {
+  @include layout-padding;
+
+  .sns-login {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba($color: #5356a5, $alpha: 0.5);
+  }
+  .text-group {
+    margin-top: 2rem;
+  }
+}

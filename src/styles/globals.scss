@@ -1,0 +1,77 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  /* 스크롤바 - webkit 브라우저에만 적용 */
+  &::-webkit-scrollbar {
+    width: 1rem;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2rem;
+    background-color: var(--button-secondary-color);
+    background-clip: padding-box;
+    border: 2px solid transparent;
+  }
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+}
+
+:root {
+  --border-color: #35395b;
+  --bg-color: #1f2349;
+  --danger-color: #932f42;
+  --success-color: #2f9381;
+  --white: #fff;
+  --black: #000;
+  --essential-color: #1ba2f3;
+  --button-secondary-color: #5356a5;
+  --button-primary-color: linear-gradient(
+    270deg,
+    #5322e0 3.82%,
+    #5fafd4 105.73%
+  );
+
+  --border-radius-md: 0.5rem; /* 8px */
+  --border-radius-lg: 1rem; /* 16px */
+  --border-radius-xl: 2rem; /* 32px */
+
+  --font-size-xxs: 0.625rem; /* 10px */
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-md: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-xxl: 1.5rem; /* 24px */
+  --font-size-xxxl: 2rem; /* 32px */
+}
+
+.li_margin {
+  margin-bottom: 1rem;
+}
+
+/* layout */
+.app-main {
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  overflow: hidden;
+  .layout-container {
+    width: 100%;
+    max-width: 390px;
+    margin: 0 auto;
+  }
+}
+
+// import compnents
+@import './components/index';

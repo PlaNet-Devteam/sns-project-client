@@ -1,0 +1,126 @@
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.6);
+
+  &--opened {
+    display: flex;
+    align-items: center;
+    animation: modal--bg-opened 0.1s;
+  }
+
+  &--closed {
+    animation: modal--bg-closed 0.1s;
+  }
+}
+
+.modal-section {
+  width: 100%;
+  max-width: 21.5rem;
+  margin: 0 auto;
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+
+  &--default {
+    background: #262626;
+  }
+  &--primary {
+    background: linear-gradient(180deg, #5323e0 0%, #5fafd4 100%);
+  }
+
+  &--opened {
+    animation: modal--opened 0.1s;
+  }
+
+  &--closed {
+    animation: modal--closed 0.1s;
+  }
+}
+
+.modal-header {
+  height: 3.5rem;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  padding: 1rem 3rem 1rem 3rem;
+  color: var(--white);
+
+  &__button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    text-align: center;
+    color: var(--white);
+    background-color: transparent;
+    border: 0;
+  }
+}
+
+.modal-main {
+  max-height: 25.75rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  color: var(--white);
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    margin-right: 5rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: var(--border-radius-xl);
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: var(--border-radius-xl);
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@keyframes modal--opened {
+  from {
+    opacity: 0;
+    margin-top: -50px;
+  }
+  to {
+    opacity: 1;
+    margin-top: 0;
+  }
+}
+@keyframes modal-bg--opened {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal--closed {
+  from {
+    margin-bottom: 0px;
+  }
+  to {
+    margin-bottom: -50px;
+  }
+}
+@keyframes modal-bg--closed {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,421 @@
+.intro {
+  display: grid;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #1f2349;
+
+  .intro-gallaxy {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-image: url('../../../assets/intro/star.svg');
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    &:before,
+    &:after {
+      display: block;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-position: center center;
+      z-index: 1;
+    }
+
+    &:before {
+      animation: twinkle 2s infinite;
+      background-repeat: repeat;
+      background-image: url('../../../assets/intro/start_white.svg');
+    }
+
+    &:after {
+      animation: twinkle 2s infinite 1s;
+      background-repeat: repeat;
+      background-image: url('../../../assets/intro/start_white_2.svg');
+    }
+  }
+
+  .intro-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    transform: translateY(-15vh);
+    z-index: 2;
+
+    .solar-system {
+      position: relative;
+
+      width: 8.75rem;
+      height: 8.75rem;
+      width: calc(36vw);
+      height: calc(36vw);
+      max-width: 8.75rem;
+      max-height: 8.75rem;
+
+      &__orbits {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border: 2px dashed rgba(255, 255, 255, 0.05);
+        border-radius: 100%;
+        transform: translate(-50%, -50%);
+        animation: spin infinite linear both;
+
+        @for $i from 1 through 12 {
+          &:nth-child(#{12 + $i}) {
+            width: calc(800% + #{$i} * #{$i} * 60%);
+            height: calc(800% + #{$i} * #{$i} * 60%);
+          }
+        }
+
+        &--sun {
+          border: none;
+          width: 100%;
+          height: 100%;
+        }
+
+        &--mercury {
+          width: 150%;
+          height: 150%;
+          animation-duration: 100s;
+        }
+
+        &--venus {
+          width: 200%;
+          height: 200%;
+          animation-duration: 200s;
+        }
+
+        &--earth {
+          width: 260%;
+          height: 260%;
+          animation-duration: 400s;
+        }
+
+        &--mars {
+          width: 340%;
+          height: 340%;
+          animation-duration: 700s;
+        }
+
+        &--jupiter {
+          width: 430%;
+          height: 430%;
+          animation-duration: 4900s;
+        }
+
+        &--saturn {
+          width: 520%;
+          height: 520%;
+          animation-duration: 12000s;
+        }
+
+        &--uranus {
+          width: 610%;
+          height: 610%;
+          animation-duration: 34800.4s;
+        }
+
+        &--neptune {
+          width: 700%;
+          height: 700%;
+          animation-duration: 68400.4s;
+        }
+
+        &--rocket {
+          width: 200%;
+          height: 200%;
+          animation-duration: 20s;
+        }
+
+        &--astronaut {
+          width: 340%;
+          height: 340%;
+        }
+
+        &--satellite {
+          width: 260%;
+          height: 260%;
+        }
+      }
+
+      &__orbit {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+
+        &--sun {
+          transform: rotate(0deg);
+        }
+
+        &--mercury {
+          transform: rotate(30deg);
+        }
+
+        &--venus {
+          transform: rotate(-30deg);
+        }
+
+        &--earth {
+          transform: rotate(-90deg);
+        }
+
+        &--mars {
+          transform: rotate(120deg);
+        }
+
+        &--jupiter {
+          transform: rotate(70deg);
+        }
+
+        &--saturn {
+          transform: rotate(-114deg);
+        }
+
+        &--uranus {
+          transform: rotate(-68deg);
+        }
+
+        &--neptune {
+          transform: rotate(-108deg);
+        }
+
+        &--astronaut {
+          transform: rotate(-55deg);
+        }
+
+        &--rocket {
+          transform: rotate(0);
+        }
+
+        &--satellite {
+          transform: rotate(-130deg);
+        }
+      }
+
+      &__planet {
+        position: absolute;
+        top: 50%;
+        left: -1rem;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 100%;
+        transform: translateY(-50%);
+
+        &--venus {
+          width: 2.5rem;
+          height: 2.5rem;
+        }
+
+        &--earth {
+          width: 4rem;
+          height: 4rem;
+          left: -2rem;
+        }
+
+        &--moon {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          width: 150%;
+          height: 150%;
+          animation: spin infinite 6s linear both;
+        }
+
+        &--jupiter {
+          width: 8rem;
+          height: 8rem;
+          left: -4rem;
+        }
+
+        &--mars {
+          width: 3rem;
+          height: 3rem;
+          left: -1.5rem;
+        }
+
+        &--saturn {
+          width: 6rem;
+          height: 6rem;
+          left: -3rem;
+        }
+
+        &--uranus {
+          width: 6rem;
+          height: 6rem;
+          left: -3rem;
+        }
+
+        &--neptune {
+          width: 4rem;
+          height: 4rem;
+          left: -2rem;
+        }
+      }
+
+      &__object {
+        position: absolute;
+        top: 50%;
+
+        &--astronaut {
+          width: 2.625rem;
+          height: 4rem;
+          left: -2rem;
+          transform: translateY(-50%) rotate(55deg);
+        }
+
+        &--rocket {
+          width: 2rem;
+          height: 3.25rem;
+          right: -1rem;
+          transform: translateY(-30%);
+        }
+
+        &--satellite {
+          width: 3.5rem;
+          height: 2.25rem;
+          right: -1.75rem;
+          transform: translateY(-50%) rotate(130deg);
+        }
+      }
+
+      &__icon {
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+
+        &--sun {
+          background-image: url('../../../assets/intro/sun.svg');
+          animation: zoom-in-zoom-out 4s infinite ease-out;
+        }
+
+        &--mercury {
+          background-image: url('../../../assets/intro/mercury.svg');
+        }
+
+        &--venus {
+          background-image: url('../../../assets/intro/venus.svg');
+        }
+
+        &--earth {
+          background-image: url('../../../assets/intro/earth.svg');
+        }
+
+        &--mars {
+          background-image: url('../../../assets/intro/mars.svg');
+        }
+
+        &--mars {
+          background-image: url('../../../assets/intro/mars.svg');
+        }
+
+        &--jupiter {
+          transform: rotate(-70deg);
+          background-image: url('../../../assets/intro/jupiter.svg');
+        }
+
+        &--saturn {
+          transform: rotate(114deg);
+          background-image: url('../../../assets/intro/saturn.svg');
+        }
+
+        &--uranus {
+          background-image: url('../../../assets/intro/uranus.svg');
+        }
+
+        &--neptune {
+          background-image: url('../../../assets/intro/neptune.svg');
+        }
+
+        &--astronaut {
+          background-image: url('../../../assets/intro/astronaut.svg');
+          animation: float 5s infinite;
+        }
+
+        &--rocket {
+          background-image: url('../../../assets/intro/rocket.svg');
+        }
+
+        &--satellite {
+          background-image: url('../../../assets/intro/satellite.svg');
+          animation: float2 5s infinite;
+        }
+
+        &--moon {
+          position: absolute;
+          top: 50%;
+          left: -0.5rem;
+          transform: translateY(-50%);
+          width: 1rem;
+          height: 1rem;
+          background-image: url('../../../assets/intro/moon.svg');
+        }
+      }
+    }
+  }
+
+  .intro-title {
+    position: absolute;
+    left: 0;
+    bottom: 5vh;
+    right: 0;
+    color: white;
+    max-width: 324px;
+    margin: 0 auto;
+    text-align: center;
+    z-index: 2;
+    .title-logo {
+      line-height: 1;
+    }
+    .title-summary {
+      margin: 1rem 0;
+      font-size: 0.875rem;
+    }
+    .intro-btns {
+      margin-top: 4rem;
+      .btn {
+        box-shadow: 0 0 2rem rgba(31, 37, 79, 1);
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: translate(-50%, -50%);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(-30%);
+  }
+}
+
+@keyframes float2 {
+  50% {
+    transform: translate(-10%, -30%);
+  }
+}
+
+@keyframes twinkle {
+  50% {
+    opacity: 0%;
+  }
+}
+
+@keyframes zoom-in-zoom-out {
+  50% {
+    transform: scale(1.1);
+  }
+}
