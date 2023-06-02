@@ -1,27 +1,33 @@
 import React from 'react';
 import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
-import FeedItem from '@/components/FeedItem';
+import FeedItem from '@/components/Feed/FeedItem';
 import { getFeeds } from '../../utils/api';
 
-interface Feed {
+interface FeedType {
   id: string;
   description: string;
   likeCount: number;
   commentCount: number;
-  feedImage: string[];
+  feedImage: [
+    {
+      feedId: number;
+      sortOrder: number;
+      image: string;
+    },
+  ];
   comment: string[];
   tag: string[];
 }
 
 const Feed = () => {
   const { data } = useQuery(['feeds'], getFeeds);
-  const feeds: Feed[] = data?.data.data.items;
+  const feeds: FeedType[] = data?.data.data.items;
   return (
     <>
       <title>feed</title>
       <div className="main_container">
         {feeds &&
-          feeds.map((feed: Feed) => (
+          feeds.map((feed: FeedType) => (
             <FeedItem
               key={feed.id}
               id={feed.id}
