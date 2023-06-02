@@ -1,13 +1,16 @@
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { AppProps } from 'next/app';
+import { CookiesProvider } from 'react-cookie';
 import {
   Hydrate,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
 import { RecoilRoot } from 'recoil';
+import JwtStorageService, { ACCESS_TOKEN } from '@/core/utils/jwt-storage';
 import BaseLayout from '@/components/Layouts/BaseLayout';
 import NoneLayout from '@/components/Layouts/NoneLayout';
-import type { AppProps } from 'next/app';
 import '@/styles/globals.scss';
 
 if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
@@ -16,9 +19,10 @@ if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
 
 const queryClient = new QueryClient();
 const routes = ['/', '/login', '/signup'];
+const accessToken = JwtStorageService.getToken(ACCESS_TOKEN);
 
 export default function App({ Component, pageProps }: AppProps) {
-  const { pathname } = useRouter();
+  const { pathname, replace } = useRouter();
 
   const getLayout = () => {
     if (routes.includes(pathname)) {
@@ -36,11 +40,21 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   };
 
+  useEffect(() => {
+    if (routes.includes(pathname)) {
+      if (accessToken) {
+        replace('/profile');
+      }
+    }
+  }, [pathname, replace]);
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <RecoilRoot>{getLayout()}</RecoilRoot>
-      </Hydrate>
-    </QueryClientProvider>
+    <CookiesProvider>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <RecoilRoot>{getLayout()}</RecoilRoot>
+        </Hydrate>
+      </QueryClientProvider>
+    </CookiesProvider>
   );
 }

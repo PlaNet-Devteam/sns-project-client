@@ -1,5 +1,12 @@
-import axios, { InternalAxiosRequestConfig } from 'axios';
-import JwtStorageService from '@/core/utils/jwt-storage';
+import axios from 'axios';
+import JwtStorageService, {
+  ACCESS_TOKEN,
+  REFRESH_TOKEN,
+} from '@/core/utils/jwt-storage';
+import AuthService from '@/services/auth';
+import { RESPONSE_STATUS } from './enum';
+
+const accessToken = JwtStorageService.getToken(ACCESS_TOKEN);
 
 export const api = axios.create({
   baseURL: 'http://localhost:4300',
@@ -10,16 +17,51 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use(
-  (config: InternalAxiosRequestConfig<any>) => {
-    if (typeof window !== 'undefined') {
-      const accessToken = JwtStorageService.getToken();
-      if (accessToken) {
-        config.headers['Authorization'] = `Bearer ${accessToken}`;
-      }
+  (request) => {
+    if (accessToken) {
+      request.headers['Authorization'] = `Bearer ${accessToken}`;
     }
-    return config;
+    return request;
   },
   (error) => {
-    console.log(error);
+    return Promise.reject(error);
+  },
+);
+
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const {
+      response: { data },
+    } = error;
+
+    // 토큰이 없을 때
+    if (data.error === RESPONSE_STATUS.NO_ACCESS_TOKEN) {
+      location.replace('/login');
+      return;
+    }
+    // 엑세스 토큰 만료
+    if (data.error === RESPONSE_STATUS.ACCESS_TOKEN_EXP) {
+      const { data } = await AuthService.refreshToken();
+      if (data) {
+        JwtStorageService.setToken(ACCESS_TOKEN, data.accessToken);
+        JwtStorageService.setToken(REFRESH_TOKEN, data.refreshToken);
+      }
+      // ! : useQuery로 요청시 반복적으로 요청되는 이슈 발생
+      location.reload();
+      return;
+    }
+    // 리프레시 토큰이 없거나 만료되었을 때
+    if (
+      data.error === RESPONSE_STATUS.NO_REFRESH_TOKEN ||
+      data.error === RESPONSE_STATUS.REFRESH_TOKEN_EXP
+    ) {
+      location.replace('/login');
+      return;
+    }
+
+    return Promise.reject(error); // 오류를 반환하여 다음 단계로 전달
   },
 );

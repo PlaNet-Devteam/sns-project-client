@@ -1,53 +1,47 @@
 import React, { FormEvent, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 import useForm from '@/hooks/useForm';
-import { AuthLoginType } from '@/core/types/auth';
-import JwtStorageService, { ACCESS_TOKEN } from '@/core/utils/jwt-storage';
+import { GENDER, USER_STATUS, UserCreateType } from '@/core';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ErrorMessage from '@/components/common/ErrorMessage';
-import AuthService from '@/services/auth';
+import UserService from '@/services/user';
 import Button from '@/components/common/Button';
 import ButtonGroup from '@/components/common/ButtonGroup';
 import IconGoogle from '@/assets/icons/icon_google.svg';
 
-const Login = () => {
+const SignUp = () => {
   const {
-    formData: authLogin,
+    formData: userCreate,
     onChange,
     onReset,
-  } = useForm<AuthLoginType>({
+  } = useForm<UserCreateType>({
     email: '',
+    username: '',
+    nickname: '',
     password: '',
-    rememberMe: true,
+    passwordConfirm: '',
+    status: USER_STATUS.ACTIVE,
+    bio: '',
+    gender: GENDER.NO_ANSWER,
   });
-
-  // const {
-  //   formData: authLogin,
-  //   onChange,
-  //   onReset,
-  // } = useForm(new AuthLoginDto());
 
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState([]);
 
   const { mutateAsync, isLoading, isError } = useMutation(
-    (formData: AuthLoginType) => AuthService.login(formData),
+    (formData: UserCreateType) => UserService.createUser(formData),
   );
 
   const onSubmitForm = async (
     event: FormEvent<HTMLFormElement>,
-    formData: AuthLoginType,
+    formData: UserCreateType,
   ) => {
     event.preventDefault();
     try {
-      const { accessToken } = await mutateAsync(formData);
-      if (accessToken) {
-        JwtStorageService.setToken(ACCESS_TOKEN, `${accessToken}`);
-        onReset();
-        router.replace('/profile');
-      }
+      await mutateAsync(formData);
+      router.push('/signup/complete');
     } catch (error: any) {
       console.log('error?.response', error?.response);
       setErrorMessage(error?.response?.data.message);
@@ -55,7 +49,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login grid">
+    <div className="signup grid">
       {isLoading && <LoadingSpinner />}
       <div className="layout-container content-area">
         <div className="middle-area">
@@ -74,14 +68,14 @@ const Login = () => {
             </div>
             <form
               className="login-form"
-              onSubmit={(event) => onSubmitForm(event, authLogin)}
+              onSubmit={(event) => onSubmitForm(event, userCreate)}
             >
               <div className="form-group">
                 <div className="input-group">
                   <div className="input-field">
                     <input
                       type="text"
-                      value={authLogin.email}
+                      value={userCreate.email}
                       name="email"
                       placeholder="이메일"
                       onChange={onChange}
@@ -91,10 +85,43 @@ const Login = () => {
                 <div className="input-group">
                   <div className="input-field">
                     <input
+                      type="text"
+                      value={userCreate.username}
+                      name="username"
+                      placeholder="사용자명"
+                      onChange={onChange}
+                    />
+                  </div>
+                </div>
+                <div className="input-group">
+                  <div className="input-field">
+                    <input
+                      type="text"
+                      value={userCreate.nickname}
+                      name="nickname"
+                      placeholder="닉네임"
+                      onChange={onChange}
+                    />
+                  </div>
+                </div>
+                <div className="input-group">
+                  <div className="input-field">
+                    <input
                       type="password"
                       name="password"
-                      value={authLogin.password}
+                      value={userCreate.password}
                       placeholder="비밀번호"
+                      onChange={onChange}
+                    />
+                  </div>
+                </div>
+                <div className="input-group">
+                  <div className="input-field">
+                    <input
+                      type="password"
+                      name="passwordConfirm"
+                      value={userCreate.passwordConfirm}
+                      placeholder="비밀번호 확인"
                       onChange={onChange}
                     />
                   </div>
@@ -109,24 +136,18 @@ const Login = () => {
                   isEnglish
                   isFull
                 >
-                  LOGIN
+                  SIGN UP
                 </Button>
               </ButtonGroup>
             </form>
-
-            <div className="text-group">
-              <p className=" text-center text-white text-sm">
-                비밀번호를 잊으셨나요?
-              </p>
-            </div>
           </div>
         </div>
         <div className="bottom-area">
           <div className="text-group">
             <p className=" text-center text-white text-sm">
-              <span>계정이 없으신가요?</span>
-              <Link href="/signup" className="text-link">
-                가입하기
+              <span>이미 계정이 있으신가요?</span>
+              <Link href="/login" className="text-link">
+                로그인하기
               </Link>
             </p>
           </div>
@@ -136,4 +157,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
