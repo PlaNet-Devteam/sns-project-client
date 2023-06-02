@@ -2,12 +2,18 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import FeedImg from './FeedImg';
 
-interface Feed {
+interface FeedType {
   id: string;
   description: string;
   likeCount: number;
   commentCount: number;
-  feedImage: any;
+  feedImage: [
+    {
+      feedId: number;
+      sortOrder: number;
+      image: string;
+    },
+  ];
 }
 
 function FeedItem({
@@ -16,7 +22,7 @@ function FeedItem({
   likeCount,
   commentCount,
   feedImage,
-}: Feed) {
+}: FeedType) {
   const router = useRouter();
   const handlecommentbutton = () => {
     router.push(`/feed/${id}`);
@@ -39,13 +45,8 @@ function FeedItem({
       </div>
       <div className="subscription_icon_container">
         <img className="subscription_icon" src="/thumbup.svg" alt="thumbup" />
-        <button>
-          <img
-            className="subscription_icon"
-            src="/comment.svg"
-            alt="comment"
-            onClick={handlecommentbutton}
-          />
+        <button className="subscription_icon">
+          <img src="/comment.svg" alt="comment" onClick={handlecommentbutton} />
         </button>
         <img className="subscription_icon" src="/share.svg" alt="share" />
       </div>
