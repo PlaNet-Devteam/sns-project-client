@@ -352,6 +352,7 @@ export const handlers = [
       ctx.json({
         comment: [
           {
+            id: 1,
             userId: 1,
             feedId: 1,
             comment: '댓글 1등!!',
@@ -361,6 +362,7 @@ export const handlers = [
             updated_at: '2023-05-15 22:15:26.091535',
           },
           {
+            id: 2,
             userId: 2,
             feedId: 1,
             comment: '댓글 2등!!',
@@ -370,6 +372,7 @@ export const handlers = [
             updated_at: '2023-05-15 23:15:26.091535',
           },
           {
+            id: 3,
             userId: 3,
             feedId: 1,
             comment: '댓글 3등!!',
