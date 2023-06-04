@@ -2,7 +2,12 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { AppProps } from 'next/app';
 import { CookiesProvider } from 'react-cookie';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
+import { RecoilRoot } from 'recoil';
 import JwtStorageService, { ACCESS_TOKEN } from '@/core/utils/jwt-storage';
 import BaseLayout from '@/components/Layouts/BaseLayout';
 import NoneLayout from '@/components/Layouts/NoneLayout';
@@ -46,7 +51,9 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <CookiesProvider>
       <QueryClientProvider client={queryClient}>
-        {getLayout()}
+        <Hydrate state={pageProps.dehydratedState}>
+          <RecoilRoot>{getLayout()}</RecoilRoot>
+        </Hydrate>
       </QueryClientProvider>
     </CookiesProvider>
   );
