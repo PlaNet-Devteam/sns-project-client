@@ -16,7 +16,6 @@ const Comment = ({ comment }: CommentPropsType) => {
   const setComments = useSetRecoilState(commentState);
   const comments = useRecoilValue(commentState);
   const router = useRouter();
-  const { feedId } = router.query;
 
   const toggleHandler = () => {
     setIsLike(!isLike);
@@ -47,7 +46,7 @@ const Comment = ({ comment }: CommentPropsType) => {
           <div className="comment__content">{comment?.comment}</div>
           <div
             className="comment__add-reply"
-            onClick={() => router.push(`/reply/${feedId}`)}
+            onClick={() => router.push(`/reply/1`)}
           >
             답글 달기
           </div>
