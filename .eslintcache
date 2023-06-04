@@ -1,1 +1,643 @@
-[{"D:\\project\\sns-project-client\\src\\components\\common\\EmptyData.tsx":"1","D:\\project\\sns-project-client\\src\\components\\common\\ErrorMessage.tsx":"2","D:\\project\\sns-project-client\\src\\components\\common\\LoadingSpinner.tsx":"3","D:\\project\\sns-project-client\\src\\components\\Intro\\IntroVisual.tsx":"4","D:\\project\\sns-project-client\\src\\components\\Layouts\\BaseLayout.tsx":"5","D:\\project\\sns-project-client\\src\\components\\Layouts\\NoneLayout.tsx":"6","D:\\project\\sns-project-client\\src\\components\\Layouts\\ProfileLayout.tsx":"7","D:\\project\\sns-project-client\\src\\components\\Profile\\ProfileCount.tsx":"8","D:\\project\\sns-project-client\\src\\components\\Profile\\ProfileFeedList.tsx":"9","D:\\project\\sns-project-client\\src\\components\\Profile\\ProfileFeedListItem.tsx":"10","D:\\project\\sns-project-client\\src\\components\\Profile\\ProfileFeedTabItem.tsx":"11","D:\\project\\sns-project-client\\src\\components\\Profile\\ProfileFeedTabs.tsx":"12","D:\\project\\sns-project-client\\src\\components\\Profile\\ProfileInfo.tsx":"13","D:\\project\\sns-project-client\\src\\core\\base.service.ts":"14","D:\\project\\sns-project-client\\src\\core\\enum\\index.tsx":"15","D:\\project\\sns-project-client\\src\\core\\environments\\api\\auth.ts":"16","D:\\project\\sns-project-client\\src\\core\\environments\\api\\index.ts":"17","D:\\project\\sns-project-client\\src\\core\\environments\\api\\user.ts":"18","D:\\project\\sns-project-client\\src\\core\\environments\\index.ts":"19","D:\\project\\sns-project-client\\src\\core\\index.ts":"20","D:\\project\\sns-project-client\\src\\core\\types\\auth\\auth-login.interface.ts":"21","D:\\project\\sns-project-client\\src\\core\\types\\auth\\index.ts":"22","D:\\project\\sns-project-client\\src\\core\\types\\common\\index.ts":"23","D:\\project\\sns-project-client\\src\\core\\types\\index.ts":"24","D:\\project\\sns-project-client\\src\\core\\types\\user\\index.ts":"25","D:\\project\\sns-project-client\\src\\core\\types\\user\\user.interface.ts":"26","D:\\project\\sns-project-client\\src\\core\\utils\\index.ts":"27","D:\\project\\sns-project-client\\src\\core\\utils\\jwt-storage.ts":"28","D:\\project\\sns-project-client\\src\\hooks\\index.ts":"29","D:\\project\\sns-project-client\\src\\hooks\\useForm.ts":"30","D:\\project\\sns-project-client\\src\\pages\\index.tsx":"31","D:\\project\\sns-project-client\\src\\pages\\login\\index.tsx":"32","D:\\project\\sns-project-client\\src\\pages\\profile\\bookmark\\index.tsx":"33","D:\\project\\sns-project-client\\src\\pages\\profile\\index.tsx":"34","D:\\project\\sns-project-client\\src\\pages\\_app.tsx":"35","D:\\project\\sns-project-client\\src\\pages\\_document.tsx":"36","D:\\project\\sns-project-client\\src\\core\\types\\feed\\feed.interface.ts":"37","D:\\project\\sns-project-client\\src\\core\\types\\feed\\index.ts":"38"},{"size":135,"mtime":1684312731276,"results":"39","hashOfConfig":"40"},{"size":489,"mtime":1684313074836,"results":"41","hashOfConfig":"40"},{"size":253,"mtime":1684310161184,"results":"42","hashOfConfig":"40"},{"size":5711,"mtime":1684314123451,"results":"43","hashOfConfig":"40"},{"size":624,"mtime":1684314093142,"results":"44","hashOfConfig":"40"},{"size":590,"mtime":1684314821893,"results":"45","hashOfConfig":"40"},{"size":1461,"mtime":1684314229500,"results":"46","hashOfConfig":"40"},{"size":863,"mtime":1684314259877,"results":"47","hashOfConfig":"40"},{"size":640,"mtime":1684314731631,"results":"48","hashOfConfig":"40"},{"size":393,"mtime":1684314749325,"results":"49","hashOfConfig":"40"},{"size":594,"mtime":1684313104576,"results":"50","hashOfConfig":"40"},{"size":526,"mtime":1684311666666,"results":"51","hashOfConfig":"40"},{"size":940,"mtime":1684314769281,"results":"52","hashOfConfig":"40"},{"size":629,"mtime":1684313116983,"results":"53","hashOfConfig":"40"},{"size":136,"mtime":1684226160628,"results":"54","hashOfConfig":"40"},{"size":53,"mtime":1683710896381,"results":"55","hashOfConfig":"40"},{"size":48,"mtime":1683711724543,"results":"56","hashOfConfig":"40"},{"size":57,"mtime":1683808632601,"results":"57","hashOfConfig":"40"},{"size":23,"mtime":1683711731476,"results":"58","hashOfConfig":"40"},{"size":81,"mtime":1684226262455,"results":"59","hashOfConfig":"40"},{"size":219,"mtime":1683808680454,"results":"60","hashOfConfig":"40"},{"size":40,"mtime":1683702113874,"results":"61","hashOfConfig":"40"},{"size":113,"mtime":1684227369451,"results":"62","hashOfConfig":"40"},{"size":48,"mtime":1684226212233,"results":"63","hashOfConfig":"40"},{"size":34,"mtime":1684225962823,"results":"64","hashOfConfig":"40"},{"size":284,"mtime":1684313114007,"results":"65","hashOfConfig":"40"},{"size":0,"mtime":1684226254306,"results":"66","hashOfConfig":"40"},{"size":350,"mtime":1684262782629,"results":"67","hashOfConfig":"40"},{"size":27,"mtime":1683706295510,"results":"68","hashOfConfig":"40"},{"size":525,"mtime":1684314441916,"results":"69","hashOfConfig":"40"},{"size":535,"mtime":1684314520563,"results":"70","hashOfConfig":"40"},{"size":3921,"mtime":1684314659353,"results":"71","hashOfConfig":"40"},{"size":432,"mtime":1684312840760,"results":"72","hashOfConfig":"40"},{"size":424,"mtime":1684312812500,"results":"73","hashOfConfig":"40"},{"size":906,"mtime":1684315031564,"results":"74","hashOfConfig":"40"},{"size":233,"mtime":1684314495615,"results":"75","hashOfConfig":"40"},{"size":61,"mtime":1684314404281,"results":"76","hashOfConfig":"40"},{"size":34,"mtime":1684314412846,"results":"77","hashOfConfig":"40"},{"filePath":"78","messages":"79","suppressedMessages":"80","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},"m51xbu",{"filePath":"81","messages":"82","suppressedMessages":"83","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"84","messages":"85","suppressedMessages":"86","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"87","messages":"88","suppressedMessages":"89","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"90","messages":"91","suppressedMessages":"92","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"93","messages":"94","suppressedMessages":"95","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"96","messages":"97","suppressedMessages":"98","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"99","messages":"100","suppressedMessages":"101","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"102","messages":"103","suppressedMessages":"104","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"105","messages":"106","suppressedMessages":"107","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"108","messages":"109","suppressedMessages":"110","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"111","messages":"112","suppressedMessages":"113","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"114","messages":"115","suppressedMessages":"116","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"117","messages":"118","suppressedMessages":"119","errorCount":0,"fatalErrorCount":0,"warningCount":1,"fixableErrorCount":0,"fixableWarningCount":0,"source":"120"},{"filePath":"121","messages":"122","suppressedMessages":"123","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"124","messages":"125","suppressedMessages":"126","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"127","messages":"128","suppressedMessages":"129","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"130","messages":"131","suppressedMessages":"132","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"133","messages":"134","suppressedMessages":"135","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"136","messages":"137","suppressedMessages":"138","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"139","messages":"140","suppressedMessages":"141","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"142","messages":"143","suppressedMessages":"144","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"145","messages":"146","suppressedMessages":"147","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"148","messages":"149","suppressedMessages":"150","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"151","messages":"152","suppressedMessages":"153","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"154","messages":"155","suppressedMessages":"156","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"157","messages":"158","suppressedMessages":"159","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"160","messages":"161","suppressedMessages":"162","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"163","messages":"164","suppressedMessages":"165","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"166","messages":"167","suppressedMessages":"168","errorCount":0,"fatalErrorCount":0,"warningCount":1,"fixableErrorCount":0,"fixableWarningCount":0,"source":"169"},{"filePath":"170","messages":"171","suppressedMessages":"172","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"173","messages":"174","suppressedMessages":"175","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"176","messages":"177","suppressedMessages":"178","errorCount":0,"fatalErrorCount":0,"warningCount":1,"fixableErrorCount":0,"fixableWarningCount":0,"source":"179"},{"filePath":"180","messages":"181","suppressedMessages":"182","errorCount":0,"fatalErrorCount":0,"warningCount":1,"fixableErrorCount":0,"fixableWarningCount":0,"source":"183"},{"filePath":"184","messages":"185","suppressedMessages":"186","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"187","messages":"188","suppressedMessages":"189","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"190","messages":"191","suppressedMessages":"192","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},{"filePath":"193","messages":"194","suppressedMessages":"195","errorCount":0,"fatalErrorCount":0,"warningCount":0,"fixableErrorCount":0,"fixableWarningCount":0},"D:\\project\\sns-project-client\\src\\components\\common\\EmptyData.tsx",[],[],"D:\\project\\sns-project-client\\src\\components\\common\\ErrorMessage.tsx",[],[],"D:\\project\\sns-project-client\\src\\components\\common\\LoadingSpinner.tsx",[],[],"D:\\project\\sns-project-client\\src\\components\\Intro\\IntroVisual.tsx",[],[],"D:\\project\\sns-project-client\\src\\components\\Layouts\\BaseLayout.tsx",[],[],"D:\\project\\sns-project-client\\src\\components\\Layouts\\NoneLayout.tsx",[],[],"D:\\project\\sns-project-client\\src\\components\\Layouts\\ProfileLayout.tsx",[],[],"D:\\project\\sns-project-client\\src\\components\\Profile\\ProfileCount.tsx",[],[],"D:\\project\\sns-project-client\\src\\components\\Profile\\ProfileFeedList.tsx",[],[],"D:\\project\\sns-project-client\\src\\components\\Profile\\ProfileFeedListItem.tsx",[],[],"D:\\project\\sns-project-client\\src\\components\\Profile\\ProfileFeedTabItem.tsx",[],[],"D:\\project\\sns-project-client\\src\\components\\Profile\\ProfileFeedTabs.tsx",[],[],"D:\\project\\sns-project-client\\src\\components\\Profile\\ProfileInfo.tsx",[],[],"D:\\project\\sns-project-client\\src\\core\\base.service.ts",["196"],[],"import axios, { InternalAxiosRequestConfig } from 'axios';\nimport JwtStorageService from '@/core/utils/jwt-storage';\n\nexport const api = axios.create({\n  baseURL: 'http://localhost:4300',\n  headers: {\n    'Content-Type': 'application/json',\n  },\n  withCredentials: true,\n});\n\napi.interceptors.request.use(\n  (config: InternalAxiosRequestConfig<any>) => {\n    if (typeof window !== 'undefined') {\n      const accessToken = JwtStorageService.getToken();\n      if (accessToken) {\n        config.headers['Authorization'] = `Bearer ${accessToken}`;\n      }\n    }\n    return config;\n  },\n  (error) => {\n    console.log(error);\n  },\n);\n","D:\\project\\sns-project-client\\src\\core\\enum\\index.tsx",[],[],"D:\\project\\sns-project-client\\src\\core\\environments\\api\\auth.ts",[],[],"D:\\project\\sns-project-client\\src\\core\\environments\\api\\index.ts",[],[],"D:\\project\\sns-project-client\\src\\core\\environments\\api\\user.ts",[],[],"D:\\project\\sns-project-client\\src\\core\\environments\\index.ts",[],[],"D:\\project\\sns-project-client\\src\\core\\index.ts",[],[],"D:\\project\\sns-project-client\\src\\core\\types\\auth\\auth-login.interface.ts",[],[],"D:\\project\\sns-project-client\\src\\core\\types\\auth\\index.ts",[],[],"D:\\project\\sns-project-client\\src\\core\\types\\common\\index.ts",[],[],"D:\\project\\sns-project-client\\src\\core\\types\\index.ts",[],[],"D:\\project\\sns-project-client\\src\\core\\types\\user\\index.ts",[],[],"D:\\project\\sns-project-client\\src\\core\\types\\user\\user.interface.ts",[],[],"D:\\project\\sns-project-client\\src\\core\\utils\\index.ts",[],[],"D:\\project\\sns-project-client\\src\\core\\utils\\jwt-storage.ts",[],[],"D:\\project\\sns-project-client\\src\\hooks\\index.ts",[],[],"D:\\project\\sns-project-client\\src\\hooks\\useForm.ts",["197"],[],"import { ChangeEvent, useCallback, useState } from 'react';\n\nfunction useForm<T extends Record<string, any>>(initialForm: T) {\n  const [formData, setForm] = useState(initialForm);\n\n  const onReset = useCallback(() => {\n    setForm(initialForm);\n  }, [initialForm]);\n\n  const onChange = (event: ChangeEvent<HTMLInputElement>) => {\n    const { name, value } = event.target;\n    setForm((prevState) => ({ ...prevState, [name]: value }));\n  };\n\n  return {\n    formData,\n    onChange,\n    onReset,\n  };\n}\n\nexport default useForm;\n","D:\\project\\sns-project-client\\src\\pages\\index.tsx",[],[],"D:\\project\\sns-project-client\\src\\pages\\login\\index.tsx",[],[],"D:\\project\\sns-project-client\\src\\pages\\profile\\bookmark\\index.tsx",["198"],[],"import React from 'react';\nimport ProfileLayout from '@/components/Layouts/ProfileLayout';\nimport ProfileFeedList from '@/components/Profile/ProfileFeedList';\n\nconst dummyFeeds: any[] = [\n  {\n    id: 1,\n    title: 'BOOMARK 1',\n  },\n  {\n    id: 2,\n    title: 'BOOMARK 2',\n  },\n];\n\nfunction Bookmark() {\n  return (\n    <ProfileLayout>\n      <ProfileFeedList feeds={dummyFeeds} />\n    </ProfileLayout>\n  );\n}\n\nexport default Bookmark;\n","D:\\project\\sns-project-client\\src\\pages\\profile\\index.tsx",["199"],[],"import React from 'react';\nimport ProfileFeedList from '@/components/Profile/ProfileFeedList';\nimport ProfileLayout from '@/components/Layouts/ProfileLayout';\n\nconst dummyFeeds: any[] = [\n  {\n    id: 1,\n    title: 'FEED 1',\n  },\n  {\n    id: 2,\n    title: 'FEED 2',\n  },\n];\n\nfunction Profile() {\n  return (\n    <ProfileLayout>\n      <ProfileFeedList feeds={dummyFeeds} />\n    </ProfileLayout>\n  );\n}\n\nexport default Profile;\n","D:\\project\\sns-project-client\\src\\pages\\_app.tsx",[],[],"D:\\project\\sns-project-client\\src\\pages\\_document.tsx",[],[],"D:\\project\\sns-project-client\\src\\core\\types\\feed\\feed.interface.ts",[],[],"D:\\project\\sns-project-client\\src\\core\\types\\feed\\index.ts",[],[],{"ruleId":"200","severity":1,"message":"201","line":13,"column":39,"nodeType":"202","messageId":"203","endLine":13,"endColumn":42,"suggestions":"204"},{"ruleId":"200","severity":1,"message":"201","line":3,"column":43,"nodeType":"202","messageId":"203","endLine":3,"endColumn":46,"suggestions":"205"},{"ruleId":"200","severity":1,"message":"201","line":5,"column":19,"nodeType":"202","messageId":"203","endLine":5,"endColumn":22,"suggestions":"206"},{"ruleId":"200","severity":1,"message":"201","line":5,"column":19,"nodeType":"202","messageId":"203","endLine":5,"endColumn":22,"suggestions":"207"},"@typescript-eslint/no-explicit-any","Unexpected any. Specify a different type.","TSAnyKeyword","unexpectedAny",["208","209"],["210","211"],["212","213"],["214","215"],{"messageId":"216","fix":"217","desc":"218"},{"messageId":"219","fix":"220","desc":"221"},{"messageId":"216","fix":"222","desc":"218"},{"messageId":"219","fix":"223","desc":"221"},{"messageId":"216","fix":"224","desc":"218"},{"messageId":"219","fix":"225","desc":"221"},{"messageId":"216","fix":"226","desc":"218"},{"messageId":"219","fix":"227","desc":"221"},"suggestUnknown",{"range":"228","text":"229"},"Use `unknown` instead, this will force you to explicitly, and safely assert the type is correct.","suggestNever",{"range":"228","text":"230"},"Use `never` instead, this is useful when instantiating generic type parameters that you don't need to know the type of.",{"range":"231","text":"229"},{"range":"231","text":"230"},{"range":"232","text":"229"},{"range":"232","text":"230"},{"range":"233","text":"229"},{"range":"233","text":"230"},[344,347],"unknown","never",[103,106],[178,181],[178,181]]
+[
+  {
+    "C:\\Users\\zjzj\\OneDrive\\바탕 화면\\PlaNet-dev\\sns-project-client\\src\\pages\\index.tsx": "1",
+    "C:\\Users\\zjzj\\OneDrive\\바탕 화면\\PlaNet-dev\\sns-project-client\\src\\pages\\_app.tsx": "2",
+    "C:\\Users\\zjzj\\OneDrive\\바탕 화면\\PlaNet-dev\\sns-project-client\\src\\pages\\_document.tsx": "3",
+    "C:\\Users\\zjzj\\OneDrive\\바탕 화면\\PlaNet-dev\\sns-project-client\\src\\next\\next.tsx": "4",
+    "C:\\Users\\zjzj\\OneDrive\\바탕 화면\\PlaNet-dev\\sns-project-client\\src\\pages\\feed.tsx": "5"
+  },
+  {
+    "size": 470,
+    "mtime": 1683715399432,
+    "results": "6",
+    "hashOfConfig": "7"
+  },
+  {
+    "size": 188,
+    "mtime": 1683715316414,
+    "results": "8",
+    "hashOfConfig": "7"
+  },
+  {
+    "size": 246,
+    "mtime": 1683803020124,
+    "results": "9",
+    "hashOfConfig": "7"
+  },
+  {
+    "size": 379,
+    "mtime": 1683785959147,
+    "results": "10",
+    "hashOfConfig": "7"
+  },
+  {
+    "size": 1158,
+    "mtime": 1683803677996,
+    "results": "11",
+    "hashOfConfig": "7"
+  },
+  {
+    "filePath": "12",
+    "messages": "13",
+    "suppressedMessages": "14",
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "15"
+  },
+  "195g1t0",
+  {
+    "filePath": "16",
+    "messages": "17",
+    "suppressedMessages": "18",
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0
+  },
+  {
+    "filePath": "19",
+    "messages": "20",
+    "suppressedMessages": "21",
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0
+  },
+  {
+    "filePath": "22",
+    "messages": "23",
+    "suppressedMessages": "24",
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0
+  },
+  {
+    "filePath": "25",
+    "messages": "26",
+    "suppressedMessages": "27",
+    "errorCount": 23,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 23,
+    "fixableWarningCount": 0,
+    "source": null
+  },
+  "C:\\Users\\zjzj\\OneDrive\\바탕 화면\\PlaNet-dev\\sns-project-client\\src\\pages\\index.tsx",
+  [
+    "28"
+  ],
+  [],
+  "import Head from 'next/head';\r\nimport { Inter } from 'next/font/google';\r\n\r\nconst inter = Inter({ subsets: ['latin'] });\r\n\r\nexport default function Home() {\r\n  return (\r\n    <>\r\n      <Head>\r\n        <title>Create Next App</title>\r\n        <meta name=\"description\" content=\"Generated by create next app\" />\r\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\r\n        <link rel=\"icon\" href=\"/favicon.ico\" />\r\n      </Head>\r\n    </>\r\n  );\r\n}\r\n",
+  "C:\\Users\\zjzj\\OneDrive\\바탕 화면\\PlaNet-dev\\sns-project-client\\src\\pages\\_app.tsx",
+  [],
+  [],
+  "C:\\Users\\zjzj\\OneDrive\\바탕 화면\\PlaNet-dev\\sns-project-client\\src\\pages\\_document.tsx",
+  [],
+  [],
+  "C:\\Users\\zjzj\\OneDrive\\바탕 화면\\PlaNet-dev\\sns-project-client\\src\\next\\next.tsx",
+  [],
+  [],
+  "C:\\Users\\zjzj\\OneDrive\\바탕 화면\\PlaNet-dev\\sns-project-client\\src\\pages\\feed.tsx",
+  [
+    "29",
+    "30",
+    "31",
+    "32",
+    "33",
+    "34",
+    "35",
+    "36",
+    "37",
+    "38",
+    "39",
+    "40",
+    "41",
+    "42",
+    "43",
+    "44",
+    "45",
+    "46",
+    "47",
+    "48",
+    "49",
+    "50",
+    "51"
+  ],
+  [],
+  {
+    "ruleId": "52",
+    "severity": 1,
+    "message": "53",
+    "line": 4,
+    "column": 7,
+    "nodeType": "54",
+    "messageId": "55",
+    "endLine": 4,
+    "endColumn": 12
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "57",
+    "line": 6,
+    "column": 7,
+    "nodeType": null,
+    "messageId": "58",
+    "endLine": 6,
+    "endColumn": 9,
+    "fix": "59"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "60",
+    "line": 7,
+    "column": 7,
+    "nodeType": null,
+    "messageId": "61",
+    "endLine": 7,
+    "endColumn": 40,
+    "fix": "62"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "63",
+    "line": 8,
+    "column": 1,
+    "nodeType": null,
+    "messageId": "61",
+    "endLine": 8,
+    "endColumn": 45,
+    "fix": "64"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "57",
+    "line": 9,
+    "column": 1,
+    "nodeType": null,
+    "messageId": "58",
+    "endLine": 9,
+    "endColumn": 3,
+    "fix": "65"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "66",
+    "line": 10,
+    "column": 11,
+    "nodeType": null,
+    "messageId": "61",
+    "endLine": 10,
+    "endColumn": 42,
+    "fix": "67"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "68",
+    "line": 11,
+    "column": 1,
+    "nodeType": null,
+    "messageId": "61",
+    "endLine": 11,
+    "endColumn": 15,
+    "fix": "69"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "70",
+    "line": 12,
+    "column": 1,
+    "nodeType": null,
+    "messageId": "61",
+    "endLine": 12,
+    "endColumn": 43,
+    "fix": "71"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "57",
+    "line": 13,
+    "column": 11,
+    "nodeType": null,
+    "messageId": "58",
+    "endLine": 13,
+    "endColumn": 13,
+    "fix": "72"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "57",
+    "line": 14,
+    "column": 1,
+    "nodeType": null,
+    "messageId": "58",
+    "endLine": 14,
+    "endColumn": 3,
+    "fix": "73"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "74",
+    "line": 15,
+    "column": 1,
+    "nodeType": null,
+    "messageId": "61",
+    "endLine": 15,
+    "endColumn": 11,
+    "fix": "75"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "76",
+    "line": 16,
+    "column": 1,
+    "nodeType": null,
+    "messageId": "61",
+    "endLine": 16,
+    "endColumn": 37,
+    "fix": "77"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "78",
+    "line": 17,
+    "column": 9,
+    "nodeType": null,
+    "messageId": "61",
+    "endLine": 17,
+    "endColumn": 38,
+    "fix": "79"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "80",
+    "line": 18,
+    "column": 9,
+    "nodeType": null,
+    "messageId": "61",
+    "endLine": 18,
+    "endColumn": 55,
+    "fix": "81"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "57",
+    "line": 19,
+    "column": 1,
+    "nodeType": null,
+    "messageId": "58",
+    "endLine": 19,
+    "endColumn": 3,
+    "fix": "82"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "57",
+    "line": 20,
+    "column": 1,
+    "nodeType": null,
+    "messageId": "58",
+    "endLine": 20,
+    "endColumn": 3,
+    "fix": "83"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "57",
+    "line": 21,
+    "column": 9,
+    "nodeType": null,
+    "messageId": "58",
+    "endLine": 21,
+    "endColumn": 11,
+    "fix": "84"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "85",
+    "line": 22,
+    "column": 1,
+    "nodeType": null,
+    "messageId": "61",
+    "endLine": 22,
+    "endColumn": 55,
+    "fix": "86"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "87",
+    "line": 23,
+    "column": 1,
+    "nodeType": null,
+    "messageId": "61",
+    "endLine": 23,
+    "endColumn": 47,
+    "fix": "88"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "89",
+    "line": 24,
+    "column": 11,
+    "nodeType": null,
+    "messageId": "61",
+    "endLine": 24,
+    "endColumn": 47,
+    "fix": "90"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "89",
+    "line": 25,
+    "column": 11,
+    "nodeType": null,
+    "messageId": "61",
+    "endLine": 25,
+    "endColumn": 47,
+    "fix": "91"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "57",
+    "line": 26,
+    "column": 9,
+    "nodeType": null,
+    "messageId": "58",
+    "endLine": 26,
+    "endColumn": 11,
+    "fix": "92"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "93",
+    "line": 27,
+    "column": 1,
+    "nodeType": null,
+    "messageId": "61",
+    "endLine": 28,
+    "endColumn": 1,
+    "fix": "94"
+  },
+  {
+    "ruleId": "56",
+    "severity": 2,
+    "message": "95",
+    "line": 31,
+    "column": 2,
+    "nodeType": null,
+    "messageId": "96",
+    "endLine": 31,
+    "endColumn": 2,
+    "fix": "97"
+  },
+  "@typescript-eslint/no-unused-vars",
+  "'inter' is assigned a value but never used.",
+  "Identifier",
+  "unusedVar",
+  "prettier/prettier",
+  "Delete `··`",
+  "delete",
+  {
+    "range": "98",
+    "text": "99"
+  },
+  "Replace `··<div·className='main_container'` with `<div·className=\"main_container\"`",
+  "replace",
+  {
+    "range": "100",
+    "text": "101"
+  },
+  "Replace `··········<div·className='profile_container'` with `········<div·className=\"profile_container\"`",
+  {
+    "range": "102",
+    "text": "103"
+  },
+  {
+    "range": "104",
+    "text": "99"
+  },
+  "Replace `··<div·className='profile_text'` with `<div·className=\"profile_text\"`",
+  {
+    "range": "105",
+    "text": "106"
+  },
+  "Replace `··············` with `············`",
+  {
+    "range": "107",
+    "text": "108"
+  },
+  "Replace `··············<div·className='upload_time'` with `············<div·className=\"upload_time\"`",
+  {
+    "range": "109",
+    "text": "110"
+  },
+  {
+    "range": "111",
+    "text": "99"
+  },
+  {
+    "range": "112",
+    "text": "99"
+  },
+  "Replace `··········` with `········`",
+  {
+    "range": "113",
+    "text": "114"
+  },
+  "Replace `··········<div·className='feed_text'` with `········<div·className=\"feed_text\"`",
+  {
+    "range": "115",
+    "text": "116"
+  },
+  "Replace `··<img·className='feed_image'` with `<img·className=\"feed_image\"`",
+  {
+    "range": "117",
+    "text": "118"
+  },
+  "Replace `··<div·className='subscription_text_container'` with `<div·className=\"subscription_text_container\"`",
+  {
+    "range": "119",
+    "text": "120"
+  },
+  {
+    "range": "121",
+    "text": "99"
+  },
+  {
+    "range": "122",
+    "text": "99"
+  },
+  {
+    "range": "123",
+    "text": "99"
+  },
+  "Replace `··········<div·className='subscription_icon_container'` with `········<div·className=\"subscription_icon_container\"`",
+  {
+    "range": "124",
+    "text": "125"
+  },
+  "Replace `············<img·className='subscription_icon'` with `··········<img·className=\"subscription_icon\"`",
+  {
+    "range": "126",
+    "text": "127"
+  },
+  "Replace `··<img·className='subscription_icon'` with `<img·className=\"subscription_icon\"`",
+  {
+    "range": "128",
+    "text": "129"
+  },
+  {
+    "range": "130",
+    "text": "129"
+  },
+  {
+    "range": "131",
+    "text": "99"
+  },
+  "Replace `········</div>␍⏎` with `······</div>`",
+  {
+    "range": "132",
+    "text": "133"
+  },
+  "Insert `␍⏎`",
+  "insert",
+  {
+    "range": "134",
+    "text": "135"
+  },
+  [
+    90,
+    92
+  ],
+  "",
+  [
+    119,
+    152
+  ],
+  "<div className=\"main_container\"",
+  [
+    155,
+    199
+  ],
+  "        <div className=\"profile_container\"",
+  [
+    202,
+    204
+  ],
+  [
+    260,
+    291
+  ],
+  "<div className=\"profile_text\"",
+  [
+    294,
+    308
+  ],
+  "            ",
+  [
+    324,
+    366
+  ],
+  "            <div className=\"upload_time\"",
+  [
+    388,
+    390
+  ],
+  [
+    398,
+    400
+  ],
+  [
+    446,
+    456
+  ],
+  "        ",
+  [
+    464,
+    500
+  ],
+  "        <div className=\"feed_text\"",
+  [
+    537,
+    566
+  ],
+  "<img className=\"feed_image\"",
+  [
+    604,
+    650
+  ],
+  "<div className=\"subscription_text_container\"",
+  [
+    653,
+    655
+  ],
+  [
+    686,
+    688
+  ],
+  [
+    731,
+    733
+  ],
+  [
+    741,
+    795
+  ],
+  "        <div className=\"subscription_icon_container\"",
+  [
+    798,
+    844
+  ],
+  "          <img className=\"subscription_icon\"",
+  [
+    892,
+    928
+  ],
+  "<img className=\"subscription_icon\"",
+  [
+    976,
+    1012
+  ],
+  [
+    1054,
+    1056
+  ],
+  [
+    1064,
+    1080
+  ],
+  "      </div>",
+  [
+    1098,
+    1098
+  ],
+  "\r\n"
+]

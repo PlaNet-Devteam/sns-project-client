@@ -1,18 +1,26 @@
-// TODO: 쿠키로 바꾸기
-class JwtStorageService {
-  TOKEN_NAME = 'accessToken';
+import { Cookies } from 'react-cookie';
 
-  getToken() {
-    return localStorage.getItem(this.TOKEN_NAME);
-  }
+export const cookies = new Cookies();
 
-  setToken(value: string) {
-    localStorage.setItem(this.TOKEN_NAME, value);
-  }
+export const ACCESS_TOKEN = 'access-token';
+export const REFRESH_TOKEN = 'refresh-token';
 
-  removeToken() {
-    localStorage.removeItem(this.TOKEN_NAME);
-  }
-}
+const JwtStorageService = () => {
+  const getToken = (name: string) => cookies.get(name);
 
-export default new JwtStorageService();
+  const setToken = (name: string, value: string) => {
+    cookies.set(name, value, { path: '/' });
+  };
+
+  const removeToken = (name: string) => {
+    cookies.remove(name, { path: '/' });
+  };
+
+  return {
+    getToken,
+    setToken,
+    removeToken,
+  };
+};
+
+export default JwtStorageService();
