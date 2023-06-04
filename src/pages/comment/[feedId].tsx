@@ -11,19 +11,19 @@ import { getComments } from '../../utils/api';
 export default function CommentPage() {
   const { data } = useQuery(['comments'], getComments);
   console.log(data?.data.data);
-  const comment = data?.data.comment;
+  const comment = data?.data?.comment;
   const setComments = useSetRecoilState(commentState);
   const comments = useRecoilValue(commentState);
   useEffect(() => {
     setComments(comment as any);
-  }, []);
+  }, [comment]);
 
   return (
     <>
       <main>
         <Header></Header>
         <div className="comment__contatiner">
-          {comments.map((comment: CommentType) => {
+          {comments?.map((comment: CommentType) => {
             return <Comment key={comment.id} comment={comment}></Comment>;
           })}
         </div>
