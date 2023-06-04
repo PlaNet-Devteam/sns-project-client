@@ -7,7 +7,7 @@ import { commentIdState } from '../../store/commentAtom';
 import sample from '../../../public/image/sample.png';
 import IsLike from '../../assets/icons/icon_isLike.svg';
 import NoLike from '../../assets/icons/icon_noLike.svg';
-import { CommentPropsType } from '../../core/types/comment/index';
+import { CommentPropsType, CommentType } from '../../core/types/comment/index';
 import { commentState } from '../../store/commentAtom';
 
 const Comment = ({ comment }: CommentPropsType) => {
@@ -26,7 +26,8 @@ const Comment = ({ comment }: CommentPropsType) => {
     console.log(event.target);
     console.log(event.target.dataset?.id);
     const filtedComments = comments.filter(
-      (el: any) => el.id !== Number(event!.target?.dataset?.id),
+      (comment: CommentType) =>
+        comment.id !== Number(event!.target?.dataset?.id),
     );
     setComments(filtedComments);
   };
@@ -55,7 +56,7 @@ const Comment = ({ comment }: CommentPropsType) => {
               좋아요 {comment.likeCount}개
             </div>
             <div className="comment__reply-count">
-              답글 {comment?.replyCount}개 더보기
+              답글 {comment?.replyCount}개
             </div>
           </div>
         </div>
