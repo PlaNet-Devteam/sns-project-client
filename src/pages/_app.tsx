@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { RecoilRoot } from 'recoil';
 import BaseLayout from '@/components/Layouts/BaseLayout';
 import NoneLayout from '@/components/Layouts/NoneLayout';
 import type { AppProps } from 'next/app';
@@ -33,7 +34,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {getLayout()}
+      <RecoilRoot>{getLayout()}</RecoilRoot>
     </QueryClientProvider>
   );
 }
