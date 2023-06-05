@@ -7,9 +7,9 @@ import JwtStorageService, {
   REFRESH_TOKEN,
 } from '@/core/utils/jwt-storage';
 import UserService from '@/services/user';
-import ProfileInfo from '../Profile/ProfileInfo';
-import ProfileCount from '../Profile/ProfileCount';
-import ProfileFeedTabs from '../Profile/ProfileFeedTabs';
+import ProfileInfo from '../profile/ProfileInfo';
+import ProfileCount from '../profile/ProfileCount';
+import ProfileFeedTabs from '../profile/ProfileFeedTabs';
 import Button from '../common/Button';
 import ButtonGroup from '../common/ButtonGroup';
 

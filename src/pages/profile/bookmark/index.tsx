@@ -1,6 +1,6 @@
 import React from 'react';
-import ProfileLayout from '@/components/Layouts/ProfileLayout';
-import ProfileFeedList from '@/components/Profile/ProfileFeedList';
+import ProfileLayout from '@/components/layouts/ProfileLayout';
+import ProfileFeedList from '@/components/profile/ProfileFeedList';
 
 const dummyFeeds: any[] = [
   {
