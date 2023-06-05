@@ -1,15 +1,15 @@
 import Image from 'next/image';
 import { useState } from 'react';
-import Button from '@/components/common/Button';
+import { TiDelete } from 'react-icons/ti';
+import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import FeedHeader from '@/components/feed/FeedHeader';
 import Photo from '../../../assets/feed/Photo.svg';
 
 function CreateFeed() {
   const [imageList, setImageList] = useState<string[]>([]);
   const [count, setCount] = useState(0);
-  console.log(count);
 
-  const onClickUploadImageHandler = async (event: any) => {
+  const onClickUploadImageHandler = (event: any) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -19,6 +19,7 @@ function CreateFeed() {
       const result = event?.target?.result as string;
       setImageList([...imageList, result]);
     };
+    setCount(imageList?.length);
   };
 
   const onClickRemoveImageHandler = (index: number) => {
@@ -26,15 +27,25 @@ function CreateFeed() {
     result.splice(index, 1);
     setImageList(result);
 
-    if (imageList.length === 0) {
+    if (result.length === 0) {
       setCount(0);
-    } else if (count >= imageList.length) {
-      setCount(imageList.length - 1);
-    }
-
-    if (count - 1 >= 0) {
+    } else if (count === result.length) {
       setCount((prev) => prev - 1);
-    } else if (count < imageList.length) {
+    }
+  };
+
+  const onClickLeftButtonHandler = () => {
+    if (imageList.length === 0) {
+      return;
+    } else if (count - 1 >= 0) {
+      setCount((prev) => prev - 1);
+    }
+  };
+
+  const onClickRightButtonHandler = () => {
+    if (count == imageList.length - 1) {
+      return;
+    } else if (count < imageList.length - 1) {
       setCount((prev) => prev + 1);
     }
   };
@@ -48,40 +59,47 @@ function CreateFeed() {
           nextColor={true}
           nextLink="create/description"
         />
-        <div className="feed-create-form-image">
-          {imageList?.[0] ? (
-            <>
-              <div>
-                <div>
-                  <Button onClick={() => onClickRemoveImageHandler(count)}>
-                    x
-                  </Button>
-                  <Image
-                    key={count}
-                    src={imageList[count]}
-                    width={240}
-                    height={240}
-                    alt="image"
-                  />
+        {imageList?.[0] ? (
+          <div className="feed-create-form-image">
+            <div className="feed-create-form-image__button">
+              {count > 0 ? (
+                <button onClick={onClickLeftButtonHandler}>
+                  <AiOutlineLeft size={48} color="white" />
+                </button>
+              ) : null}
+            </div>
+            <div>
+              <div className="feed-create-form-image-upload">
+                <div className="feed-create-form-image__button--delete">
+                  <button onClick={() => onClickRemoveImageHandler(count)}>
+                    <TiDelete size={36} color="white" />
+                  </button>
                 </div>
-                <Button
-                  onClick={() => {
-                    setCount((prev) => prev + 1);
-                  }}
-                >
-                  클릭
-                </Button>
+                <Image
+                  key={count}
+                  src={imageList[count]}
+                  width={200}
+                  height={200}
+                  alt="image"
+                />
               </div>
-            </>
-          ) : (
-            <>
-              <Photo />
-              <span className="feed-create-form-image__image">
-                이미지를 추가해주세요.
-              </span>
-            </>
-          )}
-        </div>
+            </div>
+            <div className="feed-create-form-image__button">
+              {count < imageList?.length - 1 ? (
+                <button onClick={onClickRightButtonHandler}>
+                  <AiOutlineRight size={48} color="white" />
+                </button>
+              ) : null}
+            </div>
+          </div>
+        ) : (
+          <div className="feed-create-form-image-blank">
+            <Photo />
+            <span className="feed-create-form-image-text">
+              이미지를 추가해주세요.
+            </span>
+          </div>
+        )}
         <div className="feed-create-form-input">
           <label
             htmlFor="file"
