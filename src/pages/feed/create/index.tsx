@@ -2,11 +2,13 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { TiDelete } from 'react-icons/ti';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
+import { useRecoilState } from 'recoil';
 import FeedHeader from '@/components/feed/FeedHeader';
+import { feedImageState } from '@/store/feedState';
 import Photo from '../../../assets/feed/Photo.svg';
 
 function CreateFeed() {
-  const [imageList, setImageList] = useState<string[]>([]);
+  const [imageList, setImageList] = useRecoilState(feedImageState);
   const [count, setCount] = useState(0);
 
   const onClickUploadImageHandler = (event: any) => {
@@ -17,7 +19,7 @@ function CreateFeed() {
     reader.readAsDataURL(file);
     reader.onload = (event: any) => {
       const result = event?.target?.result as string;
-      setImageList([...imageList, result]);
+      setImageList((prev) => [...prev, result]);
     };
     setCount(imageList?.length);
   };
