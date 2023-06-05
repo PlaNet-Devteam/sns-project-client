@@ -3,13 +3,16 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
 import useForm from '@/hooks/useForm';
-import { api } from '@/core/base.service';
 import { AuthLoginType } from '@/core/types/auth';
-import JwtStorageService from '@/core/utils/jwt-storage';
+import JwtStorageService, { ACCESS_TOKEN } from '@/core/utils/jwt-storage';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ErrorMessage from '@/components/common/ErrorMessage';
+import AuthService from '@/services/auth';
+import Button from '@/components/common/Button';
+import ButtonGroup from '@/components/common/ButtonGroup';
+import IconGoogle from '@/assets/icons/icon_google.svg';
 
-function Login() {
+const Login = () => {
   const {
     formData: authLogin,
     onChange,
@@ -29,14 +32,8 @@ function Login() {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState([]);
 
-  // TODO : API 함수 호출하는 부분 서비스 관심사 분리
-  const createUser = async (formData: AuthLoginType) => {
-    const { data } = await api.post('/auth/login', formData);
-    return data.data;
-  };
-
   const { mutateAsync, isLoading, isError } = useMutation(
-    (formData: AuthLoginType) => createUser(formData),
+    (formData: AuthLoginType) => AuthService.login(formData),
   );
 
   const onSubmitForm = async (
@@ -47,25 +44,33 @@ function Login() {
     try {
       const { accessToken } = await mutateAsync(formData);
       if (accessToken) {
-        JwtStorageService.setToken(accessToken);
+        JwtStorageService.setToken(ACCESS_TOKEN, `${accessToken}`);
         onReset();
         router.replace('/profile');
       }
     } catch (error: any) {
+      console.log('error?.response', error?.response);
       setErrorMessage(error?.response?.data.message);
     }
   };
-  isLoading;
+
   return (
-    <div className="login">
+    <div className="login grid">
       {isLoading && <LoadingSpinner />}
-      <div className="container content-area">
-        <div className="middle-area form-area">
-          <div>
+      <div className="layout-container content-area">
+        <div className="middle-area">
+          <div className="form-area">
             <div className="sns-login">
-              <button className="btn btn-sm btn-ghost">
+              <Button
+                size="sm"
+                color="white"
+                variant="ghost"
+                type="button"
+                isFull
+              >
+                <IconGoogle />
                 Google 계정으로 로그인
-              </button>
+              </Button>
             </div>
             <form
               className="login-form"
@@ -96,11 +101,17 @@ function Login() {
                 </div>
               </div>
               {isError && <ErrorMessage errorMessage={errorMessage} />}
-              <div className="btn-group">
-                <button className="btn btn-primary btn-md en" type="submit">
+              <ButtonGroup>
+                <Button
+                  size="md"
+                  variant="primary"
+                  type="submit"
+                  isEnglish
+                  isFull
+                >
                   LOGIN
-                </button>
-              </div>
+                </Button>
+              </ButtonGroup>
             </form>
 
             <div className="text-group">
@@ -113,7 +124,7 @@ function Login() {
         <div className="bottom-area">
           <div className="text-group">
             <p className=" text-center text-white text-sm">
-              계정이 없으신가요?
+              <span>계정이 없으신가요?</span>
               <Link href="/signup" className="text-link">
                 가입하기
               </Link>
@@ -123,6 +134,6 @@ function Login() {
       </div>
     </div>
   );
-}
+};
 
 export default Login;

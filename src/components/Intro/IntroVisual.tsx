@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import LogoTitleSVG from '@/assets/intro/logo_title.svg';
+import Button from '../common/Button';
 
 function IntroVisual() {
   return (
@@ -104,9 +104,9 @@ function IntroVisual() {
           </h1>
           <p className="title-summary">우주 테마 소셜 네트워크</p>
           <div className="intro-btns">
-            <Link href="/login" className="btn btn-primary btn-md en">
+            <Button to="/login" size="md" variant="primary" isEnglish isFull>
               START
-            </Link>
+            </Button>
           </div>
         </div>
       </>

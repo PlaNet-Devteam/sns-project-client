@@ -61,10 +61,6 @@ a {
   --font-size-xxxl: 2rem; /* 32px */
 }
 
-.layout_padding {
-  padding: 0rem 1.5rem;
-}
-
 .li_margin {
   margin-bottom: 1rem;
 }
@@ -74,8 +70,8 @@ a {
   background-color: var(--bg-color);
   min-height: 100vh;
   overflow: hidden;
-
   .layout-container {
+    width: 100%;
     max-width: 390px;
     margin: 0 auto;
   }
