@@ -3,7 +3,7 @@ import Photo from '../../assets/feed/photo.svg';
 function FeedAddPhoto() {
   return (
     <div className="feed-create">
-      <div className="feed-create-form layout_padding">
+      <div className="feed-create-form inner__container">
         <header className="feed-create-form-header">
           <div>헤더</div>
         </header>
