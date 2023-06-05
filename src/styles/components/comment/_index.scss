@@ -1,0 +1,14 @@
+@use './comment';
+@use './header';
+@use './input';
+
+main {
+  width: 100vw;
+  height: max-content;
+}
+
+.comment__contatiner {
+  height: 100%;
+  padding-top: 3.75rem;
+  padding-bottom: 3.75rem;
+}

@@ -12,3 +12,7 @@ export const baseInstance = axios.create({
 export const getFeeds = () => {
   return baseInstance.get('/feeds');
 };
+
+export const getComments = () => {
+  return baseInstance.get('/comment/1');
+};
