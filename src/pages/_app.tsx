@@ -9,8 +9,8 @@ import {
 } from '@tanstack/react-query';
 import { RecoilRoot } from 'recoil';
 import JwtStorageService, { ACCESS_TOKEN } from '@/core/utils/jwt-storage';
-import BaseLayout from '@/components/Layouts/BaseLayout';
-import NoneLayout from '@/components/Layouts/NoneLayout';
+import BaseLayout from '@/components/layouts/BaseLayout';
+import NoneLayout from '@/components/layouts/NoneLayout';
 import '@/styles/globals.scss';
 
 if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
