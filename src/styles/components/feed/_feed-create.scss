@@ -42,6 +42,12 @@
   justify-content: center;
 }
 
+.feed-create-form-image-upload__image {
+  img {
+    object-fit: scale-down;
+  }
+}
+
 .feed-create-form-image-text {
   margin-top: 1rem;
   color: var(--white);

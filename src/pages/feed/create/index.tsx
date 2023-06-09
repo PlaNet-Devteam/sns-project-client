@@ -4,20 +4,22 @@ import { TiDelete } from 'react-icons/ti';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
 import FeedHeader from '@/components/feed/FeedHeader';
-import { feedImageState } from '@/store/feedState';
+import { feedImageState } from '@/store/feedAtom';
 import Photo from '../../../assets/feed/Photo.svg';
 
 function CreateFeed() {
   const [imageList, setImageList] = useRecoilState(feedImageState);
   const [count, setCount] = useState(0);
 
-  const onClickUploadImageHandler = (event: any) => {
+  const onClickUploadImageHandler = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = (event: any) => {
+    reader.onload = (event: ProgressEvent<FileReader>) => {
       const result = event?.target?.result as string;
       setImageList((prev) => [...prev, result]);
     };
@@ -77,13 +79,15 @@ function CreateFeed() {
                     <TiDelete size={36} color="white" />
                   </button>
                 </div>
-                <Image
-                  key={count}
-                  src={imageList[count]}
-                  width={200}
-                  height={200}
-                  alt="image"
-                />
+                <div className="feed-create-form-image-upload__image">
+                  <Image
+                    key={count}
+                    src={imageList[count]}
+                    width={200}
+                    height={200}
+                    alt="image"
+                  />
+                </div>
               </div>
             </div>
             <div className="feed-create-form-image__button">

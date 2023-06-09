@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
-import { feedImageState } from '@/store/feedState';
+import { feedImageState } from '@/store/feedAtom';
 import FeedHeader from '../../../../components/feed/FeedHeader';
 
 function CreateFeedDescription() {
@@ -17,7 +17,9 @@ function CreateFeedDescription() {
         />
         <div className="feed-create-form-description__image">
           {imageList?.[0] ? (
-            <Image src={imageList[0]} width={200} height={200} alt="image" />
+            <div className="feed-create-form-image-upload__image">
+              <Image src={imageList[0]} width={200} height={200} alt="image" />
+            </div>
           ) : (
             '이미지가 없습니다.'
           )}
