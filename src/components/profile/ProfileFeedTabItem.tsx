@@ -15,7 +15,7 @@ function ProfileFeedTabItem({ path, children }: ProfileFeedTabItemProps) {
     <Link
       href={path}
       className={classNames('profile-feeds-tabs__tab', {
-        'is-active': pathname === path,
+        'profile-feeds-tabs__tab--active': pathname === path,
       })}
     >
       {children}

@@ -1,19 +1,14 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import FeedImg from './FeedImg';
+import FeedImg from '@/components/feed/FeedImg';
+import { FeedImageType } from '@/core/types/feed';
 
 interface FeedType {
   id: string;
   description: string;
   likeCount: number;
   commentCount: number;
-  feedImage: [
-    {
-      feedId: number;
-      sortOrder: number;
-      image: string;
-    },
-  ];
+  feedImage: FeedImageType[];
 }
 
 function FeedItem({
@@ -28,7 +23,7 @@ function FeedItem({
     router.push(`/feed/${id}`);
   };
   return (
-    <div className="feed_container">
+    <div className="feed-item_container">
       <div className="profile_container">
         <img src="/user.svg" alt="user" />
         <div className="profile_text">

@@ -3,6 +3,18 @@
   padding-right: 1.5rem;
 }
 
-.inner-container {
+@mixin blind {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.inner__container {
   @include layout-padding;
+}
+
+.blind {
+  @include blind;
 }

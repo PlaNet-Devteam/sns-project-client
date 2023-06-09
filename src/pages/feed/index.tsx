@@ -1,6 +1,10 @@
 import React from 'react';
 import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
-import FeedItem from '@/components/Feed/FeedItem';
+import Link from 'next/link';
+import { FeedImageType } from '@/core/types/feed';
+import FeedItem from '@/components/feed/FeedItem';
+import TopHeader from '@/components/nav/topHeader/TopHeader';
+import LogoTitleSVG from '@/assets/intro/logo_title.svg';
 import { getFeeds } from '../../utils/api';
 
 interface FeedType {
@@ -8,13 +12,7 @@ interface FeedType {
   description: string;
   likeCount: number;
   commentCount: number;
-  feedImage: [
-    {
-      feedId: number;
-      sortOrder: number;
-      image: string;
-    },
-  ];
+  feedImage: FeedImageType[];
   comment: string[];
   tag: string[];
 }
@@ -24,8 +22,18 @@ const Feed = () => {
   const feeds: FeedType[] = data?.data.data.items;
   return (
     <>
+      <TopHeader>
+        <TopHeader.Left>
+          <Link href="/feed">
+            <h1 className="top-header__logo">
+              <LogoTitleSVG />
+            </h1>
+          </Link>
+        </TopHeader.Left>
+        <TopHeader.Right>메뉴</TopHeader.Right>
+      </TopHeader>
       <title>feed</title>
-      <div className="main_container">
+      <div className="feed_container">
         {feeds &&
           feeds.map((feed: FeedType) => (
             <FeedItem
