@@ -1,51 +1,49 @@
 import React from 'react';
+import classNames from 'classnames';
+import { FeedImageType } from '@/core/types/feed';
 
-interface FeedImageType {
-  feedImage: [
-    {
-      feedId: number;
-      sortOrder: number;
-      image: string;
-    },
-  ];
-}
-interface ImageType {
-  feedId: number;
-  sortOrder: number;
-  image: string;
+interface FeedImgProps {
+  feedImage: FeedImageType[];
 }
 
-function FeedImg(feedImage: FeedImageType) {
-  const imageCount = feedImage.feedImage.length;
-  let imageClassName = '';
-  if (imageCount === 1) {
-    imageClassName = 'single_image';
-  } else if (imageCount === 2) {
-    imageClassName = 'two_images';
-  } else if (imageCount === 3) {
-    imageClassName = 'three_images';
-  } else if (imageCount === 4) {
-    imageClassName = 'four_images';
-  } else if (imageCount > 4) {
-    imageClassName = 'more_images';
-  }
+const FeedImg = ({ feedImage }: FeedImgProps) => {
+  const imageCount = feedImage.length;
   return (
-    <>
-      <div className={`feed_item ${imageClassName}`}>
-        <div className="feed_images">
-          {feedImage.feedImage
-            .slice(0, 4)
-            .map((image: ImageType, index: number) => (
-              <div key={image.sortOrder}>
-                <img className="feed_image" src={image.image} alt="" />
-                {index === 3 && imageCount > 4 && (
-                  <div className="more_button">+{imageCount - 4}</div>
+    <div className="feed-images__container">
+      <div className="feed-images">
+        {feedImage.slice(0, 4).map((image: FeedImageType, index: number) => {
+          const moreImages = index + 1 === 3 && imageCount > 4;
+
+          if (index % 2 === 0) {
+            return (
+              <div key={image.sortOrder} className="feed-images__column">
+                <div className="feed-images__row">
+                  <figure className="feed-images__image">
+                    <img src={image.image} />
+                  </figure>
+                </div>
+                {feedImage[index + 1] && (
+                  <div className={'feed-images__row'}>
+                    <figure
+                      className={classNames('feed-images__image', {
+                        'feed-images__image--more': moreImages,
+                      })}
+                    >
+                      <img src={feedImage[index + 1].image} />
+                    </figure>
+                    {moreImages && (
+                      <div className="feed-images_button">
+                        +{imageCount - 4}
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
-            ))}
-        </div>
+            );
+          }
+        })}
       </div>
-    </>
+    </div>
   );
-}
+};
 export default FeedImg;

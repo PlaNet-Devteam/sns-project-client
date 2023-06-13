@@ -7,7 +7,7 @@ function CreateFeedDescription() {
   const imageList = useRecoilValue(feedImageState);
   return (
     <div className="feed-create">
-      <div className="feed-create-form-description layout_padding">
+      <div className="feed-create-form-description inner__container">
         <FeedHeader
           back="뒤로"
           backLink="/feed/create"

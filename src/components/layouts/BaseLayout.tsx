@@ -1,22 +1,21 @@
-import React, { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { useQuery } from '@tanstack/react-query';
-import UserService from '@/services/user';
+import React from 'react';
+import { useRouter } from 'next/router';
 import { BaseProps } from '@/core/types/common';
-import { userState } from '@/store/userAtom';
+import BottomNav from '../nav/bottomNav/BottomNav';
 
 const BaseLayout = ({ children }: BaseProps) => {
-  const setUserState = useSetRecoilState(userState);
-  const { data: profile } = useQuery(['user'], () => UserService.getFindMe());
-
-  useEffect(() => {
-    setUserState(profile);
-    console.log('userState', profile?.id);
-  }, [profile, setUserState]);
+  const isVisibleRoutes = [
+    '/feed',
+    '/profile',
+    '/profile/bookmark',
+    '/explore',
+  ];
+  const { pathname } = useRouter();
 
   return (
     <main className="app-main">
-      <div className="layout-container">{children}</div>
+      <div className="layout__container">{children}</div>
+      {isVisibleRoutes.includes(pathname) && <BottomNav />}
     </main>
   );
 };

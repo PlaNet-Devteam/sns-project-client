@@ -54,7 +54,7 @@ function CreateFeed() {
 
   return (
     <div className="feed-create">
-      <div className="feed-create-form layout_padding">
+      <div className="feed-create-form inner__container">
         <FeedHeader
           title="새 게시물"
           next="다음"

@@ -57,7 +57,7 @@ const Login = () => {
   return (
     <div className="login grid">
       {isLoading && <LoadingSpinner />}
-      <div className="layout-container content-area">
+      <div className="layout__container content-area">
         <div className="middle-area">
           <div className="form-area">
             <div className="sns-login">

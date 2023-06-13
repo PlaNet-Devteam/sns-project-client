@@ -7,7 +7,7 @@ const SinUpComplete = () => (
   <div className="signup-complete grid">
     <div className="content-area">
       <div className="middle-area">
-        <div className="inner-container">
+        <div className="inner__container">
           {/** TODO : 컴포넌트  */}
           <div className="title-group text-center">
             <div className="title-group__icon">

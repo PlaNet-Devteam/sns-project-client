@@ -12,6 +12,7 @@ import ProfileCount from '../profile/ProfileCount';
 import ProfileFeedTabs from '../profile/ProfileFeedTabs';
 import Button from '../common/Button';
 import ButtonGroup from '../common/ButtonGroup';
+import TopHeader from '../nav/topHeader/TopHeader';
 
 const ProfileLayout = ({ children }: BaseProps) => {
   const router = useRouter();
@@ -25,6 +26,17 @@ const ProfileLayout = ({ children }: BaseProps) => {
 
   return (
     <>
+      <TopHeader>
+        <TopHeader.Left>
+          <button onClick={() => router.back()}>뒤로</button>
+        </TopHeader.Left>
+        <TopHeader.Title>
+          <h1 className="blind">프로필</h1>
+        </TopHeader.Title>
+        <TopHeader.Right>
+          <button onClick={() => router.push('/profile/edit')}>편집</button>
+        </TopHeader.Right>
+      </TopHeader>
       {profile && (
         <div className="profile-layout">
           <ProfileInfo profile={profile} />
