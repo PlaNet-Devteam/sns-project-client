@@ -10,9 +10,8 @@ interface BottomNavItemProps {
 }
 
 const BottomNavItem = ({ path, name, icon }: BottomNavItemProps) => {
-  const { pathname, asPath } = useRouter();
+  const { pathname } = useRouter();
 
-  console.log(asPath, 'dd');
   return (
     <Link
       href={path}

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useSetRecoilState } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
 import { BaseProps } from '@/core/types/common';
 import JwtStorageService, {
@@ -7,6 +8,7 @@ import JwtStorageService, {
   REFRESH_TOKEN,
 } from '@/core/utils/jwt-storage';
 import UserService from '@/services/user';
+import { userState } from '@/store/userAtom';
 import ProfileInfo from '../profile/ProfileInfo';
 import ProfileCount from '../profile/ProfileCount';
 import ProfileFeedTabs from '../profile/ProfileFeedTabs';
@@ -16,6 +18,7 @@ import TopHeader from '../nav/topHeader/TopHeader';
 
 const ProfileLayout = ({ children }: BaseProps) => {
   const router = useRouter();
+  const setUser = useSetRecoilState(userState);
   const { data: profile } = useQuery(['user'], () => UserService.getFindMe());
 
   const onLogoutHandler = () => {
@@ -23,6 +26,10 @@ const ProfileLayout = ({ children }: BaseProps) => {
     JwtStorageService.removeToken(REFRESH_TOKEN);
     router.replace('/login');
   };
+
+  useEffect(() => {
+    setUser(profile);
+  }, [profile, setUser]);
 
   return (
     <>

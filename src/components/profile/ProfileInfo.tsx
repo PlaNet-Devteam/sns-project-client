@@ -24,6 +24,7 @@ function ProfileInfo({ profile }: ProfileInfoProps) {
         <p className="profile-info__desc__nickname">
           {profile?.nickname || '게스트'}
         </p>
+        <p className="profile-info__desc__bio">{profile?.bio || '자기소개'}</p>
       </div>
       <div className="profile-info__background"></div>
     </section>
