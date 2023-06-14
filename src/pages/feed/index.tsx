@@ -6,12 +6,14 @@ import {
   useInfiniteQuery,
 } from '@tanstack/react-query';
 import Link from 'next/link';
+import { ImSpinner6 } from 'react-icons/im';
 import useLocalStorage from 'use-local-storage';
 import { FeedImageType } from '@/core/types/feed';
 import FeedItem from '@/components/feed/FeedItem';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
 import LogoTitleSVG from '@/assets/intro/logo_title.svg';
 import { useObserver } from '@/hooks/useObserver';
+import { IntersectionObserverCallback } from '@/core/types/feed';
 import { getFeeds, getServerFeeds } from '../../utils/api';
 
 interface FeedType {
@@ -22,9 +24,6 @@ interface FeedType {
   feedImage: FeedImageType[];
   comment: string[];
   tag: string[];
-}
-interface IntersectionObserverCallback {
-  (entries: IntersectionObserverEntry[]): void;
 }
 
 const Feed = () => {
@@ -87,7 +86,7 @@ const Feed = () => {
             />
           ))}
       </div>
-      <div className="feed_container">
+      <div>
         {newdata &&
           newdata.pages.slice(1).map((group, index) => (
             <div key={index}>
@@ -105,7 +104,11 @@ const Feed = () => {
           ))}
       </div>
       <div ref={bottom} />
-      <div>{status === 'success' && !isFetchingNextPage && 'Fetching...'}</div>
+      <div className="spinner_container">
+        {status === 'success' && !isFetchingNextPage ? (
+          <ImSpinner6 className="spinner" />
+        ) : null}
+      </div>
     </>
   );
 };

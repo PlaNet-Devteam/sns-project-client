@@ -1,4 +1,5 @@
 import { RefObject, useLayoutEffect } from 'react';
+import { IntersectionObserverCallback } from '@/core/types/feed';
 
 interface ObserverProps {
   ref: boolean;
@@ -7,9 +8,6 @@ interface ObserverProps {
   root?: Element | null;
   rootMargin?: string;
   threshold?: number | number[];
-}
-interface IntersectionObserverCallback {
-  (entries: IntersectionObserverEntry[]): void;
 }
 
 export const useObserver = ({
