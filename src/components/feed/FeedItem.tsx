@@ -12,17 +12,17 @@ interface FeedType {
   feedImage: FeedImageType[];
 }
 
-function FeedItem({
+const FeedItem = ({
   id,
   description,
   likeCount,
   commentCount,
   feedImage,
-}: FeedType) {
+}: FeedType) => {
   const [scrollY, setScrollY] = useLocalStorage('scroll_location', 0);
   const router = useRouter();
   const handlecommentbutton = () => {
-    router.push(`/feed/${id}`);
+    router.push(`/comment/${id}`);
   };
   return (
     <div
@@ -52,5 +52,5 @@ function FeedItem({
       </div>
     </div>
   );
-}
+};
 export default FeedItem;
