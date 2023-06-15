@@ -144,13 +144,3 @@ function ProfileEdit() {
 }
 
 export default ProfileEdit;
-function uesMemo(
-  arg0: {
-    nickname: string | undefined;
-    bio: string | undefined;
-    gender: GENDER | undefined;
-  },
-  arg1: never[],
-) {
-  throw new Error('Function not implemented.');
-}
