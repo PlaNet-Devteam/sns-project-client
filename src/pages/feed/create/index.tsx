@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { TiDelete } from 'react-icons/ti';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
+import { uploadFile } from '@/utils/uploadImage';
 import FeedHeader from '@/components/feed/FeedHeader';
 import { feedImageState } from '@/store/feedState';
 import Photo from '../../../assets/feed/Photo.svg';
@@ -13,6 +14,7 @@ function CreateFeed() {
 
   const onClickUploadImageHandler = (event: any) => {
     const file = event.target.files?.[0];
+    uploadFile(file);
     if (!file) return;
 
     const reader = new FileReader();
