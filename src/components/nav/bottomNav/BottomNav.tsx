@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import IconNavFeed from '@/assets/icons/icon_nav_feed.svg';
 import IconNavExplore from '@/assets/icons/icon_nav_explore.svg';
 import IconNavAdd from '@/assets/icons/icon_nav_add.svg';
@@ -35,19 +35,48 @@ const bottmNavRoutes = [
 ];
 
 const BottomNav = () => {
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  const handleScroll = () => {
+    if (!isScrolling) {
+      setIsScrolling(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setIsScrolling(false);
+    }, 500);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [isScrolling]);
+
   return (
-    <div className="bottom-nav__container">
-      <div className="bottom-nav">
-        {bottmNavRoutes.map((nav) => (
-          <BottomNavItem
-            path={nav.path}
-            name={nav.name}
-            icon={nav.icon}
-            key={nav.name}
-          />
-        ))}
-      </div>
-    </div>
+    <>
+      {!isScrolling && (
+        <div className="bottom-nav__container">
+          <div className="bottom-nav">
+            {bottmNavRoutes.map((nav) => (
+              <BottomNavItem
+                path={nav.path}
+                name={nav.name}
+                icon={nav.icon}
+                key={nav.name}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

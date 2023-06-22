@@ -1,4 +1,4 @@
-import { USER_API, UserCreateType } from '@/core';
+import { USER_API, UserCreateType, UserUpdateType } from '@/core';
 import { api } from '@/core/base.service';
 
 const UserService = () => {
@@ -12,9 +12,15 @@ const UserService = () => {
     return data.data;
   };
 
+  const updateUser = async (id: number, formData: UserUpdateType) => {
+    const { data } = await api.patch(`/user/${id}`, formData);
+    return data.data;
+  };
+
   return {
     getFindMe,
     createUser,
+    updateUser,
   };
 };
 

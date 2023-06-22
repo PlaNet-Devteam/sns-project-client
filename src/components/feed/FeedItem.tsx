@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import useLocalStorage from 'use-local-storage';
 import FeedImg from '@/components/feed/FeedImg';
 import { FeedImageType } from '@/core/types/feed';
 
@@ -11,19 +12,23 @@ interface FeedType {
   feedImage: FeedImageType[];
 }
 
-function FeedItem({
+const FeedItem = ({
   id,
   description,
   likeCount,
   commentCount,
   feedImage,
-}: FeedType) {
+}: FeedType) => {
+  const [scrollY, setScrollY] = useLocalStorage('scroll_location', 0);
   const router = useRouter();
   const handlecommentbutton = () => {
-    router.push(`/feed/${id}`);
+    router.push(`/comment/${id}`);
   };
   return (
-    <div className="feed-item_container">
+    <div
+      className="feed-item_container"
+      onClick={() => setScrollY(window.scrollY)}
+    >
       <div className="profile_container">
         <img src="/user.svg" alt="user" />
         <div className="profile_text">
@@ -47,5 +52,5 @@ function FeedItem({
       </div>
     </div>
   );
-}
+};
 export default FeedItem;

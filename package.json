@@ -28,10 +28,10 @@
     "react-cookie": "^4.1.1",
     "react-dom": "18.2.0",
     "react-icons": "^4.9.0",
-    "reactstrap": "^9.2.0",
     "recoil": "^0.7.7",
     "sass": "^1.62.1",
-    "uuid": "^9.0.0"
+    "use-local-storage": "^3.0.0"
+
   },
   "devDependencies": {
     "@svgr/webpack": "^7.0.0",

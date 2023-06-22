@@ -279,3 +279,16 @@
     font-size: var(--font-size-xxxl);
   }
 }
+
+.spinner_container {
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+.spinner {
+  font-size: 20px;
+  color: white;
+  margin-left: 15px;
+  animation: spin 2s linear infinite;
+}

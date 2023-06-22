@@ -1,4 +1,4 @@
-import { USER_STATUS } from '@/core/enum';
+import { GENDER, USER_STATUS } from '@/core/enum';
 
 export interface UserType {
   username: string;
@@ -10,5 +10,6 @@ export interface UserType {
   feedCount?: number;
   profileImage?: string;
   bio?: string;
+  gender?: GENDER;
   id: number;
 }
