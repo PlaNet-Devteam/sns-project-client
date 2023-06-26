@@ -7,13 +7,13 @@ import {
 } from '@tanstack/react-query';
 import Link from 'next/link';
 import { ImSpinner6 } from 'react-icons/im';
-import useLocalStorage from 'use-local-storage';
 import { FeedImageType } from '@/core/types/feed';
 import FeedItem from '@/components/feed/FeedItem';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
 import LogoTitleSVG from '@/assets/intro/logo_title.svg';
 import { useObserver } from '@/hooks/useObserver';
 import { IntersectionObserverCallback } from '@/core/types/feed';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { getFeeds, getServerFeeds } from '../../utils/api';
 
 interface FeedType {
