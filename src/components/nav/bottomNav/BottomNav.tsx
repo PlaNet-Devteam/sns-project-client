@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import IconNavFeed from '@/assets/icons/icon_nav_feed.svg';
 import IconNavExplore from '@/assets/icons/icon_nav_explore.svg';
 import IconNavAdd from '@/assets/icons/icon_nav_add.svg';
@@ -41,7 +41,27 @@ const BottomNav = () => {
     if (!isScrolling) {
       setIsScrolling(true);
     }
+    ScrollDebounce();
   };
+  const debounce = (callback: () => void, delay: number) => {
+    let timeout: NodeJS.Timeout;
+    return () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        callback();
+      }, delay);
+    };
+  };
+  const ScrollDebounce = useCallback(
+    debounce(async () => {
+      try {
+        setIsScrolling(false);
+      } catch (error) {
+        console.error(error);
+      }
+    }, 500),
+    [isScrolling],
+  );
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -49,16 +69,6 @@ const BottomNav = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setIsScrolling(false);
-    }, 500);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [isScrolling]);
 
   return (
     <>
