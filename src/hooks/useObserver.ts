@@ -14,8 +14,8 @@ export const useObserver = ({
   target,
   onIntersect,
   root = null,
-  rootMargin = '0px',
-  threshold = 1.0,
+  rootMargin = '0px 0px -60px 0px',
+  threshold = 0,
 }: ObserverProps) => {
   useLayoutEffect(() => {
     let observer: IntersectionObserver;
