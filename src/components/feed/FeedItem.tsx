@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import FeedImg from '@/components/feed/FeedImg';
 import { FeedImageType } from '@/core/types/feed';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+import Modal from '../common/Modal';
+import FeedImgModal from './FeedImgModal';
 
 interface FeedType {
   id: string;
@@ -20,6 +22,7 @@ const FeedItem = ({
   feedImage,
 }: FeedType) => {
   const [scrollY, setScrollY] = useLocalStorage('scroll_location', 0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const handlecommentbutton = () => {
     router.push(`/comment/${id}`);
@@ -39,7 +42,21 @@ const FeedItem = ({
         <img src="/menu.svg" alt="menu" />
       </div>
       <div className="feed_text">{description}</div>
-      <FeedImg feedImage={feedImage} />
+      <Modal
+        isModalOpen={isModalOpen}
+        onClickCloseModal={() => {
+          setIsModalOpen(false);
+        }}
+      >
+        <FeedImgModal />
+      </Modal>
+      <div
+        onClick={() => {
+          setIsModalOpen(true);
+        }}
+      >
+        <FeedImg feedImage={feedImage} />
+      </div>
       <div className="subscription_text_container">
         <div>좋아요 {likeCount}개</div>
         <div>댓글 {commentCount}개 공유 0회</div>
