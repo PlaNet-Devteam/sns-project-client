@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import classNames from 'classnames';
 import { FeedImageType } from '@/core/types/feed';
 
@@ -19,7 +20,13 @@ const FeedImg = ({ feedImage }: FeedImgProps) => {
               <div key={image.sortOrder} className="feed-images__column">
                 <div className="feed-images__row">
                   <figure className="feed-images__image">
-                    <img src={image.image} />
+                    {/* <img src={image.image} /> */}
+                    <Image
+                      src={image.image}
+                      alt="feed-images"
+                      width={200}
+                      height={200}
+                    />
                   </figure>
                 </div>
                 {feedImage[index + 1] && (
@@ -29,7 +36,13 @@ const FeedImg = ({ feedImage }: FeedImgProps) => {
                         'feed-images__image--more': moreImages,
                       })}
                     >
-                      <img src={feedImage[index + 1].image} />
+                      {/* <img src={feedImage[index + 1].image} /> */}
+                      <Image
+                        src={feedImage[index + 1].image}
+                        alt="feed-images"
+                        width={200}
+                        height={200}
+                      />
                     </figure>
                     {moreImages && (
                       <div className="feed-images_button">
