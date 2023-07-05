@@ -28,6 +28,7 @@ const FeedItem = ({
     router.push(`/comment/${id}`);
     console.log(scrollY);
   };
+  const MODAL_TITLE = '김코딩';
   return (
     <div
       className="feed-item_container"
@@ -43,12 +44,13 @@ const FeedItem = ({
       </div>
       <div className="feed_text">{description}</div>
       <Modal
+        headerText={MODAL_TITLE}
         isModalOpen={isModalOpen}
         onClickCloseModal={() => {
           setIsModalOpen(false);
         }}
       >
-        <FeedImgModal />
+        <FeedImgModal feedImage={feedImage} />
       </Modal>
       <div
         onClick={() => {
