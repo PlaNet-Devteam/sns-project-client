@@ -1,8 +1,8 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import useLocalStorage from 'use-local-storage';
 import FeedImg from '@/components/feed/FeedImg';
 import { FeedImageType } from '@/core/types/feed';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 interface FeedType {
   id: string;
@@ -23,6 +23,7 @@ const FeedItem = ({
   const router = useRouter();
   const handlecommentbutton = () => {
     router.push(`/comment/${id}`);
+    console.log(scrollY);
   };
   return (
     <div
