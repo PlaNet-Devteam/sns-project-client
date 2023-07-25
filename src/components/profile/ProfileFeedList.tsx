@@ -16,7 +16,7 @@ function ProfileFeedList({ feeds }: ProfileFeedList) {
     <>
       {feeds && (
         <div className="profile-feeds-list">
-          {feeds.length > 0 &&
+          {feeds &&
             feeds.map((feed) => (
               <ProfileFeedListItem item={feed} key={feed.id} />
             ))}

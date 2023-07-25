@@ -7,7 +7,7 @@ import {
 } from '@tanstack/react-query';
 import Link from 'next/link';
 import { ImSpinner6 } from 'react-icons/im';
-import { FeedImageType } from '@/core/types/feed';
+import { FeedType } from '@/core/types/feed';
 import FeedItem from '@/components/feed/FeedItem';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
 import LogoTitleSVG from '@/assets/intro/logo_title.svg';
@@ -15,16 +15,6 @@ import { useObserver } from '@/hooks/useObserver';
 import { IntersectionObserverCallback } from '@/core/types/feed';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { getFeeds, getServerFeeds } from '../../utils/api';
-
-interface FeedType {
-  id: string;
-  description: string;
-  likeCount: number;
-  commentCount: number;
-  feedImage: FeedImageType[];
-  comment: string[];
-  tag: string[];
-}
 
 const Feed = () => {
   const { data } = useQuery(['feeds'], getServerFeeds);
@@ -75,30 +65,14 @@ const Feed = () => {
       <title>feed</title>
       <div className="feed_container">
         {feeds &&
-          feeds.map((feed: FeedType) => (
-            <FeedItem
-              key={feed.id}
-              id={feed.id}
-              description={feed.description}
-              likeCount={feed.likeCount}
-              commentCount={feed.commentCount}
-              feedImage={feed.feedImage}
-            />
-          ))}
+          feeds.map((feed: FeedType) => <FeedItem key={feed.id} item={feed} />)}
       </div>
       <div>
         {newdata &&
           newdata.pages.slice(1).map((group, index) => (
             <div key={index}>
               {group.data.items.map((feed: FeedType) => (
-                <FeedItem
-                  key={feed.id}
-                  id={feed.id}
-                  description={feed.description}
-                  likeCount={feed.likeCount}
-                  commentCount={feed.commentCount}
-                  feedImage={feed.feedImage}
-                />
+                <FeedItem key={feed.id} item={feed} />
               ))}
             </div>
           ))}

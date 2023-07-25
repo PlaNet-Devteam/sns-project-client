@@ -15,7 +15,7 @@ export const handlers = [
                 description: 'some description #new #newer',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -50,7 +50,7 @@ export const handlers = [
                 description: 'some description #dev #develop',
                 likeCount: 12,
                 commentCount: 1,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 2,
                     sortOrder: 0,
@@ -87,7 +87,7 @@ export const handlers = [
                 description: '어몽어스 하실분',
                 likeCount: 318,
                 commentCount: 94,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -134,7 +134,7 @@ export const handlers = [
                 description: '어몽어스 하실분',
                 likeCount: 318,
                 commentCount: 94,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -175,7 +175,7 @@ export const handlers = [
                 description: '어몽어스 하실분',
                 likeCount: 318,
                 commentCount: 94,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -198,7 +198,7 @@ export const handlers = [
                 description: '오늘 바디프로필 찍었다. 질문받는다.',
                 likeCount: 318,
                 commentCount: 94,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -221,7 +221,7 @@ export const handlers = [
                 description: '오늘 바디프로필 찍었다. 질문받는다.',
                 likeCount: 318,
                 commentCount: 94,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -244,7 +244,7 @@ export const handlers = [
                 description: '오늘 바디프로필 찍었다. 질문받는다.',
                 likeCount: 318,
                 commentCount: 94,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -303,7 +303,7 @@ export const handlers = [
                 description: '이것은 이번 인턴십에서 만든 과제입니다.',
                 likeCount: 318,
                 commentCount: 94,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -326,7 +326,7 @@ export const handlers = [
                 description: '이것은 이번 인턴십에서 만든 과제입니다.',
                 likeCount: 318,
                 commentCount: 94,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -361,7 +361,7 @@ export const handlers = [
                 description: '핑구2',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -376,7 +376,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -391,7 +391,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -406,7 +406,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -421,7 +421,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -436,7 +436,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -451,7 +451,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -466,7 +466,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -481,7 +481,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -496,7 +496,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -523,7 +523,7 @@ export const handlers = [
                 description: '핑구3',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -538,7 +538,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -553,7 +553,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -568,7 +568,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -583,7 +583,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -598,7 +598,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -613,7 +613,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -628,7 +628,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -643,7 +643,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -658,7 +658,7 @@ export const handlers = [
                 description: '혹시 핑구를 좋아하시나요?',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -685,7 +685,7 @@ export const handlers = [
                 description: '카리나1',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -700,7 +700,7 @@ export const handlers = [
                 description: '카리나1',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -715,7 +715,7 @@ export const handlers = [
                 description: '카리나1',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -730,7 +730,7 @@ export const handlers = [
                 description: '카리나1',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -745,7 +745,7 @@ export const handlers = [
                 description: '카리나1',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -760,7 +760,7 @@ export const handlers = [
                 description: '카리나1',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -775,7 +775,7 @@ export const handlers = [
                 description: '카리나1',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -790,7 +790,7 @@ export const handlers = [
                 description: '카리나1',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -805,7 +805,7 @@ export const handlers = [
                 description: '카리나1',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -820,7 +820,7 @@ export const handlers = [
                 description: '카리나1',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,
@@ -847,7 +847,7 @@ export const handlers = [
                 description: '카리나2',
                 likeCount: 0,
                 commentCount: 0,
-                feedImage: [
+                feedImages: [
                   {
                     feedId: 1,
                     sortOrder: 0,

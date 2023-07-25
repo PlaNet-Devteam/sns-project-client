@@ -1,28 +1,18 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import FeedImg from '@/components/feed/FeedImg';
-import { FeedImageType } from '@/core/types/feed';
+import { FeedType } from '@/core/types/feed';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 
-interface FeedType {
-  id: string;
-  description: string;
-  likeCount: number;
-  commentCount: number;
-  feedImage: FeedImageType[];
+interface FeedItemProps {
+  item: FeedType;
 }
 
-const FeedItem = ({
-  id,
-  description,
-  likeCount,
-  commentCount,
-  feedImage,
-}: FeedType) => {
+const FeedItem = ({ item }: FeedItemProps) => {
   const [scrollY, setScrollY] = useLocalStorage('scroll_location', 0);
   const router = useRouter();
   const handlecommentbutton = () => {
-    router.push(`/comment/${id}`);
+    router.push(`/comment/${item.id}`);
     console.log(scrollY);
   };
   return (
@@ -33,16 +23,16 @@ const FeedItem = ({
       <div className="profile_container">
         <img src="/user.svg" alt="user" />
         <div className="profile_text">
-          <div>김코딩</div>
-          <div className="upload_time">2분전</div>
+          <div>{item.user?.nickname}</div>
+          <div className="upload_time">{item.updatedAt || item.createdAt}</div>
         </div>
         <img src="/menu.svg" alt="menu" />
       </div>
-      <div className="feed_text">{description}</div>
-      <FeedImg feedImage={feedImage} />
+      <div className="feed_text">{item.description}</div>
+      {item.feedImages && <FeedImg feedImages={item.feedImages} />}
       <div className="subscription_text_container">
-        <div>좋아요 {likeCount}개</div>
-        <div>댓글 {commentCount}개 공유 0회</div>
+        <div>좋아요 {item.likeCount}개</div>
+        <div>댓글 {item.commentCount}개 공유 0회</div>
       </div>
       <div className="subscription_icon_container">
         <img className="subscription_icon" src="/thumbup.svg" alt="thumbup" />

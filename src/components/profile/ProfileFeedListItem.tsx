@@ -8,7 +8,9 @@ interface ProfileFeedListItemProps {
 function ProfileFeedListItem({ item }: ProfileFeedListItemProps) {
   return (
     <div className="profile-feeds-list__item">
-      <figure className="profile-feeds-list__item__image">{item?.title}</figure>
+      <figure className="profile-feeds-list__item__image">
+        {item?.description}
+      </figure>
     </div>
   );
 }
