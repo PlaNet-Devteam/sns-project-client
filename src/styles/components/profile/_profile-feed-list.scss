@@ -6,6 +6,7 @@
     minmax(calc(33.33% - 1px), calc(33.33% - 1px))
   );
   overflow-y: auto;
+  padding-bottom: 6rem;
 
   &__item {
     display: flex;

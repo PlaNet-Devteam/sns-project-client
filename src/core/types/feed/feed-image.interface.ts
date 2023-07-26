@@ -1,5 +1,5 @@
 export interface FeedImageType {
-  feedId: number;
+  feedId?: number;
   sortOrder: number;
   image: string;
 }

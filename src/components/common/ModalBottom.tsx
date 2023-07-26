@@ -45,7 +45,9 @@ function ModalBottom({
         )}
       >
         <header className="modalBottom-header">
-          <button className="modalBottom-header__button" />
+          <button className="modalBottom-header__button" type="button">
+            -
+          </button>
         </header>
         <main className="modalBottom-main">{children}</main>
       </section>

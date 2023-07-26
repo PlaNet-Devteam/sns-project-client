@@ -1,14 +1,17 @@
 import React from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
-import FeedImg from '@/components/feed/FeedImg';
+import Link from 'next/link';
 import { FeedType } from '@/core/types/feed';
+import FeedImg from '@/components/feed/FeedImg';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 interface FeedItemProps {
   item: FeedType;
+  test?: boolean;
 }
 
-const FeedItem = ({ item }: FeedItemProps) => {
+const FeedItem = ({ item, test }: FeedItemProps) => {
   const [scrollY, setScrollY] = useLocalStorage('scroll_location', 0);
   const router = useRouter();
   const handlecommentbutton = () => {
@@ -21,15 +24,43 @@ const FeedItem = ({ item }: FeedItemProps) => {
       onClick={() => setScrollY(window.scrollY)}
     >
       <div className="profile_container">
-        <img src="/user.svg" alt="user" />
-        <div className="profile_text">
-          <div>{item.user?.nickname}</div>
-          <div className="upload_time">{item.updatedAt || item.createdAt}</div>
+        <figure>
+          <Link href={`/${item.user?.username}`}>
+            {item.user?.profileImage ? (
+              <Image
+                src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${item.user?.profileImage}`}
+                width={100}
+                height={100}
+                alt={`${item.user?.nickname}님의 프로필 이미지`}
+              />
+            ) : (
+              <Image
+                src={'/img/icons/icon_default_profile.svg'}
+                width={100}
+                height={100}
+                alt="프로필 이미지"
+              />
+            )}
+          </Link>
+        </figure>
+        <div className="profile_info">
+          <div className="profile_text">
+            <div>
+              <Link href={`/${item.user?.username}`}>
+                {item.user?.nickname}
+              </Link>
+            </div>
+            <div className="upload_time">
+              {item.updatedAt || item.createdAt}
+            </div>
+          </div>
+          {/* <img src="/menu.svg" alt="menu" /> */}
         </div>
-        <img src="/menu.svg" alt="menu" />
       </div>
       <div className="feed_text">{item.description}</div>
-      {item.feedImages && <FeedImg feedImages={item.feedImages} />}
+      {item.feedImages && item.feedImages.length > 0 && (
+        <FeedImg feedImages={item.feedImages} test={test} />
+      )}
       <div className="subscription_text_container">
         <div>좋아요 {item.likeCount}개</div>
         <div>댓글 {item.commentCount}개 공유 0회</div>

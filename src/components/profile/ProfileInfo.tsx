@@ -13,12 +13,21 @@ function ProfileInfo({ profile }: ProfileInfoProps) {
       <div className="profile-info__desc">
         <div className="profile-info__desc__image">
           <figure className="profile-info__desc__image--figure">
-            <Image
-              src={'/img/icons/icon_default_profile.svg'}
-              width={120}
-              height={120}
-              alt="프로필 이미지"
-            />
+            {profile.profileImage ? (
+              <Image
+                src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${profile.profileImage}`}
+                width={120}
+                height={120}
+                alt="프로필 이미지"
+              />
+            ) : (
+              <Image
+                src={'/img/icons/icon_default_profile.svg'}
+                width={120}
+                height={120}
+                alt="프로필 이미지"
+              />
+            )}
           </figure>
         </div>
         <p className="profile-info__desc__nickname">

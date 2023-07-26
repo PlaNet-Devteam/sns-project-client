@@ -13,12 +13,17 @@ import TopHeader from '@/components/nav/topHeader/TopHeader';
 import LogoTitleSVG from '@/assets/intro/logo_title.svg';
 import { useObserver } from '@/hooks/useObserver';
 import { IntersectionObserverCallback } from '@/core/types/feed';
+import FeedService from '@/services/feed';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { getFeeds, getServerFeeds } from '../../utils/api';
 
 const Feed = () => {
-  const { data } = useQuery(['feeds'], getServerFeeds);
-  const feeds: FeedType[] = data?.data.data.items;
+  const { data } = useQuery(['feeds'], () =>
+    FeedService.getFeeds({
+      page: 1,
+    }),
+  );
+  const feeds: FeedType[] = data?.items;
   const bottom = useRef<HTMLDivElement>(null);
   const [scrollY] = useLocalStorage('scroll_location', 0);
 
@@ -65,7 +70,9 @@ const Feed = () => {
       <title>feed</title>
       <div className="feed_container">
         {feeds &&
-          feeds.map((feed: FeedType) => <FeedItem key={feed.id} item={feed} />)}
+          feeds.map((feed: FeedType) => (
+            <FeedItem key={feed.id} item={feed} test={true} />
+          ))}
       </div>
       <div>
         {newdata &&
