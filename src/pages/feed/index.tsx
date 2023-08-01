@@ -79,13 +79,13 @@ const Feed = () => {
       <div className="feed_container">
         {feeds &&
           feeds.items.map((feed: FeedType) => (
-            <FeedItem key={feed.id} item={feed} test={true} />
+            <FeedItem key={feed.id} item={feed} />
           ))}
         {newFeeds &&
           newFeeds.pages.slice(1).map((page, index) => (
             <div key={index}>
               {page.items.map((feed: FeedType) => (
-                <FeedItem key={feed.id} item={feed} test={true} />
+                <FeedItem key={feed.id} item={feed} />
               ))}
             </div>
           ))}

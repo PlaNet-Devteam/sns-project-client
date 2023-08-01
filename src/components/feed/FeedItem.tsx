@@ -8,10 +8,9 @@ import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 interface FeedItemProps {
   item: FeedType;
-  test?: boolean;
 }
 
-const FeedItem = ({ item, test }: FeedItemProps) => {
+const FeedItem = ({ item }: FeedItemProps) => {
   const [imgSrc, setImgSrc] = useState(
     `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${item.user?.profileImage}`,
   );
@@ -66,7 +65,7 @@ const FeedItem = ({ item, test }: FeedItemProps) => {
         </div>
         <div className="feed_text">{item.description}</div>
         {item.feedImages && item.feedImages.length > 0 && (
-          <FeedImg feedImages={item.feedImages} test={test} />
+          <FeedImg feedImages={item.feedImages} />
         )}
         <div className="subscription_text_container">
           <div>좋아요 {item.likeCount}개</div>

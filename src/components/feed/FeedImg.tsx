@@ -5,10 +5,9 @@ import { FeedImageType } from '@/core/types/feed';
 
 interface FeedImgProps {
   feedImages: FeedImageType[];
-  test?: boolean;
 }
 
-const FeedImg = ({ feedImages, test }: FeedImgProps) => {
+const FeedImg = ({ feedImages }: FeedImgProps) => {
   const imageCount = feedImages.length;
 
   return (
@@ -22,21 +21,12 @@ const FeedImg = ({ feedImages, test }: FeedImgProps) => {
               <div key={image.sortOrder} className="feed-images__column">
                 <div className="feed-images__row">
                   <figure className="feed-images__image">
-                    {!test ? (
-                      <Image
-                        src={image.image}
-                        alt=""
-                        width={400}
-                        height={300}
-                      />
-                    ) : (
-                      <Image
-                        src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`}
-                        alt=""
-                        width={400}
-                        height={300}
-                      />
-                    )}
+                    <Image
+                      src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`}
+                      alt=""
+                      width={400}
+                      height={300}
+                    />
                   </figure>
                 </div>
                 {feedImages[index + 1] && (

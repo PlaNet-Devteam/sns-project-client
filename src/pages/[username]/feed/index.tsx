@@ -66,7 +66,7 @@ const MyFeed = () => {
           myFeeds.pages.map((page, index) => (
             <div key={index}>
               {page.items.map((feed: FeedType) => (
-                <FeedItem key={feed.id} item={feed} test={true} />
+                <FeedItem key={feed.id} item={feed} />
               ))}
             </div>
           ))}
