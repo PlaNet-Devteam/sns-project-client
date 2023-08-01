@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { UserType } from '@/core';
 
@@ -7,6 +7,10 @@ interface ProfileInfoProps {
 }
 
 function ProfileInfo({ profile }: ProfileInfoProps) {
+  const [imgSrc, setImgSrc] = useState(
+    `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${profile.profileImage}`,
+  );
+
   return (
     <section className="profile-info">
       <h2 className="profile-info__title">{profile?.username || 'GUEST'}</h2>
@@ -15,10 +19,13 @@ function ProfileInfo({ profile }: ProfileInfoProps) {
           <figure className="profile-info__desc__image--figure">
             {profile.profileImage ? (
               <Image
-                src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${profile.profileImage}`}
+                src={imgSrc}
                 width={120}
                 height={120}
                 alt="프로필 이미지"
+                onError={() => {
+                  setImgSrc('/img/icons/icon_default_profile.svg');
+                }}
               />
             ) : (
               <Image
