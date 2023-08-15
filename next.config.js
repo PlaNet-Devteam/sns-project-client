@@ -14,6 +14,12 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
+  images: {
+    domains: [
+      'github-production-user-asset-6210df.s3.amazonaws.com',
+      'planet-bucket-staging.s3.ap-northeast-2.amazonaws.com',
+    ],
+  },
 };
 
 module.exports = nextConfig;

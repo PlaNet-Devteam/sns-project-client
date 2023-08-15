@@ -7,42 +7,45 @@ import {
 } from '@tanstack/react-query';
 import Link from 'next/link';
 import { ImSpinner6 } from 'react-icons/im';
-import { FeedImageType } from '@/core/types/feed';
+import { FeedType } from '@/core/types/feed';
 import FeedItem from '@/components/feed/FeedItem';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
 import LogoTitleSVG from '@/assets/intro/logo_title.svg';
 import { useObserver } from '@/hooks/useObserver';
 import { IntersectionObserverCallback } from '@/core/types/feed';
+import FeedService from '@/services/feed';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { getFeeds, getServerFeeds } from '../../utils/api';
-
-interface FeedType {
-  id: string;
-  description: string;
-  likeCount: number;
-  commentCount: number;
-  feedImage: FeedImageType[];
-  comment: string[];
-  tag: string[];
-}
 
 const Feed = () => {
-  const { data } = useQuery(['feeds'], getServerFeeds);
-  const feeds: FeedType[] = data?.data.data.items;
   const bottom = useRef<HTMLDivElement>(null);
   const [scrollY] = useLocalStorage('scroll_location', 0);
 
+  const { data: feeds } = useQuery(['feeds'], () =>
+    FeedService.getFeeds({
+      page: 1,
+      limit: 10,
+    }),
+  );
+
   const {
-    data: newdata,
+    data: newFeeds,
     fetchNextPage,
     isFetchingNextPage,
     status,
-  } = useInfiniteQuery(['newfeeds'], getFeeds, {
-    getNextPageParam: (lastPage) => {
-      if (!lastPage.data.isLast) return lastPage.page + 1;
-      return undefined;
+  } = useInfiniteQuery(
+    ['newFeeds'],
+    ({ pageParam = 1 }) =>
+      FeedService.getFeeds({
+        page: pageParam,
+        limit: 10,
+      }),
+    {
+      getNextPageParam: (lastPage) => {
+        if (!lastPage.pageInfo.isLast) return lastPage.pageInfo.page + 1;
+        return undefined;
+      },
     },
-  });
+  );
 
   const onIntersect: IntersectionObserverCallback = ([entry]) => {
     if (entry.isIntersecting && status === 'success') {
@@ -75,37 +78,22 @@ const Feed = () => {
       <title>feed</title>
       <div className="feed_container">
         {feeds &&
-          feeds.map((feed: FeedType) => (
-            <FeedItem
-              key={feed.id}
-              id={feed.id}
-              description={feed.description}
-              likeCount={feed.likeCount}
-              commentCount={feed.commentCount}
-              feedImage={feed.feedImage}
-            />
+          feeds.items.map((feed: FeedType) => (
+            <FeedItem key={feed.id} item={feed} />
           ))}
-      </div>
-      <div>
-        {newdata &&
-          newdata.pages.slice(1).map((group, index) => (
+        {newFeeds &&
+          newFeeds.pages.slice(1).map((page, index) => (
             <div key={index}>
-              {group.data.items.map((feed: FeedType) => (
-                <FeedItem
-                  key={feed.id}
-                  id={feed.id}
-                  description={feed.description}
-                  likeCount={feed.likeCount}
-                  commentCount={feed.commentCount}
-                  feedImage={feed.feedImage}
-                />
+              {page.items.map((feed: FeedType) => (
+                <FeedItem key={feed.id} item={feed} />
               ))}
             </div>
           ))}
       </div>
       <div ref={bottom} />
+
       <div className="spinner_container">
-        {status === 'success' && !isFetchingNextPage ? (
+        {status === 'success' && isFetchingNextPage ? (
           <ImSpinner6 className="spinner" />
         ) : null}
       </div>
@@ -115,7 +103,14 @@ const Feed = () => {
 
 export async function getServerSideProps() {
   const queryClient = new QueryClient();
-  queryClient.prefetchQuery(['feeds'], getServerFeeds);
+  await queryClient.prefetchQuery(['feeds'], async () => {
+    const { data } = await FeedService.getFeeds({
+      page: 1,
+      limit: 10,
+    });
+
+    return data;
+  });
   return {
     props: {
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),

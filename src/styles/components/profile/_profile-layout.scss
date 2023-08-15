@@ -3,6 +3,9 @@
 }
 
 .top-header {
+  &.is-scrolling {
+    backdrop-filter: blur(3rem);
+  }
   + .profile-layout {
     min-height: calc(100vh - var(--top-header-height));
   }

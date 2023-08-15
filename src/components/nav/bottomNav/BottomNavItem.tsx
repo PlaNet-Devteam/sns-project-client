@@ -10,13 +10,13 @@ interface BottomNavItemProps {
 }
 
 const BottomNavItem = ({ path, name, icon }: BottomNavItemProps) => {
-  const { pathname } = useRouter();
+  const { asPath } = useRouter();
 
   return (
     <Link
       href={path}
       className={classNames('bottom-nav__link', {
-        'bottom-nav__link--active': pathname === path,
+        'bottom-nav__link--active': asPath === path,
       })}
     >
       <span className="bottom-nav__icon">{icon}</span>

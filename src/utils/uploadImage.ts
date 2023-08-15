@@ -5,33 +5,60 @@ import { v1 } from 'uuid';
 const ACCESS_KEY = process.env.NEXT_PUBLIC_AWS_ACCESS_KEY;
 const SECRET_KEY = process.env.NEXT_PUBLIC_AWS_SECRET_KEY;
 const REGION = 'ap-northeast-2';
-const S3_BUCKET = 'planet-image-bucket';
+const S3_BUCKET = 'planet-bucket-staging';
 
 AWS.config.update({
   accessKeyId: ACCESS_KEY,
   secretAccessKey: SECRET_KEY,
-});
-
-const myBucket = new AWS.S3({
-  params: { Bucket: S3_BUCKET },
   region: REGION,
 });
+const s3 = new AWS.S3({
+  useAccelerateEndpoint: false,
+});
 
-export const uploadFile = (file: any) => {
+export const uploadFile = (file: any, cate: string): Promise<unknown> => {
   console.log('file', file);
-  console.log(myBucket);
-  const params = {
+  console.log(s3);
+  const params: AWS.S3.PutObjectRequest = {
     ACL: 'public-read',
     Body: file,
     Bucket: S3_BUCKET,
-    Key: `image/${v1().toString().replace('-', '')}.${file.type.split('/')[1]}`,
+    Key: `${cate}/${v1().toString().replace('-', '')}.${
+      file.type.split('/')[1]
+    }`,
   };
-  myBucket
-    .putObject(params)
-    .on('httpUploadProgress', (event) => {
-      console.log(params.Key);
+
+  console.log(params);
+  // myBucket
+  //   .putObject(params)
+  //   .on('httpUploadProgress', (event) => {
+  //     console.log(params.Key);
+  //   })
+  //   .send((err) => {
+  //     if (err) console.log(err);
+  //   });
+
+  const uploadToS3 = () => {
+    return new Promise((resolve, reject) => {
+      s3.upload(
+        params,
+        (err: AWS.AWSError | any, data: AWS.S3.ManagedUpload.SendData) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(data.Location as string); // 업로드된 파일의 주소(URL)를 반환합니다.
+          }
+        },
+      );
+    });
+  };
+
+  return uploadToS3()
+    .then((data) => {
+      console.log('upload Image', data);
+      return params.Key;
     })
-    .send((err) => {
-      if (err) console.log(err);
+    .catch((error) => {
+      console.error(error);
     });
 };

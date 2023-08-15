@@ -9,13 +9,13 @@ interface ProfileFeedTabItemProps extends BaseProps {
 }
 
 function ProfileFeedTabItem({ path, children }: ProfileFeedTabItemProps) {
-  const { pathname } = useRouter();
+  const { asPath } = useRouter();
 
   return (
     <Link
       href={path}
       className={classNames('profile-feeds-tabs__tab', {
-        'profile-feeds-tabs__tab--active': pathname === path,
+        'profile-feeds-tabs__tab--active': asPath === path,
       })}
     >
       {children}

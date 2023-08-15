@@ -43,7 +43,7 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     if (routes.includes(pathname)) {
       if (accessToken) {
-        replace('/profile');
+        replace('/feed');
       }
     }
   }, [pathname, replace]);

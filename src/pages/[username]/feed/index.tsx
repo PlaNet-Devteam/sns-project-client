@@ -1,19 +1,17 @@
 import React, { useRef } from 'react';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import classNames from 'classnames';
 import { ImSpinner6 } from 'react-icons/im';
-import { FeedType } from '@/core/types/feed';
+import FeedItem from '@/components/feed/FeedItem';
 import FeedService from '@/services/feed';
+import { FeedType } from '@/core/types/feed';
+import TopHeader from '@/components/nav/topHeader/TopHeader';
 import { useObserver } from '@/hooks/useObserver';
 import { IntersectionObserverCallback } from '@/core/types/feed';
-import EmptyData from '../common/EmptyData';
-import ProfileFeedListItem from './ProfileFeedListItem';
+import EmptyData from '@/components/common/EmptyData';
 
-interface ProfileFeedListProps {
-  queryKey: string;
-}
-
-function ProfileFeedList({ queryKey }: ProfileFeedListProps) {
+const MyFeed = () => {
   const bottom = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { username } = router.query;
@@ -24,16 +22,12 @@ function ProfileFeedList({ queryKey }: ProfileFeedListProps) {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery(
-    [queryKey],
-    ({ pageParam = 1 }) => {
-      // TODO: useInfiniteQuery 리팩토링
-      if (username) {
-        return FeedService.findAllByUser(username, {
-          page: pageParam,
-          limit: 10,
-        });
-      }
-    },
+    ['myFeeds'],
+    ({ pageParam = 1 }) =>
+      FeedService.findAllByUser(username, {
+        page: pageParam,
+        limit: 10,
+      }),
     {
       getNextPageParam: (lastPage) => {
         if (!lastPage.pageInfo.isLast) return lastPage.pageInfo.page + 1;
@@ -54,27 +48,30 @@ function ProfileFeedList({ queryKey }: ProfileFeedListProps) {
     onIntersect,
   });
 
-  if (myFeeds?.pages && myFeeds?.pages[0].totalCount === 0) {
-    return (
-      <>
-        <EmptyData /> <div ref={bottom} />
-      </>
-    );
+  if (myFeeds && myFeeds.pages.length === 0) {
+    return <EmptyData />;
   }
 
   return (
     <>
-      <div className="profile-feeds-list">
+      <TopHeader>
+        <TopHeader.Left>
+          <button onClick={() => router.back()}>뒤로</button>
+        </TopHeader.Left>
+        <TopHeader.Title>내 게시물</TopHeader.Title>
+        <TopHeader.Right></TopHeader.Right>
+      </TopHeader>
+      <div className="feed_container">
         {myFeeds &&
-          myFeeds.pages.map((page) => (
-            <>
+          myFeeds.pages.map((page, index) => (
+            <div key={index}>
               {page.items.map((feed: FeedType) => (
-                <ProfileFeedListItem key={feed.id} item={feed} />
+                <FeedItem key={feed.id} item={feed} />
               ))}
-            </>
+            </div>
           ))}
       </div>
-      {bottom && <div ref={bottom} />}
+      <div ref={bottom} />
 
       <div className="spinner_container">
         {status === 'success' && isFetchingNextPage ? (
@@ -83,6 +80,6 @@ function ProfileFeedList({ queryKey }: ProfileFeedListProps) {
       </div>
     </>
   );
-}
+};
 
-export default ProfileFeedList;
+export default MyFeed;
