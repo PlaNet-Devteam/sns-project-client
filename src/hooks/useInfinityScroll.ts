@@ -27,6 +27,14 @@ export const useInfinityScroll = (
         limit: 10,
       });
     }
+    if (FeedDataClassification === 'bookmark') {
+      if (username) {
+        return FeedService.findAllByUser(username, {
+          page: pageParam,
+          limit: 10,
+        });
+      }
+    }
   };
 
   const { data, fetchNextPage, isFetchingNextPage, status } = useInfiniteQuery(
