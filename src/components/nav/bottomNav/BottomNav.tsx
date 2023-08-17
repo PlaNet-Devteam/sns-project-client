@@ -1,16 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
-
+import React from 'react';
 import IconNavFeed from '@/assets/icons/icon_nav_feed.svg';
 import IconNavExplore from '@/assets/icons/icon_nav_explore.svg';
 import IconNavAdd from '@/assets/icons/icon_nav_add.svg';
 import IconNavDM from '@/assets/icons/icon_nav_dm.svg';
 import IconNavProfile from '@/assets/icons/icon_nav_profile.svg';
-
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useIsScrolling } from '@/hooks/useIsScrolling';
 import BottomNavItem from './BottomNavItem';
 
 const BottomNav = () => {
-  const [isScrolling, setIsScrolling] = useState(false);
   const [username] = useLocalStorage('username', '');
 
   const bottmNavRoutes = [
@@ -41,41 +39,7 @@ const BottomNav = () => {
     },
   ];
 
-  const handleScroll = () => {
-    if (!isScrolling) {
-      setIsScrolling(true);
-    }
-    ScrollDebounce();
-  };
-
-  const debounce = (callback: () => void, delay: number) => {
-    let timeout: NodeJS.Timeout;
-
-    return () => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        callback();
-      }, delay);
-    };
-  };
-
-  const ScrollDebounce = useCallback(
-    debounce(async () => {
-      try {
-        setIsScrolling(false);
-      } catch (error) {
-        console.error(error);
-      }
-    }, 500),
-    [isScrolling],
-  );
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  const isScrolling = useIsScrolling();
 
   return (
     <>
