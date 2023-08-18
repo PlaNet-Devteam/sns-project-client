@@ -30,6 +30,7 @@ button {
 
 a {
   text-decoration: none;
+  color: inherit;
 }
 
 :root {
@@ -59,6 +60,8 @@ a {
   --font-size-xl: 1.25rem; /* 20px */
   --font-size-xxl: 1.5rem; /* 24px */
   --font-size-xxxl: 2rem; /* 32px */
+
+  --top-header-height: 3.75rem;
 }
 
 .li_margin {
@@ -69,11 +72,11 @@ a {
 .app-main {
   background-color: var(--bg-color);
   min-height: 100vh;
-  overflow: hidden;
-  .layout-container {
+  .layout__container {
     width: 100%;
     max-width: 390px;
     margin: 0 auto;
+    min-height: 100vh;
   }
 }
 

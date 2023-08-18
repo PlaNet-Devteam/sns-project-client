@@ -3,12 +3,12 @@
   grid-template-columns: 1fr 1fr 1fr;
   color: var(--white);
   font-size: large;
-  margin-top: 1.5rem;
+  padding-top: 1.5rem;
 }
 
 .feed-create-header-back {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   color: var(--white);
 }
 
@@ -19,7 +19,7 @@
 
 .feed-create-header-next {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   color: var(--white);
 
   &--color {

@@ -11,6 +11,7 @@ import AuthService from '@/services/auth';
 import Button from '@/components/common/Button';
 import ButtonGroup from '@/components/common/ButtonGroup';
 import IconGoogle from '@/assets/icons/icon_google.svg';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 const Login = () => {
   const {
@@ -31,6 +32,7 @@ const Login = () => {
 
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState([]);
+  const [_, setUsername] = useLocalStorage<string>('username', '');
 
   const { mutateAsync, isLoading, isError } = useMutation(
     (formData: AuthLoginType) => AuthService.login(formData),
@@ -42,11 +44,12 @@ const Login = () => {
   ) => {
     event.preventDefault();
     try {
-      const { accessToken } = await mutateAsync(formData);
+      const { accessToken, userInfo } = await mutateAsync(formData);
       if (accessToken) {
         JwtStorageService.setToken(ACCESS_TOKEN, `${accessToken}`);
+        setUsername(userInfo.username);
         onReset();
-        router.replace('/profile');
+        router.replace('/feed');
       }
     } catch (error: any) {
       console.log('error?.response', error?.response);
@@ -57,7 +60,7 @@ const Login = () => {
   return (
     <div className="login grid">
       {isLoading && <LoadingSpinner />}
-      <div className="layout-container content-area">
+      <div className="layout__container content-area">
         <div className="middle-area">
           <div className="form-area">
             <div className="sns-login">

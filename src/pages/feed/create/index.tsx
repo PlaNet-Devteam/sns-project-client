@@ -1,27 +1,40 @@
 import Image from 'next/image';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { TiDelete } from 'react-icons/ti';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
+import { uploadFile } from '@/utils/uploadImage';
 import FeedHeader from '@/components/feed/FeedHeader';
 import { feedImageState } from '@/store/feedAtom';
+import { FeedImageType } from '@/core/types/feed';
 import Photo from '../../../assets/feed/Photo.svg';
 
 function CreateFeed() {
-  const [imageList, setImageList] = useRecoilState(feedImageState);
+  const [imageList, setImageList] =
+    useRecoilState<FeedImageType[]>(feedImageState);
   const [count, setCount] = useState(0);
+  const orderIndex = useRef<number>(0);
 
-  const onClickUploadImageHandler = (
+  const onClickUploadImageHandler = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = event.target.files?.[0];
+    const imaegUrl: unknown = await uploadFile(file, 'feed');
     if (!file) return;
+
+    console.log('imaegUrl', imaegUrl);
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = (event: ProgressEvent<FileReader>) => {
-      const result = event?.target?.result as string;
+    reader.onload = () => {
+      const result: FeedImageType = {
+        sortOrder: orderIndex.current,
+        image: imaegUrl as string,
+      };
+
       setImageList((prev) => [...prev, result]);
+      orderIndex.current++;
+      console.log('imageList', imageList);
     };
     setCount(imageList?.length);
   };
@@ -56,7 +69,7 @@ function CreateFeed() {
 
   return (
     <div className="feed-create">
-      <div className="feed-create-form layout_padding">
+      <div className="feed-create-form inner__container">
         <FeedHeader
           title="새 게시물"
           next="다음"
@@ -79,15 +92,13 @@ function CreateFeed() {
                     <TiDelete size={36} color="white" />
                   </button>
                 </div>
-                <div className="feed-create-form-image-upload__image">
-                  <Image
-                    key={count}
-                    src={imageList[count]}
-                    width={200}
-                    height={200}
-                    alt="image"
-                  />
-                </div>
+                <Image
+                  key={count}
+                  src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${imageList[count]?.image}`}
+                  width={200}
+                  height={200}
+                  alt="image"
+                />
               </div>
             </div>
             <div className="feed-create-form-image__button">

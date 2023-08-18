@@ -7,10 +7,17 @@ function useForm<T extends Record<string, any>>(initialForm: T) {
     setForm(initialForm);
   }, [initialForm]);
 
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setForm((prevState) => ({ ...prevState, [name]: value }));
-  };
+  const onChange = useCallback(
+    (
+      event: ChangeEvent<
+        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+      >,
+    ) => {
+      const { name, value } = event.target;
+      setForm((prevState) => ({ ...prevState, [name]: value }));
+    },
+    [],
+  );
 
   return {
     formData,

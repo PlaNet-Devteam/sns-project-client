@@ -56,7 +56,6 @@ const Comments = () => {
                   <div className="comment_subscription_container">
                     <div>좋아요 0개</div>
                     <div>답글 0개</div>
-                    <button></button>
                   </div>
                 </div>
                 <img
@@ -74,7 +73,6 @@ const Comments = () => {
                 <div className="comment_subscription_container">
                   <div>좋아요 1개</div>
                   <div>답글 0개</div>
-                  <button></button>
                 </div>
               </div>
               <img src="/no_rocket.svg" alt="thumbup" />
@@ -115,7 +113,6 @@ const Comments = () => {
                 <div className="comment_subscription_container">
                   <div>좋아요 0개</div>
                   <div>답글 0개</div>
-                  <button></button>
                 </div>
               </div>
               <img src="/no_rocket.svg" alt="thumbup" />
