@@ -41,7 +41,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
   const handleDeleteFeedItem = async (feedId: number) => {
     try {
       await mutateAsync(feedId);
-      router.back();
+      setIsModalOpen(false);
     } catch (error: any) {
       console.log('error?.response', error?.response);
     }

@@ -5,7 +5,7 @@ import { v1 } from 'uuid';
 const ACCESS_KEY = process.env.NEXT_PUBLIC_AWS_ACCESS_KEY;
 const SECRET_KEY = process.env.NEXT_PUBLIC_AWS_SECRET_KEY;
 const REGION = 'ap-northeast-2';
-const S3_BUCKET = 'planet-bucket-staging';
+const S3_BUCKET = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
 
 AWS.config.update({
   accessKeyId: ACCESS_KEY,
