@@ -1,11 +1,10 @@
 import Image from 'next/image';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { TiDelete } from 'react-icons/ti';
 import { AiOutlineCamera } from 'react-icons/ai';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
 import { FormEvent } from 'react';
-import { useRecoilState } from 'recoil';
 import { uploadFile } from '@/utils/uploadImage';
 import FeedHeader from '@/components/feed/FeedHeader';
 import { FeedCreateType, FeedImageType } from '@/core/types/feed';
@@ -13,12 +12,10 @@ import useForm from '@/hooks/useForm';
 import { FEED_STATUS } from '@/core/enum/feed';
 import FeedService from '@/services/feed';
 import Button from '@/components/common/Button';
-import { feedImageState } from '@/store/feedAtom';
 
 function CreateFeed() {
   const router = useRouter();
-  const [imageList, setImageList] =
-    useRecoilState<FeedImageType[]>(feedImageState);
+  const [imageList, setImageList] = useState<FeedImageType[]>([]);
   const orderIndex = useRef<number>(0);
 
   const { formData: feedCreate, onChange } = useForm<FeedCreateType>({
@@ -38,6 +35,11 @@ function CreateFeed() {
   ) => {
     event.preventDefault();
 
+    if (imageList?.length === 0) {
+      alert('사진을 첨부해주세요.');
+      return;
+    }
+
     try {
       await mutateAsync({
         ...formData,
@@ -49,29 +51,35 @@ function CreateFeed() {
       console.log('error?.response', error?.response);
     }
   };
+  console.log(imageList);
 
   const onClickUploadImageHandler = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    const file = event.target.files?.[0];
-    const imaegUrl: unknown = await uploadFile(file, 'feed');
-    if (!file) return;
+    const imageLists = event.target.files || [];
 
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
+    let imageUrlLists = [...imageList];
+
+    for (let i = 0; i < imageLists.length; i++) {
+      const currentImageUrl: unknown = await uploadFile(imageLists[i], 'feed');
       const result: FeedImageType = {
         sortOrder: orderIndex.current,
-        image: imaegUrl as string,
+        image: currentImageUrl as string,
       };
+      imageUrlLists = [...imageUrlLists, result];
+    }
 
-      setImageList((prev) => [...prev, result]);
-      orderIndex.current++;
-    };
+    if (imageUrlLists.length > 5) {
+      imageUrlLists = imageUrlLists.slice(0, 5);
+      alert('최대 5장까지 가능합니다.');
+    }
+
+    setImageList(imageUrlLists);
+    orderIndex.current++;
   };
 
   const onClickRemoveImageHandler = (index: number) => {
-    setImageList((prev) => prev.filter((item, idx) => idx !== index));
+    setImageList((prev) => prev.filter((_, idx) => idx !== index));
   };
 
   return (
