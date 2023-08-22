@@ -15,19 +15,10 @@ const nextConfig = {
     includePaths: [path.join(__dirname, 'styles')],
   },
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'github.com',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'github-production-user-asset-6210df.s3.amazonaws.com',
-        port: '',
-        pathname: '/**',
-      },
+    domains: [
+      'github-production-user-asset-6210df.s3.amazonaws.com',
+      'planet-bucket-staging.s3.ap-northeast-2.amazonaws.com',
+      'planet-client.s3.ap-northeast-2.amazonaws.com',
     ],
   },
 };

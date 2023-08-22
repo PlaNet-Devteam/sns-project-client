@@ -2,23 +2,12 @@ import React from 'react';
 import ProfileFeedList from '@/components/profile/ProfileFeedList';
 import ProfileLayout from '@/components/layouts/ProfileLayout';
 
-const dummyFeeds: any[] = [
-  {
-    id: 1,
-    title: 'FEED 1',
-  },
-  {
-    id: 2,
-    title: 'FEED 2',
-  },
-];
-
-function Profile() {
+const Profile = () => {
   return (
     <ProfileLayout>
-      <ProfileFeedList feeds={dummyFeeds} />
+      <ProfileFeedList queryKey="myFeeds" />
     </ProfileLayout>
   );
-}
+};
 
 export default Profile;

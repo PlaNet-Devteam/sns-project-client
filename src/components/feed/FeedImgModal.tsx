@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
-import { FeedImageType } from '@/core/types/feed';
 interface FeedImgProps {
-  feedImage: FeedImageType[];
+  feedImage: any;
 }
 const FeedImgModal = ({ feedImage }: FeedImgProps) => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
@@ -26,28 +25,30 @@ const FeedImgModal = ({ feedImage }: FeedImgProps) => {
   useEffect(() => {
     if (slideRef.current) {
       slideRef.current.style.transition = 'all 0.1s ease-in-out';
-      slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
+      slideRef.current.style.transform = `translateX(-${
+        currentSlide * (100 / feedImage.length)
+      }%)`;
     }
   }, [currentSlide]);
+  console.log('총 이미지 수' + feedImage.length);
+  console.log('현재 슬라이드 ' + currentSlide);
   return (
-    <div className="Carousel__container">
-      <AiOutlineLeft className="Front-Btn" onClick={prevSlide}>
-        앞
-      </AiOutlineLeft>
-      <div className="Img__container" ref={slideRef}>
-        {feedImage.map((image: any) => (
-          <Image
-            src={image.image}
-            className="Carousel__Img"
-            alt="modal-img"
-            width={1000}
-            height={1000}
-          />
-        ))}
+    <div className="Modal__container">
+      <AiOutlineLeft className="Front-Btn" onClick={prevSlide} />
+      <div className="Carousel__container">
+        <div className="Img__container" ref={slideRef}>
+          {feedImage.map((image: any) => (
+            <Image
+              src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`}
+              className="Carousel__Img"
+              alt="modal-img"
+              width={1000}
+              height={1000}
+            />
+          ))}
+        </div>
       </div>
-      <AiOutlineRight className="Back-Btn" onClick={nextSlide}>
-        뒤
-      </AiOutlineRight>
+      <AiOutlineRight className="Back-Btn" onClick={nextSlide} />
     </div>
   );
 };

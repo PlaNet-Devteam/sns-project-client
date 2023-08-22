@@ -47,23 +47,23 @@ const ProfileLayout = ({ children }: BaseProps) => {
       {profile && (
         <div className="profile-layout">
           <ProfileInfo profile={profile} />
+
+          <div className="text-center">
+            <Button
+              size="sm"
+              variant="primary"
+              type="button"
+              isEnglish
+              onClick={onLogoutHandler}
+            >
+              LOGOUT
+            </Button>
+          </div>
           <ProfileCount profile={profile} />
           <section className="profile-feeds">
             <ProfileFeedTabs />
             {children}
           </section>
-          <ButtonGroup>
-            <Button
-              size="md"
-              variant="primary"
-              type="button"
-              isEnglish
-              isFull
-              onClick={onLogoutHandler}
-            >
-              LOGOUT
-            </Button>
-          </ButtonGroup>
         </div>
       )}
     </>

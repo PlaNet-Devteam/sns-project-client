@@ -1,20 +1,23 @@
+.Modal__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 .Carousel__container {
-  width: 100%;
+  width: 90%;
   height: 100%;
-  margin: 0 auto;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 .Img__container {
-  width: 100%;
-  height: 100%;
   display: flex;
+  align-items: center;
 }
+
 .Carousel__Img {
-  width: 100%;
+  width: 280px;
   height: 100%;
-  object-fit: contain;
   display: flex;
 }
 .Front-Btn {
