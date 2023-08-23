@@ -22,6 +22,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
   };
   return (
     <div
+      id={String(item.id)}
       className="feed-item_container"
       onClick={() => setScrollY(window.scrollY)}
     >
