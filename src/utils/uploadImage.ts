@@ -22,7 +22,7 @@ export const uploadFile = (file: any, cate: string): Promise<unknown> => {
   const params: AWS.S3.PutObjectRequest = {
     ACL: 'public-read',
     Body: file,
-    Bucket: S3_BUCKET,
+    Bucket: S3_BUCKET as string,
     Key: `${cate}/${v1().toString().replace('-', '')}.${
       file.type.split('/')[1]
     }`,
