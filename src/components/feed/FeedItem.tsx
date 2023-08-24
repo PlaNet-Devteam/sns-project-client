@@ -101,7 +101,6 @@ const FeedItem = ({ item }: FeedItemProps) => {
             isModalOpen={isImgModalOpen}
             onClickCloseModal={() => {
               setIsImgModalOpen(false);
-              console.log('tlqkf');
             }}
           >
             <FeedImgModal feedImage={item.feedImages} />
