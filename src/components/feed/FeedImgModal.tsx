@@ -22,16 +22,14 @@ const FeedImgModal = ({ feedImage }: FeedImgProps) => {
       setCurrentSlide(currentSlide - 1);
     }
   };
+  const CarouselSlideNum = currentSlide * (100 / feedImage.length);
   useEffect(() => {
     if (slideRef.current) {
       slideRef.current.style.transition = 'all 0.1s ease-in-out';
-      slideRef.current.style.transform = `translateX(-${
-        currentSlide * (100 / feedImage.length)
-      }%)`;
+      slideRef.current.style.transform = `translateX(-${CarouselSlideNum}%)`;
     }
   }, [currentSlide]);
-  console.log('총 이미지 수' + feedImage.length);
-  console.log('현재 슬라이드 ' + currentSlide);
+
   return (
     <div className="Modal__container">
       <AiOutlineLeft className="Front-Btn" onClick={prevSlide} />

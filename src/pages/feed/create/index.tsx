@@ -1,134 +1,157 @@
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { TiDelete } from 'react-icons/ti';
-import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
-import { useRecoilState } from 'recoil';
+import { AiOutlineCamera } from 'react-icons/ai';
+import { useRouter } from 'next/router';
+import { useMutation } from '@tanstack/react-query';
+import { FormEvent } from 'react';
 import { uploadFile } from '@/utils/uploadImage';
 import FeedHeader from '@/components/feed/FeedHeader';
-import { feedImageState } from '@/store/feedState';
-import { FeedImageType } from '@/core/types/feed';
-import Photo from '../../../assets/feed/Photo.svg';
+import { FeedCreateType, FeedImageType } from '@/core/types/feed';
+import useForm from '@/hooks/useForm';
+import { FEED_STATUS } from '@/core/enum/feed';
+import FeedService from '@/services/feed';
+import Button from '@/components/common/Button';
 
 function CreateFeed() {
-  const [imageList, setImageList] =
-    useRecoilState<FeedImageType[]>(feedImageState);
-  const [count, setCount] = useState(0);
+  const router = useRouter();
+  const [imageList, setImageList] = useState<FeedImageType[]>([]);
   const orderIndex = useRef<number>(0);
 
-  const onClickUploadImageHandler = async (event: any) => {
-    const file = event.target.files?.[0];
-    const imaegUrl: unknown = await uploadFile(file, 'feed');
-    if (!file) return;
+  const { formData: feedCreate, onChange } = useForm<FeedCreateType>({
+    userId: 1,
+    description: '',
+    feedImages: imageList,
+    status: FEED_STATUS.ACTIVE,
+  });
 
-    console.log('imaegUrl', imaegUrl);
+  const { mutateAsync } = useMutation((formData: FeedCreateType) =>
+    FeedService.createFeed(formData),
+  );
 
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (event: any) => {
+  const onSubmitForm = async (
+    event: FormEvent<HTMLFormElement>,
+    formData: FeedCreateType,
+  ) => {
+    event.preventDefault();
+
+    if (imageList?.length === 0) {
+      alert('사진을 첨부해주세요.');
+      return;
+    }
+
+    try {
+      await mutateAsync({
+        ...formData,
+        feedImages: imageList,
+      });
+      router.push('/feed');
+      setImageList([]);
+    } catch (error: any) {
+      console.log('error?.response', error?.response);
+    }
+  };
+  console.log(imageList);
+
+  const onClickUploadImageHandler = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const imageLists = event.target.files || [];
+
+    let imageUrlLists = [...imageList];
+
+    for (let i = 0; i < imageLists.length; i++) {
+      const currentImageUrl: unknown = await uploadFile(imageLists[i], 'feed');
       const result: FeedImageType = {
         sortOrder: orderIndex.current,
-        image: imaegUrl as string,
+        image: currentImageUrl as string,
       };
-      setImageList((prev) => [...prev, result]);
-      orderIndex.current++;
-      console.log('imageList', imageList);
-    };
-    setCount(imageList?.length);
+      imageUrlLists = [...imageUrlLists, result];
+    }
+
+    if (imageUrlLists.length > 5) {
+      imageUrlLists = imageUrlLists.slice(0, 5);
+      alert('최대 5장까지 가능합니다.');
+    }
+
+    setImageList(imageUrlLists);
+    orderIndex.current++;
   };
 
   const onClickRemoveImageHandler = (index: number) => {
-    const result = JSON.parse(JSON.stringify(imageList));
-    result.splice(index, 1);
-    setImageList(result);
-
-    if (result.length === 0) {
-      setCount(0);
-    } else if (count === result.length) {
-      setCount((prev) => prev - 1);
-    }
-  };
-
-  const onClickLeftButtonHandler = () => {
-    if (imageList.length === 0) {
-      return;
-    } else if (count - 1 >= 0) {
-      setCount((prev) => prev - 1);
-    }
-  };
-
-  const onClickRightButtonHandler = () => {
-    if (count == imageList.length - 1) {
-      return;
-    } else if (count < imageList.length - 1) {
-      setCount((prev) => prev + 1);
-    }
+    setImageList((prev) => prev.filter((_, idx) => idx !== index));
   };
 
   return (
     <div className="feed-create">
       <div className="feed-create-form inner__container">
-        <FeedHeader
-          title="새 게시물"
-          next="다음"
-          nextColor={true}
-          nextLink="create/description"
-        />
-        {imageList?.[0] ? (
-          <div className="feed-create-form-image">
-            <div className="feed-create-form-image__button">
-              {count > 0 ? (
-                <button onClick={onClickLeftButtonHandler}>
-                  <AiOutlineLeft size={48} color="white" />
-                </button>
-              ) : null}
-            </div>
-            <div>
-              <div className="feed-create-form-image-upload">
-                <div className="feed-create-form-image__button--delete">
-                  <button onClick={() => onClickRemoveImageHandler(count)}>
-                    <TiDelete size={36} color="white" />
-                  </button>
-                </div>
-                <Image
-                  key={count}
-                  src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${imageList[count]?.image}`}
-                  width={200}
-                  height={200}
-                  alt="image"
-                />
-              </div>
-            </div>
-            <div className="feed-create-form-image__button">
-              {count < imageList?.length - 1 ? (
-                <button onClick={onClickRightButtonHandler}>
-                  <AiOutlineRight size={48} color="white" />
-                </button>
-              ) : null}
-            </div>
-          </div>
-        ) : (
-          <div className="feed-create-form-image-blank">
-            <Photo />
-            <span className="feed-create-form-image-text">
-              이미지를 추가해주세요.
-            </span>
-          </div>
-        )}
+        <FeedHeader title="새 게시물" />
+
         <div className="feed-create-form-input">
-          <label
-            htmlFor="file"
-            className="feed-create-form-input__label button button button-size--md button-bg--primary button-size--fill button-text--english"
-          >
-            Add Your Photo
-          </label>
+          <div className="feed-create-form-input__label">
+            <label
+              htmlFor="file"
+              className="button button-size--sm button-bg--ghost button-text--english"
+            >
+              <AiOutlineCamera
+                size={24}
+                className="feed-create-form-input__button-icon"
+              />
+              사진첨부하기
+            </label>
+          </div>
           <input
             id="file"
             type="file"
             accept="image/*"
+            multiple={true}
             className="feed-create-form-input__input"
             onInput={onClickUploadImageHandler}
           />
         </div>
+        <div className="feed-create-form-image-upload">
+          {imageList &&
+            imageList.map((image, index) => (
+              <div className="feed-create-form-image">
+                <div className="feed-create-form-image__button--delete">
+                  <button onClick={() => onClickRemoveImageHandler(index)}>
+                    <TiDelete size={24} color="black" />
+                  </button>
+                </div>
+                <div className="feed-create-form-image-upload__image">
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`}
+                    key={image.sortOrder}
+                    width={100}
+                    height={100}
+                    alt="image"
+                  />
+                </div>
+              </div>
+            ))}
+        </div>
+        <form
+          className="feed-create-form-content"
+          onSubmit={(event) => onSubmitForm(event, feedCreate)}
+        >
+          <textarea
+            className="feed-create-form__textarea"
+            name="description"
+            placeholder="내용을 입력해주세요."
+            value={feedCreate.description}
+            onChange={onChange}
+          />
+          <Button
+            size="md"
+            variant="primary"
+            type="submit"
+            isEnglish
+            isFull
+            className="feed-create-form-complete__button"
+          >
+            완료
+          </Button>
+        </form>
       </div>
     </div>
   );

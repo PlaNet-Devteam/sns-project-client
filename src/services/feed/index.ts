@@ -26,6 +26,10 @@ const FeedService = {
     const { data } = await api.post('/feed', formData);
     return data.data;
   },
+  deleteFeed: async (feedId: number) => {
+    const { data } = await api.delete(`/feed/${feedId}`);
+    return data;
+  },
 };
 
 export default FeedService;
