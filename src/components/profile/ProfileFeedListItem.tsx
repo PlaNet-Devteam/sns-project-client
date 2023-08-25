@@ -10,9 +10,14 @@ interface ProfileFeedListItemProps {
 
 function ProfileFeedListItem({ item }: ProfileFeedListItemProps) {
   const router = useRouter();
-
   const handleClickListItem = () => {
-    router.push(`${router.query.username}/feed`);
+    router.push(
+      {
+        pathname: '/[username]/feed',
+        query: { username: router.query.username },
+      },
+      `/${router.query.username}/feed#${item.id}`,
+    );
   };
 
   return (

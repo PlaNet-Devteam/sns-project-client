@@ -1,6 +1,7 @@
 @use './feed-create';
 @use './feed-create-header';
 @use '../feed/[id]' as c;
+@use './feed-modal';
 
 @import '../../utils/';
 

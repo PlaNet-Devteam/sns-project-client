@@ -10,6 +10,8 @@ import FeedService from '@/services/feed';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Dialog from '../dialog/Dialog';
 import LoadingSpinner from '../common/LoadingSpinner';
+import Modal from '../common/Modal';
+import FeedImgModal from './FeedImgModal';
 
 interface FeedItemProps {
   item: FeedType;
@@ -20,6 +22,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
     `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${item.user?.profileImage}`,
   );
   const [scrollY, setScrollY] = useLocalStorage('scroll_location', 0);
+  const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const router = useRouter();
   const handlecommentbutton = () => {
     router.push(`/comment/${item.id}`);
@@ -50,6 +53,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
   return (
     <>
       <div
+        id={String(item.id)}
         className="feed-item_container"
         onClick={() => setScrollY(window.scrollY)}
       >
@@ -92,9 +96,24 @@ const FeedItem = ({ item }: FeedItemProps) => {
             </div>
           </div>
           <div className="feed_text">{item.description}</div>
-          {item.feedImages && item.feedImages.length > 0 && (
-            <FeedImg feedImages={item.feedImages} />
-          )}
+          <Modal
+            headerText={item.user?.nickname}
+            isModalOpen={isImgModalOpen}
+            onClickCloseModal={() => {
+              setIsImgModalOpen(false);
+            }}
+          >
+            <FeedImgModal feedImage={item.feedImages} />
+          </Modal>
+          <div
+            onClick={() => {
+              setIsImgModalOpen(true);
+            }}
+          >
+            {item.feedImages && item.feedImages.length > 0 && (
+              <FeedImg feedImages={item.feedImages} />
+            )}
+          </div>
           <div className="subscription_text_container">
             <div>좋아요 {item.likeCount}개</div>
             <div>댓글 {item.commentCount}개 공유 0회</div>
