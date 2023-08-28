@@ -37,21 +37,24 @@ export const useInfinityScroll = (
     }
   };
 
-  const { data, fetchNextPage, isFetchingNextPage, status } = useInfiniteQuery(
-    [FeedDataClassification],
-    ({ pageParam = 1 }) =>
-      FetchFeedData(FeedDataClassification, pageParam, username),
-    {
-      getNextPageParam: (lastPage) => {
-        if (!lastPage.pageInfo.isLast) return lastPage.pageInfo.page + 1;
-        return undefined;
+  const { data, fetchNextPage, isFetchingNextPage, status, hasNextPage } =
+    useInfiniteQuery(
+      [FeedDataClassification],
+      ({ pageParam = 1 }) =>
+        FetchFeedData(FeedDataClassification, pageParam, username),
+      {
+        getNextPageParam: (lastPage) => {
+          if (!lastPage.pageInfo.isLast) return lastPage.pageInfo.page + 1;
+          return undefined;
+        },
       },
-    },
-  );
+    );
 
   const onIntersect: IntersectionObserverCallback = ([entry]) => {
     if (entry.isIntersecting && status === 'success') {
-      fetchNextPage();
+      if (data.pages[data.pages.length - 1].items.length > 0 && hasNextPage) {
+        fetchNextPage();
+      }
     }
   };
 
@@ -60,5 +63,5 @@ export const useInfinityScroll = (
     target: bottom,
     onIntersect,
   });
-  return { data, isFetchingNextPage, status, bottom };
+  return { data, isFetchingNextPage, status, bottom, hasNextPage };
 };
