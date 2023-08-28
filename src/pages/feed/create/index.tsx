@@ -23,6 +23,51 @@ function CreateFeed() {
   const router = useRouter();
   const [imageList, setImageList] = useState<FeedFileType[]>([]);
   const orderIndex = useRef<number>(0);
+  const scrollRef = useRef<any>(null);
+  const [isDrag, setIsDrag] = useState<boolean>(false);
+  const [startX, setStartX] = useState<number>(0);
+
+  const onDragStart = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (scrollRef.current) {
+      setIsDrag(true);
+      setStartX(e.pageX + scrollRef.current?.scrollLeft);
+    }
+  };
+
+  const onDragEnd = () => {
+    setIsDrag(false);
+  };
+
+  const onDragMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isDrag) {
+      const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
+
+      scrollRef.current.scrollLeft = startX - e.pageX;
+
+      if (scrollLeft === 0) {
+        setStartX(e.pageX);
+      } else if (scrollWidth <= clientWidth + scrollLeft) {
+        setStartX(e.pageX + scrollLeft);
+      }
+    }
+  };
+
+  const throttle = (func: any, ms: number) => {
+    let throttled = false;
+    return (...args: any[]) => {
+      if (!throttled) {
+        throttled = true;
+        setTimeout(() => {
+          func(...args);
+          throttled = false;
+        }, ms);
+      }
+    };
+  };
+
+  const delay = 100;
+  const onThrottleDragMove = throttle(onDragMove, delay);
 
   const { formData: feedCreate, onChange } = useForm<FeedCreateType>({
     userId: 1,
@@ -34,7 +79,7 @@ function CreateFeed() {
   const { mutateAsync } = useMutation((formData: FeedCreateType) =>
     FeedService.createFeed(formData),
   );
-  console.log(imageList);
+
   const onSubmitForm = async (
     event: FormEvent<HTMLFormElement>,
     formData: FeedCreateType,
@@ -128,7 +173,14 @@ function CreateFeed() {
             onInput={onClickUploadImageHandler}
           />
         </div>
-        <div className="feed-create-form-image-upload">
+        <div
+          className="feed-create-form-image-upload"
+          onMouseDown={onDragStart}
+          onMouseUp={onDragEnd}
+          onMouseLeave={onDragEnd}
+          onMouseMove={isDrag ? onThrottleDragMove : undefined}
+          ref={(e) => (scrollRef.current = e)}
+        >
           {imageList &&
             imageList.map((image, index) => (
               <div className="feed-create-form-image">
