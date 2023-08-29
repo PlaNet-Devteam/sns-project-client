@@ -12,6 +12,7 @@ import useForm from '@/hooks/useForm';
 import { FEED_STATUS } from '@/core/enum/feed';
 import FeedService from '@/services/feed';
 import Button from '@/components/common/Button';
+import useMouseDrag from '@/hooks/useMouseDrag';
 
 export interface FeedFileType {
   sortOrder: number;
@@ -24,50 +25,8 @@ function CreateFeed() {
   const [imageList, setImageList] = useState<FeedFileType[]>([]);
   const orderIndex = useRef<number>(0);
   const scrollRef = useRef<any>(null);
-  const [isDrag, setIsDrag] = useState<boolean>(false);
-  const [startX, setStartX] = useState<number>(0);
-
-  const onDragStart = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    if (scrollRef.current) {
-      setIsDrag(true);
-      setStartX(e.pageX + scrollRef.current?.scrollLeft);
-    }
-  };
-
-  const onDragEnd = () => {
-    setIsDrag(false);
-  };
-
-  const onDragMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (isDrag) {
-      const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
-
-      scrollRef.current.scrollLeft = startX - e.pageX;
-
-      if (scrollLeft === 0) {
-        setStartX(e.pageX);
-      } else if (scrollWidth <= clientWidth + scrollLeft) {
-        setStartX(e.pageX + scrollLeft);
-      }
-    }
-  };
-
-  const throttle = (func: any, ms: number) => {
-    let throttled = false;
-    return (...args: any[]) => {
-      if (!throttled) {
-        throttled = true;
-        setTimeout(() => {
-          func(...args);
-          throttled = false;
-        }, ms);
-      }
-    };
-  };
-
-  const delay = 100;
-  const onThrottleDragMove = throttle(onDragMove, delay);
+  const { isDrag, onDragStart, onDragEnd, onThrottleDragMove } =
+    useMouseDrag(scrollRef);
 
   const { formData: feedCreate, onChange } = useForm<FeedCreateType>({
     userId: 1,
