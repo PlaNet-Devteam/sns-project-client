@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
+import Carousel from './Carousel';
 interface FeedImgProps {
   feedImage: any;
 }
@@ -31,23 +32,26 @@ const FeedImgModal = ({ feedImage }: FeedImgProps) => {
   }, [currentSlide]);
 
   return (
-    <div className="Modal__container">
-      <AiOutlineLeft className="Front-Btn" onClick={prevSlide} />
-      <div className="Carousel__container">
-        <div className="Img__container" ref={slideRef}>
-          {feedImage.map((image: any) => (
-            <Image
-              src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`}
-              className="Carousel__Img"
-              alt="modal-img"
-              width={1000}
-              height={1000}
-            />
-          ))}
-        </div>
-      </div>
-      <AiOutlineRight className="Back-Btn" onClick={nextSlide} />
-    </div>
+    // <div className="Modal__container">
+    //   <AiOutlineLeft className="Front-Btn" onClick={prevSlide} />
+    //   <div className="Carousel__container">
+    //     <div className="Img__container" ref={slideRef}>
+    //       {feedImage.map((image: any) => (
+    //         <Image
+    //           src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`}
+    //           className="Carousel__Img"
+    //           alt="modal-img"
+    //           width={1000}
+    //           height={1000}
+    //         />
+    //       ))}
+    //     </div>
+    //   </div>
+    //   <AiOutlineRight className="Back-Btn" onClick={nextSlide} />
+    // </div>
+    <>
+      <Carousel feedImage={feedImage} />
+    </>
   );
 };
 export default FeedImgModal;

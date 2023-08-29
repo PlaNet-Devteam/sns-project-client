@@ -1,7 +1,8 @@
-.Modal__container {
+.Main__container {
   display: flex;
   flex-direction: row;
   align-items: center;
+  overflow: hidden;
 }
 .Carousel__container {
   width: 90%;
@@ -16,7 +17,7 @@
 }
 
 .Carousel__Img {
-  width: 280px;
+  width: 312px;
   height: 100%;
   display: flex;
 }
