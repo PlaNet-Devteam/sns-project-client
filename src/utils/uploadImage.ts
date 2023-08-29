@@ -5,7 +5,7 @@ import { v1 } from 'uuid';
 const ACCESS_KEY = process.env.NEXT_PUBLIC_AWS_ACCESS_KEY;
 const SECRET_KEY = process.env.NEXT_PUBLIC_AWS_SECRET_KEY;
 const REGION = 'ap-northeast-2';
-const S3_BUCKET = 'planet-client';
+const S3_BUCKET = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME as string;
 
 AWS.config.update({
   accessKeyId: ACCESS_KEY,
@@ -22,7 +22,7 @@ export const uploadFile = (file: any, cate: string): Promise<unknown> => {
   const params: AWS.S3.PutObjectRequest = {
     ACL: 'public-read',
     Body: file,
-    Bucket: S3_BUCKET,
+    Bucket: S3_BUCKET as string,
     Key: `${cate}/${v1().toString().replace('-', '')}.${
       file.type.split('/')[1]
     }`,

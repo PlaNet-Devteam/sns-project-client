@@ -1,38 +1,43 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
+  <img src="https://avatars.githubusercontent.com/u/130982389?s=200&v=4" width="100px" height="100px"/>
+  <h2>PlaNet-Devteam</h2>
+  <b>🚀 우주 테마 소셜 네트워크 PlaNet 🚀</b>
+</div>
+  <br/>
+<div align="center">
 
-## Getting Started
+| <img src="https://avatars.githubusercontent.com/u/96197310?v=4" width="200px" height="200px"> | <img src="https://avatars.githubusercontent.com/u/52031484?v=4" width="200px" height="200px"> | <img src="https://avatars.githubusercontent.com/u/101001956?v=4" width="200px" height="200px"> | <img src="https://avatars.githubusercontent.com/u/67294348?v=4" width="200px" height="200px"> |
+| :-------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------: |
+|                   [강명주<br/>(@myungju030)](https://github.com/myungju030)                   |                   [김보라<br/>(@rockbell89)](https://github.com/rockbell89)                   |                 [정민상<br/>(@jeongminsang)](https://github.com/jeongminsang)                  |                      [이민형<br/>(@lsx2003)](https://github.com/lsx2003)                      |
 
-First, run the development server:
+</div>
+<br/>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Contents
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [🔗 Git](#git)
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+<br/>
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Git
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Branch
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- main : 서비스 운영 브랜치
+- dev : 개발중인 브랜치
+- feat/기능명 : 기능 개발 브랜치
 
-## Learn More
+<br/>
 
-To learn more about Next.js, take a look at the following resources:
+### Commit Message
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+| Message  |                             설명                             |
+| :------: | :----------------------------------------------------------: |
+|   init   |                          초기 설정                           |
+|   feat   |                       새로운 기능 추가                       |
+|   fix    |                          버그 수정                           |
+|   docs   |                          문서 수정                           |
+| refactor |                        코드 리팩터링                         |
+|   test   | 테스트 코드, 리팩터링 테스트 코드 추가(프로덕션 코드 변경 X) |
+|  chore   |   빌드 업무 수정, 패키지 매니저 수정(프로덕션 코드 변경 X)   |
+|  rename  |      파일 혹은 폴더명을 수정하거나 옮기는 작업만인 경우      |
