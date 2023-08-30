@@ -22,8 +22,8 @@ const Feed = () => {
 
   const {
     data: AdditionalFeedData,
-    isFetchingNextPage,
     status,
+    hasNextPage,
     bottom,
   } = useInfinityScroll('newFeeds');
 
@@ -61,7 +61,7 @@ const Feed = () => {
       <div ref={bottom} />
 
       <div className="spinner_container">
-        {status === 'success' && isFetchingNextPage ? (
+        {status === 'success' && !hasNextPage === undefined ? (
           <ImSpinner6 className="spinner" />
         ) : null}
       </div>
