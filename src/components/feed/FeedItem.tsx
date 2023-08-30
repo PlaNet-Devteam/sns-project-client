@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FeedType } from '@/core/types/feed';
 import FeedImg from '@/components/feed/FeedImg';
 import FeedService from '@/services/feed';
@@ -18,6 +18,8 @@ interface FeedItemProps {
 }
 
 const FeedItem = ({ item }: FeedItemProps) => {
+  const queryClient = useQueryClient();
+
   const [imgSrc, setImgSrc] = useState(
     `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${item.user?.profileImage}`,
   );
@@ -34,20 +36,17 @@ const FeedItem = ({ item }: FeedItemProps) => {
     setIsModalOpen((prevState) => !prevState);
   };
 
-  const { mutateAsync, isLoading } = useMutation((feedId: number) => {
-    if (feedId !== undefined) {
-      return FeedService.deleteFeed(feedId);
-    }
-    return Promise.reject(new Error('피드가 존재하지 않습니다'));
+  const deleteFeedItemMutation = useMutation({
+    mutationKey: ['delete-feed', item.id],
+    mutationFn: (feedId: number) => FeedService.deleteFeed(feedId),
+    onSuccess: () => {
+      setIsModalOpen(false);
+      return queryClient.invalidateQueries(['feeds']);
+    },
   });
 
   const handleDeleteFeedItem = async (feedId: number) => {
-    try {
-      await mutateAsync(feedId);
-      setIsModalOpen(false);
-    } catch (error: any) {
-      console.log('error?.response', error?.response);
-    }
+    deleteFeedItemMutation.mutate(feedId);
   };
 
   return (
@@ -141,7 +140,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
           삭제
         </Dialog.LabelButton>
       </Dialog>
-      {isLoading && <LoadingSpinner />}
+      {deleteFeedItemMutation.isLoading && <LoadingSpinner />}
     </>
   );
 };
