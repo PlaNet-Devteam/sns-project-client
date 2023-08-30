@@ -50,6 +50,12 @@ const FeedItem = ({ item }: FeedItemProps) => {
     }
   };
 
+  const openModalIfImgCnt = () => {
+    if (item.feedImages) {
+      item.feedImages.length > 1 ? setIsImgModalOpen(true) : null;
+    }
+  };
+
   return (
     <>
       <div
@@ -105,11 +111,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
           >
             <FeedImgModal feedImage={item.feedImages} />
           </Modal>
-          <div
-            onClick={() => {
-              setIsImgModalOpen(true);
-            }}
-          >
+          <div onClick={openModalIfImgCnt}>
             {item.feedImages && item.feedImages.length > 0 && (
               <FeedImg feedImages={item.feedImages} />
             )}
