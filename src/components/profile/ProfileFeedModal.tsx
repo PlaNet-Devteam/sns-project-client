@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import 'dayjs/locale/ko';
 import router from 'next/router';
+import { formattedDate } from '@/utils/formattedDate';
 import Carousel from '../feed/Carousel';
 
 const ProfileFeedModal = (feedItem: any) => {
@@ -13,6 +15,11 @@ const ProfileFeedModal = (feedItem: any) => {
   const handlecommentbutton = () => {
     router.push(`/comment/${feedItem.feedItem.id}`);
   };
+
+  const convertedDate = formattedDate()(
+    feedItem.feedItem.updatedAt || feedItem.feedItem.createdAt,
+  );
+
   return (
     <>
       <div className="feed-modal_container">
@@ -42,9 +49,7 @@ const ProfileFeedModal = (feedItem: any) => {
                 <div>
                   <div>{feedItem.feedItem.user?.nickname}</div>
                 </div>
-                <div className="upload_time">
-                  {feedItem.feedItem.updatedAt || feedItem.feedItem.createdAt}
-                </div>
+                <div className="upload_time">{convertedDate}</div>
               </div>
               <BsThreeDotsVertical onClick={handleModalOpen} />
             </div>

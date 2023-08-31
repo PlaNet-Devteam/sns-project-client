@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { FeedType } from '@/core/types/feed';
 import FeedImg from '@/components/feed/FeedImg';
 import FeedService from '@/services/feed';
+import { formattedDate } from '@/utils/formattedDate';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Dialog from '../dialog/Dialog';
 import LoadingSpinner from '../common/LoadingSpinner';
@@ -56,6 +57,8 @@ const FeedItem = ({ item }: FeedItemProps) => {
     }
   };
 
+  const convertedDate = formattedDate()(item.updatedAt || item.createdAt);
+
   return (
     <>
       <div
@@ -94,9 +97,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
                     {item.user?.nickname}
                   </Link>
                 </div>
-                <div className="upload_time">
-                  {item.updatedAt || item.createdAt}
-                </div>
+                <div className="upload_time">{convertedDate}</div>
               </div>
               <BsThreeDotsVertical onClick={handleModalOpen} />
             </div>
