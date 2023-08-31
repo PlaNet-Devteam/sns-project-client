@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import 'dayjs/locale/ko';
 import router from 'next/router';
 import { formattedDate } from '@/utils/formattedDate';
 import Carousel from '../feed/Carousel';
