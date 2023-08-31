@@ -24,12 +24,6 @@ const Login = () => {
     rememberMe: true,
   });
 
-  // const {
-  //   formData: authLogin,
-  //   onChange,
-  //   onReset,
-  // } = useForm(new AuthLoginDto());
-
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState([]);
   const [_, setUsername] = useLocalStorage<string>('username', '');
@@ -59,7 +53,7 @@ const Login = () => {
 
   return (
     <div className="login grid">
-      {isLoading && <LoadingSpinner />}
+      {/* {isLoading && <LoadingSpinner />} */}
       <div className="layout__container content-area">
         <div className="middle-area">
           <div className="form-area">
@@ -99,6 +93,7 @@ const Login = () => {
                       value={authLogin.password}
                       placeholder="비밀번호"
                       onChange={onChange}
+                      autoComplete="off"
                     />
                   </div>
                 </div>
