@@ -15,7 +15,7 @@ const FeedService = {
     username: string | string[] | undefined,
     listData?: FeedListType,
   ) => {
-    const { data } = await api.get(`/feed/${username}`, {
+    const { data } = await api.get(`/feed/user/${username}`, {
       params: {
         ...listData,
       },

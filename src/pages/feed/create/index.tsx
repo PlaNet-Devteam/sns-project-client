@@ -12,11 +12,21 @@ import useForm from '@/hooks/useForm';
 import { FEED_STATUS } from '@/core/enum/feed';
 import FeedService from '@/services/feed';
 import Button from '@/components/common/Button';
+import useMouseDrag from '@/hooks/useMouseDrag';
+
+export interface FeedFileType {
+  sortOrder: number;
+  image: string;
+  file: unknown;
+}
 
 function CreateFeed() {
   const router = useRouter();
-  const [imageList, setImageList] = useState<FeedImageType[]>([]);
+  const [imageList, setImageList] = useState<FeedFileType[]>([]);
   const orderIndex = useRef<number>(0);
+  const scrollRef = useRef<any>(null);
+  const { isDrag, onDragStart, onDragEnd, onThrottleDragMove } =
+    useMouseDrag(scrollRef);
 
   const { formData: feedCreate, onChange } = useForm<FeedCreateType>({
     userId: 1,
@@ -41,9 +51,22 @@ function CreateFeed() {
     }
 
     try {
+      let imageUrlLists: FeedImageType[] = [];
+      for (let i = 0; i < imageList.length; i++) {
+        const currentImageUrl: unknown = await uploadFile(
+          imageList[i].file,
+          'feed',
+        );
+        const result: FeedImageType = {
+          sortOrder: imageList[i].sortOrder,
+          image: currentImageUrl as string,
+        };
+        imageUrlLists = [...imageUrlLists, result];
+      }
+
       await mutateAsync({
         ...formData,
-        feedImages: imageList,
+        feedImages: imageUrlLists,
       });
       router.push('/feed');
       setImageList([]);
@@ -51,7 +74,6 @@ function CreateFeed() {
       console.log('error?.response', error?.response);
     }
   };
-  console.log(imageList);
 
   const onClickUploadImageHandler = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -61,21 +83,22 @@ function CreateFeed() {
     let imageUrlLists = [...imageList];
 
     for (let i = 0; i < imageLists.length; i++) {
-      const currentImageUrl: unknown = await uploadFile(imageLists[i], 'feed');
-      const result: FeedImageType = {
-        sortOrder: orderIndex.current,
+      const currentImageUrl = URL.createObjectURL(imageLists[i]);
+      const result: FeedFileType = {
+        sortOrder: orderIndex.current++,
         image: currentImageUrl as string,
+        file: imageLists[i],
       };
       imageUrlLists = [...imageUrlLists, result];
     }
 
     if (imageUrlLists.length > 5) {
       imageUrlLists = imageUrlLists.slice(0, 5);
+
       alert('최대 5장까지 가능합니다.');
     }
 
     setImageList(imageUrlLists);
-    orderIndex.current++;
   };
 
   const onClickRemoveImageHandler = (index: number) => {
@@ -109,7 +132,14 @@ function CreateFeed() {
             onInput={onClickUploadImageHandler}
           />
         </div>
-        <div className="feed-create-form-image-upload">
+        <div
+          className="feed-create-form-image-upload"
+          onMouseDown={onDragStart}
+          onMouseUp={onDragEnd}
+          onMouseLeave={onDragEnd}
+          onMouseMove={isDrag ? onThrottleDragMove : undefined}
+          ref={(e) => (scrollRef.current = e)}
+        >
           {imageList &&
             imageList.map((image, index) => (
               <div className="feed-create-form-image">
@@ -120,7 +150,7 @@ function CreateFeed() {
                 </div>
                 <div className="feed-create-form-image-upload__image">
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`}
+                    src={image.image}
                     key={image.sortOrder}
                     width={100}
                     height={100}
