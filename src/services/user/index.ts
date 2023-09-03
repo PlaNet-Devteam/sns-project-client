@@ -6,6 +6,10 @@ const UserService = {
     const { data } = await api.get(USER_API.FIND_ME);
     return data.data;
   },
+  findUserByUsername: async (username: string) => {
+    const { data } = await api.get(`/user/username/${username}`);
+    return data.data;
+  },
   createUser: async (formData: UserCreateType) => {
     const { data } = await api.post(USER_API.USER, formData);
     return data.data;

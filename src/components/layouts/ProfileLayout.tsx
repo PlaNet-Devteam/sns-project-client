@@ -9,21 +9,27 @@ import JwtStorageService, {
 } from '@/core/utils/jwt-storage';
 import UserService from '@/services/user';
 import { userState } from '@/store/userAtom';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 import ProfileInfo from '../profile/ProfileInfo';
 import ProfileCount from '../profile/ProfileCount';
 import ProfileFeedTabs from '../profile/ProfileFeedTabs';
 import Button from '../common/Button';
-import ButtonGroup from '../common/ButtonGroup';
 import TopHeader from '../nav/topHeader/TopHeader';
 
 const ProfileLayout = ({ children }: BaseProps) => {
   const router = useRouter();
+  const [username, _] = useLocalStorage('username', '');
   const setUser = useSetRecoilState(userState);
-  const { data: profile } = useQuery(['user'], () => UserService.getFindMe());
+  const { data: profile } = useQuery(['user', router.query.username], () =>
+    UserService.findUserByUsername(
+      (router.query.username as string) || username,
+    ),
+  );
 
   const onLogoutHandler = () => {
     JwtStorageService.removeToken(ACCESS_TOKEN);
     JwtStorageService.removeToken(REFRESH_TOKEN);
+    localStorage.removeItem('username');
     router.replace('/login');
   };
 
@@ -41,24 +47,33 @@ const ProfileLayout = ({ children }: BaseProps) => {
           <h1 className="blind">프로필</h1>
         </TopHeader.Title>
         <TopHeader.Right>
-          <button onClick={() => router.push('/profile/edit')}>편집</button>
+          {profile && (
+            <>
+              {username === profile.username && (
+                <button onClick={() => router.push('/profile/edit')}>
+                  편집
+                </button>
+              )}
+            </>
+          )}
         </TopHeader.Right>
       </TopHeader>
       {profile && (
         <div className="profile-layout">
           <ProfileInfo profile={profile} />
-
-          <div className="text-center">
-            <Button
-              size="sm"
-              variant="primary"
-              type="button"
-              isEnglish
-              onClick={onLogoutHandler}
-            >
-              LOGOUT
-            </Button>
-          </div>
+          {username === profile.username && (
+            <div className="text-center">
+              <Button
+                size="sm"
+                variant="primary"
+                type="button"
+                isEnglish
+                onClick={onLogoutHandler}
+              >
+                LOGOUT
+              </Button>
+            </div>
+          )}
           <ProfileCount profile={profile} />
           <section className="profile-feeds">
             <ProfileFeedTabs />
