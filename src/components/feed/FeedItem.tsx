@@ -8,6 +8,7 @@ import { useRecoilValue } from 'recoil';
 import { FeedType } from '@/core/types/feed';
 import FeedImg from '@/components/feed/FeedImg';
 import FeedService from '@/services/feed';
+import { formattedDate } from '@/utils/formattedDate';
 import { userState } from '@/store/userAtom';
 import { UserType } from '@/core';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
@@ -54,6 +55,14 @@ const FeedItem = ({ item }: FeedItemProps) => {
     deleteFeedItemMutation.mutate(feedId);
   };
 
+  const openModalIfImgCnt = () => {
+    if (item.feedImages) {
+      item.feedImages.length > 1 ? setIsImgModalOpen(true) : null;
+    }
+  };
+
+  const convertedDate = formattedDate()(item.updatedAt || item.createdAt);
+
   return (
     <>
       <div
@@ -92,9 +101,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
                     {item.user?.nickname}
                   </Link>
                 </div>
-                <div className="upload_time">
-                  {item.updatedAt || item.createdAt}
-                </div>
+                <div className="upload_time">{convertedDate}</div>
               </div>
               <BsThreeDotsVertical onClick={handleModalOpen} />
             </div>
@@ -109,11 +116,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
           >
             <FeedImgModal feedImage={item.feedImages} />
           </Modal>
-          <div
-            onClick={() => {
-              setIsImgModalOpen(true);
-            }}
-          >
+          <div onClick={openModalIfImgCnt}>
             {item.feedImages && item.feedImages.length > 0 && (
               <FeedImg feedImages={item.feedImages} />
             )}
