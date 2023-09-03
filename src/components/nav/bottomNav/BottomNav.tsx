@@ -1,4 +1,6 @@
 import React from 'react';
+import { useRecoilValue } from 'recoil';
+
 import IconNavFeed from '@/assets/icons/icon_nav_feed.svg';
 import IconNavExplore from '@/assets/icons/icon_nav_explore.svg';
 import IconNavAdd from '@/assets/icons/icon_nav_add.svg';
@@ -6,10 +8,13 @@ import IconNavDM from '@/assets/icons/icon_nav_dm.svg';
 import IconNavProfile from '@/assets/icons/icon_nav_profile.svg';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useIsScrolling } from '@/hooks/useIsScrolling';
+import { userState } from '@/store/userAtom';
+import { UserType } from '@/core';
 import BottomNavItem from './BottomNavItem';
 
 const BottomNav = () => {
-  const [username] = useLocalStorage('username', '');
+  const user = useRecoilValue<UserType | null>(userState);
+  const [username] = useLocalStorage('username', user?.username);
 
   const bottmNavRoutes = [
     {

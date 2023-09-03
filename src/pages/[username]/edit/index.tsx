@@ -49,7 +49,7 @@ function ProfileEdit() {
     event.preventDefault();
     try {
       await mutateAsync(formData);
-      router.push('/profile');
+      router.back();
     } catch (error: any) {
       console.log('error?.response', error?.response);
       setErrorMessage(error?.response?.data.message);
