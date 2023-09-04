@@ -29,7 +29,7 @@ export const uploadFile = (
     Bucket: S3_BUCKET as string,
     Key: `${cate}/${v1().toString().replace('-', '')}-${dayjs(
       new Date(),
-    ).format('YY-MM-DD-h-m-s')}.${file.type.split('/')[1]}`,
+    ).format('YYMMDD-hhmmss')}.${file.type.split('/')[1]}`,
   };
 
   const uploadToS3 = () => {
