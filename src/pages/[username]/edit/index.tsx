@@ -10,7 +10,7 @@ import {
   genderTransformer,
 } from '@/core';
 import useForm from '@/hooks/useForm';
-import LoadingSpinner from '@/components/common/LoadingLayer';
+// import LoadingLayer from '@/components/common/LoadingLayer';
 import Button from '@/components/common/Button';
 import ErrorMessage from '@/components/common/ErrorMessage';
 import ButtonGroup from '@/components/common/ButtonGroup';
@@ -18,6 +18,7 @@ import UserService from '@/services/user';
 import { userState } from '@/store/userAtom';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
 import ProfileImage from '@/components/profile/ProfileImage';
+import { AxiosErrorResponseType } from '@/core/types/error/axios-error-response.type';
 
 const genderOptions: GENDER[] = [...CONST_GENDER];
 
@@ -41,6 +42,16 @@ function ProfileEdit() {
       }
       return Promise.reject(new Error('유저 정보를 불러오지 못했습니다'));
     },
+    {
+      onSuccess: () => {
+        router.back();
+      },
+      onError: (error: AxiosErrorResponseType) => {
+        if (error?.response?.status === 404) {
+          setErrorMessage(error?.response?.data.message);
+        }
+      },
+    },
   );
 
   const onSubmitForm = async (
@@ -48,13 +59,7 @@ function ProfileEdit() {
     formData: UserUpdateType,
   ) => {
     event.preventDefault();
-    try {
-      await mutateAsync(formData);
-      router.back();
-    } catch (error: any) {
-      console.log('error?.response', error?.response);
-      setErrorMessage(error?.response?.data.message);
-    }
+    await mutateAsync(formData);
   };
 
   return (
@@ -67,7 +72,7 @@ function ProfileEdit() {
         <TopHeader.Right>설정</TopHeader.Right>
       </TopHeader>
       <div className="profile-edit grid">
-        {/* {isLoading && <LoadingSpinner />} */}
+        {/* {isLoading && <LoadingLayer />} */}
         <div className="layout-container ">
           <div className="profile-info">
             <h2 className="profile-info__title">rockbell89</h2>
