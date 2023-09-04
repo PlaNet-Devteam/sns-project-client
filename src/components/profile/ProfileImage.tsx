@@ -5,6 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { uploadFile } from '@/utils/uploadImage';
 import { UserType, UserUpdateType } from '@/core';
 import UserService from '@/services/user';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 import Dialog from '../dialog/Dialog';
 import Button from '../common/Button';
 import LoadingSpinner from '../common/LoadingSpinner';
@@ -15,6 +16,7 @@ interface ProfileImageProps {
 
 const ProfileImage = ({ profile }: ProfileImageProps) => {
   const { profileImage } = profile;
+  const [username] = useLocalStorage('username', '');
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -60,34 +62,41 @@ const ProfileImage = ({ profile }: ProfileImageProps) => {
 
   return (
     <div className="profile-info__desc__wrapper">
-      <Button
-        size="sm"
-        variant="secondary"
-        iconOnly
-        onClick={() => setIsModalOpen(true)}
-      >
-        <AiOutlineCamera />
-      </Button>
-      <Dialog isOpen={isModalOpen}>
-        <Dialog.Dimmed onClick={() => setIsModalOpen(false)} />
-        <Dialog.LabelButton
-          color="essential"
-          onClick={onClickUploadImageHandler}
-        >
-          <input
-            id="file"
-            type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            className="feed-create-form-input__input"
-            onInput={onChangeUploadImageHandler}
-          />
-          사진 업데이트
-        </Dialog.LabelButton>
-        <Dialog.LabelButton color="danger" onClick={onDeleteUploadImageHandler}>
-          현재 사진 삭제
-        </Dialog.LabelButton>
-      </Dialog>
+      {username === profile.username && (
+        <>
+          <Button
+            size="sm"
+            variant="secondary"
+            iconOnly
+            onClick={() => setIsModalOpen(true)}
+          >
+            <AiOutlineCamera />
+          </Button>
+          <Dialog isOpen={isModalOpen}>
+            <Dialog.Dimmed onClick={() => setIsModalOpen(false)} />
+            <Dialog.LabelButton
+              color="essential"
+              onClick={onClickUploadImageHandler}
+            >
+              <input
+                id="file"
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                className="feed-create-form-input__input"
+                onInput={onChangeUploadImageHandler}
+              />
+              사진 업데이트
+            </Dialog.LabelButton>
+            <Dialog.LabelButton
+              color="danger"
+              onClick={onDeleteUploadImageHandler}
+            >
+              현재 사진 삭제
+            </Dialog.LabelButton>
+          </Dialog>
+        </>
+      )}
       <div className="profile-info__desc__image">
         <figure className="profile-info__desc__image--figure">
           {isLoading && <LoadingSpinner />}
