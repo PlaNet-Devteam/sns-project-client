@@ -13,7 +13,7 @@ import { userState } from '@/store/userAtom';
 import { UserType } from '@/core';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Dialog from '../dialog/Dialog';
-import LoadingSpinner from '../common/LoadingSpinner';
+import LoadingLayer from '../common/LoadingLayer';
 import Modal from '../common/Modal';
 import FeedImgModal from './FeedImgModal';
 
@@ -155,7 +155,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
           <Dialog.LabelButton color="danger">신고</Dialog.LabelButton>
         )}
       </Dialog>
-      {/* {deleteFeedItemMutation.isLoading && <LoadingSpinner />} */}
+      {/* {deleteFeedItemMutation.isLoading && <LoadingLayer />} */}
     </>
   );
 };

@@ -17,7 +17,7 @@ import useMouseDrag from '@/hooks/useMouseDrag';
 export interface FeedFileType {
   sortOrder: number;
   image: string;
-  file: unknown;
+  file: File;
 }
 
 function CreateFeed() {
@@ -53,10 +53,7 @@ function CreateFeed() {
     try {
       let imageUrlLists: FeedImageType[] = [];
       for (let i = 0; i < imageList.length; i++) {
-        const currentImageUrl: unknown = await uploadFile(
-          imageList[i].file,
-          'feed',
-        );
+        const currentImageUrl = await uploadFile(imageList[i].file, 'feed');
         const result: FeedImageType = {
           sortOrder: imageList[i].sortOrder,
           image: currentImageUrl as string,
@@ -73,6 +70,8 @@ function CreateFeed() {
     } catch (error: any) {
       console.log('error?.response', error?.response);
     }
+
+    console.log('imageList', imageList);
   };
 
   const onClickUploadImageHandler = async (
@@ -99,6 +98,7 @@ function CreateFeed() {
     }
 
     setImageList(imageUrlLists);
+    console.log(imageList);
   };
 
   const onClickRemoveImageHandler = (index: number) => {

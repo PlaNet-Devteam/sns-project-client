@@ -18,7 +18,7 @@ import TopHeader from '../nav/topHeader/TopHeader';
 
 const ProfileLayout = ({ children }: BaseProps) => {
   const router = useRouter();
-  const [username, _] = useLocalStorage('username', '');
+  const [username] = useLocalStorage('username', '');
   const setUser = useSetRecoilState(userState);
   const { data: profile } = useQuery(['user', router.query.username], () =>
     UserService.findUserByUsername(

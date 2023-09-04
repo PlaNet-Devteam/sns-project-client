@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import useForm from '@/hooks/useForm';
 import { GENDER, USER_STATUS, UserCreateType } from '@/core';
-import LoadingSpinner from '@/components/common/LoadingSpinner';
+import LoadingLayer from '@/components/common/LoadingLayer';
 import ErrorMessage from '@/components/common/ErrorMessage';
 import UserService from '@/services/user';
 import Button from '@/components/common/Button';
@@ -50,7 +50,7 @@ const SignUp = () => {
 
   return (
     <div className="signup grid">
-      {/* {isLoading && <LoadingSpinner />} */}
+      {/* {isLoading && <LoadingLayer />} */}
       <div className="layout__container content-area">
         <div className="middle-area">
           <div className="form-area">

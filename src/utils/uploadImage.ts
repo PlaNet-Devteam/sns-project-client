@@ -1,4 +1,5 @@
 import AWS from 'aws-sdk';
+import dayjs from 'dayjs';
 import { v1 } from 'uuid';
 
 // S3 업로드 패키지 설치  aws-sdk
@@ -16,27 +17,20 @@ const s3 = new AWS.S3({
   useAccelerateEndpoint: false,
 });
 
-export const uploadFile = (file: any, cate: string): Promise<unknown> => {
+export const uploadFile = (
+  file: File,
+  cate: string,
+): Promise<string | void> => {
   console.log('file', file);
   console.log(s3);
   const params: AWS.S3.PutObjectRequest = {
     ACL: 'public-read',
     Body: file,
     Bucket: S3_BUCKET as string,
-    Key: `${cate}/${v1().toString().replace('-', '')}.${
-      file.type.split('/')[1]
-    }`,
+    Key: `${cate}/${v1().toString().replace('-', '')}-${dayjs(
+      new Date(),
+    ).format('YY-MM-DD-h-m-s')}.${file.type.split('/')[1]}`,
   };
-
-  console.log(params);
-  // myBucket
-  //   .putObject(params)
-  //   .on('httpUploadProgress', (event) => {
-  //     console.log(params.Key);
-  //   })
-  //   .send((err) => {
-  //     if (err) console.log(err);
-  //   });
 
   const uploadToS3 = () => {
     return new Promise((resolve, reject) => {
