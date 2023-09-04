@@ -50,7 +50,7 @@ const SignUp = () => {
 
   return (
     <div className="signup grid">
-      {isLoading && <LoadingSpinner />}
+      {/* {isLoading && <LoadingSpinner />} */}
       <div className="layout__container content-area">
         <div className="middle-area">
           <div className="form-area">
@@ -112,6 +112,7 @@ const SignUp = () => {
                       value={userCreate.password}
                       placeholder="비밀번호"
                       onChange={onChange}
+                      autoComplete="off"
                     />
                   </div>
                 </div>
@@ -123,6 +124,7 @@ const SignUp = () => {
                       value={userCreate.passwordConfirm}
                       placeholder="비밀번호 확인"
                       onChange={onChange}
+                      autoComplete="off"
                     />
                   </div>
                 </div>
