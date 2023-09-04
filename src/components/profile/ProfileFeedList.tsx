@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { ImSpinner6 } from 'react-icons/im';
 import { FeedType } from '@/core/types/feed';
 import { useInfinityScroll } from '@/hooks/useInfinityScroll';
+import FeedService from '@/services/feed';
 import EmptyData from '../common/EmptyData';
 import ProfileFeedListItem from './ProfileFeedListItem';
 
@@ -19,7 +20,12 @@ function ProfileFeedList({ queryKey }: ProfileFeedListProps) {
     isFetchingNextPage,
     status,
     bottom,
-  } = useInfinityScroll(queryKey, username);
+  } = useInfinityScroll(queryKey, (page) =>
+    FeedService.findAllByUser(username, {
+      page,
+      limit: 9,
+    }),
+  );
 
   if (myFeeds?.pages && myFeeds?.pages[0].totalCount === 0) {
     return (

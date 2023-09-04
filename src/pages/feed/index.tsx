@@ -25,7 +25,9 @@ const Feed = () => {
     status,
     hasNextPage,
     bottom,
-  } = useInfinityScroll('newFeeds');
+  } = useInfinityScroll('newFeeds', (page, limit) =>
+    FeedService.getFeeds({ page, limit }),
+  );
 
   useEffect(() => {
     if (scrollY !== 0) window.scrollTo(0, Number(scrollY));
