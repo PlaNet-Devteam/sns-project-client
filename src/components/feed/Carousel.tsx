@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import Image from 'next/image';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import dragEvent from '@/utils/dragEvent';
 import useCarouselSize from '@/hooks/useCarouselSize';
+import { feedImageState } from '@/store/feedAtom';
 
 interface FeedImgProps {
   feedImage: any;
 }
 
 const Carousel = ({ feedImage }: FeedImgProps) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [transX, setTransX] = useState(0);
-
+  const ImageState = useRecoilValue(feedImageState);
+  const setImageState = useSetRecoilState(feedImageState);
   const { ref, width } = useCarouselSize();
 
   const inrange = (v: number, min: number, max: number) => {
@@ -25,7 +27,7 @@ const Carousel = ({ feedImage }: FeedImgProps) => {
         <div
           className="flex"
           style={{
-            transform: `translateX(${-currentIndex * width + transX}px)`,
+            transform: `translateX(${-ImageState * width + transX}px)`,
             transition: `transform ${transX ? 0 : 300}ms ease-in-out 0s`,
           }}
           {...dragEvent({
@@ -36,9 +38,9 @@ const Carousel = ({ feedImage }: FeedImgProps) => {
               const maxIndex = feedImage.length - 1;
 
               if (deltaX < -100)
-                setCurrentIndex(inrange(currentIndex + 1, 0, maxIndex));
+                setImageState(inrange(ImageState + 1, 0, maxIndex));
               if (deltaX > 100)
-                setCurrentIndex(inrange(currentIndex - 1, 0, maxIndex));
+                setImageState(inrange(ImageState - 1, 0, maxIndex));
 
               setTransX(0);
             },
