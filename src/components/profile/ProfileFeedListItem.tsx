@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useSetRecoilState } from 'recoil';
+import { feedImageState } from '@/store/feedAtom';
 import { FeedType } from '@/core/types/feed';
 import FeedModal from '../common/FeedModal';
 import styles from './ProfileFeedListItem.module.scss';
@@ -11,6 +13,7 @@ interface ProfileFeedListItemProps {
 
 function ProfileFeedListItem({ item }: ProfileFeedListItemProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const setImageState = useSetRecoilState(feedImageState);
 
   return (
     <>
@@ -24,7 +27,13 @@ function ProfileFeedListItem({ item }: ProfileFeedListItemProps) {
       >
         <ProfileFeedModal feedItem={item} />
       </FeedModal>
-      <div className={styles.item} onClick={() => setIsModalOpen(true)}>
+      <div
+        className={styles.item}
+        onClick={() => {
+          setImageState(0);
+          setIsModalOpen(true);
+        }}
+      >
         <figure className={styles.item__image}>
           {item?.feedImages && item?.feedImages.length > 0 ? (
             item?.feedImages[0] && (
