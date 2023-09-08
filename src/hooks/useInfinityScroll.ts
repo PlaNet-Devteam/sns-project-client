@@ -1,51 +1,34 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useRef } from 'react';
-import FeedService from '@/services/feed';
+import { useRouter } from 'next/router';
 import { IntersectionObserverCallback } from '@/core/types/feed';
+import { AxiosErrorResponseType } from '@/core/types/error/axios-error-response.type';
 import { useObserver } from './useObserver';
 
 export const useInfinityScroll = (
-  FeedDataClassification: string,
-  username?: string | string[] | undefined,
+  queryKey: string,
+  callback: (page: number, limit?: number) => Promise<any>,
+  limit = 10,
 ) => {
   const bottom = useRef<HTMLDivElement>(null);
-
-  const FetchFeedData = (
-    FeedDataClassification: string,
-    pageParam: number,
-    username?: string | string[] | undefined,
-  ) => {
-    if (FeedDataClassification === 'newFeeds') {
-      return FeedService.getFeeds({
-        page: pageParam,
-        limit: 10,
-      });
-    }
-    if (FeedDataClassification === 'myFeeds') {
-      return FeedService.findAllByUser(username, {
-        page: pageParam,
-        limit: 10,
-      });
-    }
-    if (FeedDataClassification === 'bookmark') {
-      if (username) {
-        return FeedService.findAllByUser(username, {
-          page: pageParam,
-          limit: 10,
-        });
-      }
-    }
-  };
+  const router = useRouter();
 
   const { data, fetchNextPage, isFetchingNextPage, status, hasNextPage } =
     useInfiniteQuery(
-      [FeedDataClassification],
-      ({ pageParam = 1 }) =>
-        FetchFeedData(FeedDataClassification, pageParam, username),
+      [queryKey],
+      ({ pageParam = 1 }) => {
+        return callback(pageParam, limit);
+      },
       {
         getNextPageParam: (lastPage) => {
           if (!lastPage.pageInfo.isLast) return lastPage.pageInfo.page + 1;
           return undefined;
+        },
+        onError: (error: AxiosErrorResponseType) => {
+          if (error?.response?.status === 404) {
+            alert(error?.response?.data.message);
+            router.push('/login');
+          }
         },
       },
     );

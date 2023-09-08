@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import useForm from '@/hooks/useForm';
 import { GENDER, USER_STATUS, UserCreateType } from '@/core';
-import LoadingSpinner from '@/components/common/LoadingSpinner';
+import LoadingLayer from '@/components/common/LoadingLayer';
 import ErrorMessage from '@/components/common/ErrorMessage';
 import UserService from '@/services/user';
 import Button from '@/components/common/Button';
@@ -50,7 +50,7 @@ const SignUp = () => {
 
   return (
     <div className="signup grid">
-      {isLoading && <LoadingSpinner />}
+      {/* {isLoading && <LoadingLayer />} */}
       <div className="layout__container content-area">
         <div className="middle-area">
           <div className="form-area">
@@ -112,6 +112,7 @@ const SignUp = () => {
                       value={userCreate.password}
                       placeholder="비밀번호"
                       onChange={onChange}
+                      autoComplete="off"
                     />
                   </div>
                 </div>
@@ -123,6 +124,7 @@ const SignUp = () => {
                       value={userCreate.passwordConfirm}
                       placeholder="비밀번호 확인"
                       onChange={onChange}
+                      autoComplete="off"
                     />
                   </div>
                 </div>

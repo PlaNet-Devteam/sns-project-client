@@ -35,6 +35,19 @@
     margin-bottom: 1rem;
   }
   &__desc {
+    &__wrapper {
+      position: relative;
+      display: block;
+      width: 7.5rem;
+      margin: 0 auto;
+      .button {
+        position: absolute;
+        right: -0.25rem;
+        top: -0.25rem;
+        z-index: 2;
+        box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.25);
+      }
+    }
     &__image {
       position: relative;
       z-index: 1;

@@ -12,6 +12,7 @@ interface ButtonProps extends BaseProps {
   to?: string | undefined;
   type?: 'button' | 'submit' | undefined;
   iconSize?: 'sm' | 'md' | 'lg';
+  iconOnly?: boolean;
   onClick?: (
     event:
       | React.MouseEvent<Element, MouseEvent>
@@ -86,6 +87,7 @@ const Button = ({
   to,
   type,
   iconSize = 'sm',
+  iconOnly,
   onClick,
 }: ButtonProps) => {
   const classNameValues = classNames(
@@ -96,6 +98,7 @@ const Button = ({
     { 'button-size--full': isFull },
     { 'button-text--english': isEnglish },
     { 'button--disabled': isDisabled },
+    { 'button--icon-only': iconOnly },
     className,
   );
   // 링크 기능을 하는 버튼 (to props를 사용했을 때)

@@ -1,3 +1,7 @@
+$size-sm: 2.5rem;
+$size-md: 3.25rem;
+$size-lg: 4rem;
+
 .button {
   display: inline-flex;
   justify-content: center;
@@ -10,15 +14,15 @@
   // size
   &-size--sm {
     font-size: var(--font-size-sm);
-    height: 2.5rem;
+    height: $size-sm;
   }
   &-size--md {
     font-size: var(--font-size-md);
-    height: 3.75rem;
+    height: $size-md;
   }
   &-size--lg {
     font-size: var(--font-size-lg);
-    height: 4rem;
+    height: $size-lg;
   }
 
   // variant
@@ -49,6 +53,22 @@
       * {
         fill: var(--white);
       }
+    }
+  }
+
+  // icon only
+  &--icon-only {
+    border-radius: 50%;
+    padding: 0;
+
+    &.button-size--sm {
+      width: $size-sm;
+    }
+    &.button-size--md {
+      width: $size-md;
+    }
+    &.button-size--lg {
+      width: $size-lg;
     }
   }
 
@@ -112,21 +132,12 @@
   flex-direction: row;
   align-items: center;
 
-  &-size--sm svg {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-right: 0.5rem;
+  + * {
+    margin-left: 0.5rem;
   }
 
-  &-size--md svg {
-    width: 2rem;
-    height: 2rem;
-    margin-right: 0.5rem;
-  }
-
-  &-size--lg svg {
-    width: 2.5rem;
-    height: 2.5rem;
-    margin-right: 0.5rem;
+  svg {
+    width: 1.5em;
+    height: 1.5em;
   }
 }

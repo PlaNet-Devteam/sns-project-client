@@ -10,6 +10,7 @@ import JwtStorageService, {
 import UserService from '@/services/user';
 import { userState } from '@/store/userAtom';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { AxiosErrorResponseType } from '@/core/types/error/axios-error-response.type';
 import ProfileInfo from '../profile/ProfileInfo';
 import ProfileCount from '../profile/ProfileCount';
 import ProfileFeedTabs from '../profile/ProfileFeedTabs';
@@ -18,12 +19,24 @@ import TopHeader from '../nav/topHeader/TopHeader';
 
 const ProfileLayout = ({ children }: BaseProps) => {
   const router = useRouter();
-  const [username, _] = useLocalStorage('username', '');
+  const [username] = useLocalStorage('username', '');
   const setUser = useSetRecoilState(userState);
-  const { data: profile } = useQuery(['user', router.query.username], () =>
-    UserService.findUserByUsername(
-      (router.query.username as string) || username,
-    ),
+  const { data: profile } = useQuery(
+    ['user', router.query.username],
+    () => {
+      if (router.query.username === 'undefined') return router.push('/login');
+      return UserService.findUserByUsername(
+        (router.query.username as string) || username,
+      );
+    },
+    {
+      onError: (error: AxiosErrorResponseType) => {
+        if (error?.response?.status === 404) {
+          alert(error?.response?.data.message);
+          router.push('/login');
+        }
+      },
+    },
   );
 
   const onLogoutHandler = () => {

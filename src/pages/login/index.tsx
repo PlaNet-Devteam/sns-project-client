@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import useForm from '@/hooks/useForm';
 import { AuthLoginType } from '@/core/types/auth';
 import JwtStorageService, { ACCESS_TOKEN } from '@/core/utils/jwt-storage';
-import LoadingSpinner from '@/components/common/LoadingSpinner';
+import LoadingLayer from '@/components/common/LoadingLayer';
 import ErrorMessage from '@/components/common/ErrorMessage';
 import AuthService from '@/services/auth';
 import Button from '@/components/common/Button';
@@ -23,12 +23,6 @@ const Login = () => {
     password: '',
     rememberMe: true,
   });
-
-  // const {
-  //   formData: authLogin,
-  //   onChange,
-  //   onReset,
-  // } = useForm(new AuthLoginDto());
 
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState([]);
@@ -59,7 +53,7 @@ const Login = () => {
 
   return (
     <div className="login grid">
-      {isLoading && <LoadingSpinner />}
+      {/* {isLoading && <LoadingLayer />} */}
       <div className="layout__container content-area">
         <div className="middle-area">
           <div className="form-area">
@@ -99,6 +93,7 @@ const Login = () => {
                       value={authLogin.password}
                       placeholder="비밀번호"
                       onChange={onChange}
+                      autoComplete="off"
                     />
                   </div>
                 </div>
