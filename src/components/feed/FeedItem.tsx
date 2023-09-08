@@ -14,8 +14,8 @@ import { UserType } from '@/core';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Dialog from '../dialog/Dialog';
 import LoadingSpinner from '../common/LoadingSpinner';
-import Modal from '../common/Modal';
-import FeedImgModal from './FeedImgModal';
+import FeedModal from '../common/FeedModal';
+import Carousel from './Carousel';
 
 interface FeedItemProps {
   item: FeedType;
@@ -107,15 +107,15 @@ const FeedItem = ({ item }: FeedItemProps) => {
             </div>
           </div>
           <div className="feed_text">{item.description}</div>
-          <Modal
-            headerText={item.user?.nickname}
+          <FeedModal
+            modalPurpose="Img"
             isModalOpen={isImgModalOpen}
             onClickCloseModal={() => {
               setIsImgModalOpen(false);
             }}
           >
-            <FeedImgModal feedImage={item.feedImages} />
-          </Modal>
+            <Carousel feedImage={item.feedImages} />
+          </FeedModal>
           <div onClick={openModalIfImgCnt}>
             {item.feedImages && item.feedImages.length > 0 && (
               <FeedImg feedImages={item.feedImages} />
