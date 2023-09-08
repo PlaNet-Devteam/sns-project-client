@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { AiOutlineCamera } from 'react-icons/ai';
 import { useMutation } from '@tanstack/react-query';
@@ -59,6 +59,10 @@ const ProfileImage = ({ profile }: ProfileImageProps) => {
     setImgSrc('');
     setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    setImgSrc(`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${profileImage}`);
+  }, [profileImage]);
 
   return (
     <div className="profile-info__desc__wrapper">
