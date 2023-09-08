@@ -21,9 +21,7 @@ const ProfileImage = ({ profile }: ProfileImageProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [imgSrc, setImgSrc] = useState(
-    `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${profileImage}`,
-  );
+  const [imgSrc, setImgSrc] = useState('');
 
   // 이미지 업로드 창
   const onClickUploadImageHandler = () => {
@@ -62,7 +60,7 @@ const ProfileImage = ({ profile }: ProfileImageProps) => {
 
   useEffect(() => {
     setImgSrc(`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${profileImage}`);
-  }, [profileImage]);
+  }, [imgSrc, profileImage]);
 
   return (
     <div className="profile-info__desc__wrapper">
