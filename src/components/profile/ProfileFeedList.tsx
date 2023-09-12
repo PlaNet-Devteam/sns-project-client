@@ -39,12 +39,12 @@ function ProfileFeedList({ queryKey }: ProfileFeedListProps) {
     <>
       <div className="profile-feeds-list">
         {myFeeds &&
-          myFeeds.pages.map((page) => (
-            <>
+          myFeeds.pages.map((page, index) => (
+            <div key={index}>
               {page.items.map((feed: FeedType) => (
                 <ProfileFeedListItem key={feed.id} item={feed} />
               ))}
-            </>
+            </div>
           ))}
       </div>
       {bottom && <div ref={bottom} />}
