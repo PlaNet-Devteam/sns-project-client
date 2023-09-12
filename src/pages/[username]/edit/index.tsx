@@ -75,7 +75,7 @@ function ProfileEdit() {
         {/* {isLoading && <LoadingLayer />} */}
         <div className="layout-container ">
           <div className="profile-info">
-            <h2 className="profile-info__title">rockbell89</h2>
+            <h2 className="profile-info__title">{user?.username}</h2>
             {user && <ProfileImage profile={user} />}
           </div>
           <div className="form-area">
