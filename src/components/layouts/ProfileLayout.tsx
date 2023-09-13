@@ -3,14 +3,10 @@ import { useRouter } from 'next/router';
 import { useSetRecoilState } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
 import { BaseProps } from '@/core/types/common';
-import JwtStorageService, {
-  ACCESS_TOKEN,
-  REFRESH_TOKEN,
-} from '@/core/utils/jwt-storage';
 import UserService from '@/services/user';
 import { userState } from '@/store/userAtom';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { AxiosErrorResponseType } from '@/core/types/error/axios-error-response.type';
+import useAuth from '@/hooks/useAuth';
 import ProfileInfo from '../profile/ProfileInfo';
 import ProfileCount from '../profile/ProfileCount';
 import ProfileFeedTabs from '../profile/ProfileFeedTabs';
@@ -19,31 +15,29 @@ import TopHeader from '../nav/topHeader/TopHeader';
 
 const ProfileLayout = ({ children }: BaseProps) => {
   const router = useRouter();
-  const [username] = useLocalStorage('username', '');
+  const { payload, onLogout } = useAuth();
   const setUser = useSetRecoilState(userState);
+
   const { data: profile } = useQuery(
     ['user', router.query.username],
     () => {
       if (router.query.username === 'undefined') return router.push('/login');
       return UserService.findUserByUsername(
-        (router.query.username as string) || username,
+        (router.query.username as string) || (payload?.username as string),
       );
     },
     {
       onError: (error: AxiosErrorResponseType) => {
         if (error?.response?.status === 404) {
           alert(error?.response?.data.message);
-          router.push('/login');
         }
+        router.push('/_error');
       },
     },
   );
 
   const onLogoutHandler = () => {
-    JwtStorageService.removeToken(ACCESS_TOKEN);
-    JwtStorageService.removeToken(REFRESH_TOKEN);
-    localStorage.removeItem('username');
-    router.replace('/login');
+    onLogout();
   };
 
   useEffect(() => {
@@ -62,7 +56,7 @@ const ProfileLayout = ({ children }: BaseProps) => {
         <TopHeader.Right>
           {profile && (
             <>
-              {username === profile.username && (
+              {payload?.username === profile.username && (
                 <button onClick={() => router.push('/profile/edit')}>
                   편집
                 </button>
@@ -74,7 +68,7 @@ const ProfileLayout = ({ children }: BaseProps) => {
       {profile && (
         <div className="profile-layout">
           <ProfileInfo profile={profile} />
-          {username === profile.username && (
+          {payload?.username === profile.username && (
             <div className="text-center">
               <Button
                 size="sm"

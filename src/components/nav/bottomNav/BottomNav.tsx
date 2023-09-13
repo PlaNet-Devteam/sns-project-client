@@ -1,20 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import jwtDecode from 'jwt-decode';
 import { useRecoilValue } from 'recoil';
-
 import IconNavFeed from '@/assets/icons/icon_nav_feed.svg';
 import IconNavExplore from '@/assets/icons/icon_nav_explore.svg';
 import IconNavAdd from '@/assets/icons/icon_nav_add.svg';
 import IconNavDM from '@/assets/icons/icon_nav_dm.svg';
 import IconNavProfile from '@/assets/icons/icon_nav_profile.svg';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useIsScrolling } from '@/hooks/useIsScrolling';
 import { userState } from '@/store/userAtom';
-import { UserType } from '@/core';
+import useAuth from '@/hooks/useAuth';
 import BottomNavItem from './BottomNavItem';
 
 const BottomNav = () => {
-  const user = useRecoilValue<UserType | null>(userState);
-  const [username] = useLocalStorage('username', user?.username);
+  const { payload } = useAuth();
+  const user = useRecoilValue(userState);
+  const [username, setUsername] = useState(user?.username);
 
   const bottmNavRoutes = [
     {
@@ -28,7 +28,7 @@ const BottomNav = () => {
       icon: <IconNavExplore />,
     },
     {
-      path: '/feed/create',
+      path: username ? '/feed/create' : '/login',
       name: '피드생성',
       icon: <IconNavAdd />,
     },
@@ -45,6 +45,12 @@ const BottomNav = () => {
   ];
 
   const isScrolling = useIsScrolling();
+
+  useEffect(() => {
+    if (payload) {
+      setUsername(payload.username);
+    }
+  }, []);
 
   return (
     <>

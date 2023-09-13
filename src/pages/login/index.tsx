@@ -2,6 +2,7 @@ import React, { FormEvent, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
+import { useSetRecoilState } from 'recoil';
 import useForm from '@/hooks/useForm';
 import { AuthLoginType } from '@/core/types/auth';
 import JwtStorageService, { ACCESS_TOKEN } from '@/core/utils/jwt-storage';
@@ -11,7 +12,7 @@ import AuthService from '@/services/auth';
 import Button from '@/components/common/Button';
 import ButtonGroup from '@/components/common/ButtonGroup';
 import IconGoogle from '@/assets/icons/icon_google.svg';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { userState } from '@/store/userAtom';
 
 const Login = () => {
   const {
@@ -26,7 +27,7 @@ const Login = () => {
 
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState([]);
-  const [_, setUsername] = useLocalStorage<string>('username', '');
+  const setUser = useSetRecoilState(userState);
 
   const { mutateAsync, isLoading, isError } = useMutation(
     (formData: AuthLoginType) => AuthService.login(formData),
@@ -41,7 +42,7 @@ const Login = () => {
       const { accessToken, userInfo } = await mutateAsync(formData);
       if (accessToken) {
         JwtStorageService.setToken(ACCESS_TOKEN, `${accessToken}`);
-        setUsername(userInfo.username);
+        setUser(userInfo);
         onReset();
         router.replace('/feed');
       }
