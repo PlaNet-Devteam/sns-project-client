@@ -4,7 +4,6 @@ import { useSetRecoilState } from 'recoil';
 import { feedImageState } from '@/store/feedAtom';
 import { FeedType } from '@/core/types/feed';
 import FeedModal from '../common/FeedModal';
-import styles from './ProfileFeedListItem.module.scss';
 import ProfileFeedModal from './ProfileFeedModal';
 
 interface ProfileFeedListItemProps {
@@ -28,13 +27,13 @@ function ProfileFeedListItem({ item }: ProfileFeedListItemProps) {
         <ProfileFeedModal feedItem={item} />
       </FeedModal>
       <div
-        className={styles.item}
+        className={'profile-feed-item'}
         onClick={() => {
           setImageState(0);
           setIsModalOpen(true);
         }}
       >
-        <figure className={styles.item__image}>
+        <figure className={'profile-feed-item__image'}>
           {item?.feedImages && item?.feedImages.length > 0 ? (
             item?.feedImages[0] && (
               <Image

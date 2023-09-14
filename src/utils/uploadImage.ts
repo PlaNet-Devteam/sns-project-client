@@ -1,5 +1,4 @@
 import AWS from 'aws-sdk';
-import dayjs from 'dayjs';
 import { v1 } from 'uuid';
 
 // S3 업로드 패키지 설치  aws-sdk
@@ -27,9 +26,9 @@ export const uploadFile = (
     ACL: 'public-read',
     Body: file,
     Bucket: S3_BUCKET as string,
-    Key: `${cate}/${v1().toString().replace('-', '')}-${dayjs(
-      new Date(),
-    ).format('YYMMDD-hhmmss')}.${file.type.split('/')[1]}`,
+    Key: `${cate}/${v1().toString().replace('-', '')}.${
+      file.type.split('/')[1]
+    }`,
   };
 
   const uploadToS3 = () => {
