@@ -4,13 +4,11 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRecoilValue } from 'recoil';
 import { FeedType } from '@/core/types/feed';
 import FeedImg from '@/components/feed/FeedImg';
 import FeedService from '@/services/feed';
 import { formattedDate } from '@/utils/formattedDate';
-import { userState } from '@/store/userAtom';
-import { UserType } from '@/core';
+import useAuth from '@/hooks/useAuth';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Dialog from '../dialog/Dialog';
 import LoadingLayer from '../common/LoadingLayer';
@@ -23,8 +21,7 @@ interface FeedItemProps {
 
 const FeedItem = ({ item }: FeedItemProps) => {
   const queryClient = useQueryClient(); // TODO: 체크
-  const user = useRecoilValue<UserType | null>(userState);
-  const [username, _] = useLocalStorage('username', user?.username);
+  const { payload } = useAuth();
 
   const [imgSrc, setImgSrc] = useState(
     `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${item.user?.profileImage}`,
@@ -140,10 +137,10 @@ const FeedItem = ({ item }: FeedItemProps) => {
       </div>
       <Dialog isOpen={isModalOpen}>
         <Dialog.Dimmed onClick={handleModalOpen} />
-        {item.user.username === username && (
+        {item.user.username === payload?.username && (
           <Dialog.LabelButton color="white">수정</Dialog.LabelButton>
         )}
-        {item.user.username === username && (
+        {item.user.username === payload?.username && (
           <Dialog.LabelButton
             color="danger"
             onClick={() => handleDeleteFeedItem(item.id)}
@@ -151,7 +148,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
             삭제
           </Dialog.LabelButton>
         )}
-        {item.user.username !== username && (
+        {item.user.username !== payload?.username && (
           <Dialog.LabelButton color="danger">신고</Dialog.LabelButton>
         )}
       </Dialog>

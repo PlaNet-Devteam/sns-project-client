@@ -6,6 +6,7 @@ import { uploadFile } from '@/utils/uploadImage';
 import { UserType, UserUpdateType } from '@/core';
 import UserService from '@/services/user';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import useAuth from '@/hooks/useAuth';
 import Dialog from '../dialog/Dialog';
 import Button from '../common/Button';
 import LoadingSpinner from '../common/LoadingSpinner';
@@ -17,7 +18,7 @@ interface ProfileImageProps {
 const ProfileImage = ({ profile }: ProfileImageProps) => {
   const queryClient = useQueryClient();
   const { profileImage } = profile;
-  const [username] = useLocalStorage('username', '');
+  const { payload } = useAuth();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -69,7 +70,7 @@ const ProfileImage = ({ profile }: ProfileImageProps) => {
 
   return (
     <div className="profile-info__desc__wrapper">
-      {username === profile.username && (
+      {payload?.username === profile.username && (
         <>
           <Button
             size="sm"
