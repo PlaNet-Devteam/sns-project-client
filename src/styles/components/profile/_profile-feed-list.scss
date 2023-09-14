@@ -1,12 +1,16 @@
 .profile-feeds-list {
-  display: grid;
-  grid-gap: 1px;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(calc(33.33% - 1px), calc(33.33% - 1px))
-  );
+
   overflow-y: auto;
   padding-bottom: 6rem;
+
+  >  div {
+    display: grid;
+    grid-gap: 1px;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(calc(33.33% - 1px), calc(33.33% - 1px))
+    );
+  }
 
   &__item {
     display: flex;

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { AiOutlineCamera } from 'react-icons/ai';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { uploadFile } from '@/utils/uploadImage';
 import { UserType, UserUpdateType } from '@/core';
 import UserService from '@/services/user';
@@ -15,15 +15,14 @@ interface ProfileImageProps {
 }
 
 const ProfileImage = ({ profile }: ProfileImageProps) => {
+  const queryClient = useQueryClient();
   const { profileImage } = profile;
   const [username] = useLocalStorage('username', '');
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [imgSrc, setImgSrc] = useState(
-    `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${profileImage}`,
-  );
+  const [imgSrc, setImgSrc] = useState('');
 
   // 이미지 업로드 창
   const onClickUploadImageHandler = () => {
@@ -32,8 +31,14 @@ const ProfileImage = ({ profile }: ProfileImageProps) => {
     }
   };
 
-  const { mutateAsync, isLoading } = useMutation((formData: UserUpdateType) =>
-    UserService.updateUser(profile.id, formData),
+  const { mutateAsync, isLoading } = useMutation(
+    (formData: UserUpdateType) => UserService.updateUser(profile.id, formData),
+    {
+      onSuccess: () => {
+        setIsModalOpen(false);
+        return queryClient.invalidateQueries(['user']);
+      },
+    },
   );
 
   // 프로필 이미지 수정
@@ -48,7 +53,6 @@ const ProfileImage = ({ profile }: ProfileImageProps) => {
           await mutateAsync({ profileImage: url });
         }
         setImgSrc(URL.createObjectURL(image));
-        setIsModalOpen(false);
       }
     }
   };
@@ -57,7 +61,6 @@ const ProfileImage = ({ profile }: ProfileImageProps) => {
   const onDeleteUploadImageHandler = async () => {
     await mutateAsync({ profileImage: '' });
     setImgSrc('');
-    setIsModalOpen(false);
   };
 
   useEffect(() => {
