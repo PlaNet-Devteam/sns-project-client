@@ -30,6 +30,14 @@ const FeedService = {
     const { data } = await api.delete(`/feed/${feedId}`);
     return data;
   },
+  likeFeed: async (feedId: number) => {
+    const { data } = await api.post(`/feed/${feedId}/like`);
+    return data;
+  },
+  delteLikeFeed: async (feedId: number) => {
+    const { data } = await api.delete(`/feed/${feedId}/like`);
+    return data;
+  },
 };
 
 export default FeedService;

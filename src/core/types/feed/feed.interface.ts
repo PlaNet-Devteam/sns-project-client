@@ -14,6 +14,7 @@ export interface FeedType {
   comments?: string[];
   tags?: string[];
   displayYn?: YN;
+  likedYn?: boolean;
   createdAt?: string;
   updatedAt?: string;
 }
