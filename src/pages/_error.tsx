@@ -1,14 +1,31 @@
 import { useRouter } from 'next/router';
+import Button from '@/components/common/Button';
+import ButtonGroup from '@/components/common/ButtonGroup';
+import NotFound from '@/assets/error/not_found.svg';
 
 const ErrorPage = ({ statusCode }: any) => {
   const router = useRouter();
 
   return (
-    <div>
-      <h1>{statusCode}</h1>
-      <p>에러가 발생하였습니다</p>
-      <button onClick={() => router.push('/')}>Go Home</button>
-    </div>
+    <article className="error-page">
+      <div className="inner">
+        <span className="en-title">ERROR</span>
+        <h1 className="title">{statusCode === 404 && <NotFound />}</h1>
+        <p>페이지를 찾을 수 없습니다</p>
+        <ButtonGroup>
+          <Button
+            variant="primary"
+            size="sm"
+            isEnglish
+            onClick={() => router.push('/')}
+          >
+            GO HOME
+          </Button>
+        </ButtonGroup>
+        <div className="astronaut"></div>
+        <div className="spaceship"></div>
+      </div>
+    </article>
   );
 };
 
