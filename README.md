@@ -114,7 +114,7 @@
 
 |                                                                       인트로                                                                       |                                                                      404에러                                                                       |
 | :------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/96197310/49adea30-2772-4831-ba88-d8087c0738ec" width="100px" height="200px"> | <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/96197310/862b34cc-8ac3-4192-bff7-0ffa29a50c05" width="100px" height="200px"> |
+| <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/96197310/49adea30-2772-4831-ba88-d8087c0738ec" width="150px" height="200px"> | <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/96197310/862b34cc-8ac3-4192-bff7-0ffa29a50c05" width="150px" height="200px"> |
 
 <br/>
 
