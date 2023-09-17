@@ -1,5 +1,6 @@
 import { api } from '@/core/base.service';
 import { FeedCreateType, FeedListType } from '@/core/types/feed';
+import { FeedModifyType } from '@/core/types/feed/feed-modify.interface';
 
 const FeedService = {
   getFeeds: async (listData?: FeedListType) => {
@@ -25,6 +26,10 @@ const FeedService = {
   createFeed: async (formData: FeedCreateType) => {
     const { data } = await api.post('/feed', formData);
     return data.data;
+  },
+  modifyFeed: async (feedId: number, feedItem: FeedModifyType) => {
+    const { data } = await api.patch(`/feed/${feedId}`, feedItem);
+    return data;
   },
   deleteFeed: async (feedId: number) => {
     const { data } = await api.delete(`/feed/${feedId}`);
