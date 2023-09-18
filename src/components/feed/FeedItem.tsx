@@ -4,11 +4,13 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useSetRecoilState } from 'recoil';
 import { FeedType } from '@/core/types/feed';
 import FeedImg from '@/components/feed/FeedImg';
 import FeedService from '@/services/feed';
 import { formattedDate } from '@/utils/formattedDate';
 import useAuth from '@/hooks/useAuth';
+import { feedState } from '@/store/feedAtom';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Dialog from '../dialog/Dialog';
 import LoadingLayer from '../common/LoadingLayer';
@@ -22,6 +24,7 @@ interface FeedItemProps {
 const FeedItem = ({ item }: FeedItemProps) => {
   const queryClient = useQueryClient(); // TODO: 체크
   const { payload } = useAuth();
+  const setFeedModifyState = useSetRecoilState(feedState);
 
   const [imgSrc, setImgSrc] = useState(
     `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${item.user?.profileImage}`,
@@ -50,6 +53,11 @@ const FeedItem = ({ item }: FeedItemProps) => {
 
   const handleDeleteFeedItem = async (feedId: number) => {
     deleteFeedItemMutation.mutate(feedId);
+  };
+
+  const handleModifyFeedItem = async (item: FeedType) => {
+    setFeedModifyState(item);
+    router.replace('/feed/modify');
   };
 
   const openModalIfImgCnt = () => {
@@ -138,7 +146,12 @@ const FeedItem = ({ item }: FeedItemProps) => {
       <Dialog isOpen={isModalOpen}>
         <Dialog.Dimmed onClick={handleModalOpen} />
         {item.user.username === payload?.username && (
-          <Dialog.LabelButton color="white">수정</Dialog.LabelButton>
+          <Dialog.LabelButton
+            color="white"
+            onClick={() => handleModifyFeedItem(item)}
+          >
+            수정
+          </Dialog.LabelButton>
         )}
         {item.user.username === payload?.username && (
           <Dialog.LabelButton
