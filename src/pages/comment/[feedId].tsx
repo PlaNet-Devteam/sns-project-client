@@ -1,45 +1,55 @@
-import { useEffect } from 'react';
-import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import Comment from '@/components/comment/Comment';
-import Header from '@/components/comment/Header';
-import Input from '@/components/comment/Input';
+import { useRouter } from 'next/router';
+import { ImSpinner6 } from 'react-icons/im';
+import CommentItem from '@/components/comment/CommentItem';
+import CommentInput from '@/components/comment/CommentInput';
 import { CommentType } from '@/core/types/comment/index';
-import { commentState } from '../../store/commentAtom';
-import { getComments } from '../../utils/api';
+import TopHeader from '@/components/nav/topHeader/TopHeader';
+import CommentService from '@/services/comment';
+import { useInfinityScroll } from '@/hooks/useInfinityScroll';
 
 export default function CommentPage() {
-  const { data } = useQuery(['comments'], getComments);
-  console.log(data?.data.data);
-  const comment = data?.data?.comment;
-  const setComments = useSetRecoilState(commentState);
-  const comments = useRecoilValue(commentState);
-  useEffect(() => {
-    setComments(comment as any);
-  }, [comment]);
+  const router = useRouter();
+
+  const {
+    data: comments,
+    isFetchingNextPage,
+    status,
+    bottom,
+  } = useInfinityScroll(`feed-${router.query.feedId}-comments`, (page) =>
+    CommentService.getComments(parseInt(router.query.feedId as string), {
+      page,
+      limit: 10,
+    }),
+  );
 
   return (
     <>
-      <main>
-        <Header></Header>
-        <div className="comment__contatiner">
-          {comments?.map((comment: CommentType) => {
-            return <Comment key={comment.id} comment={comment}></Comment>;
-          })}
+      <TopHeader>
+        <TopHeader.Left>
+          <button onClick={() => router.back()}>뒤로</button>
+        </TopHeader.Left>
+        <TopHeader.Title>댓글</TopHeader.Title>
+        <TopHeader.Right>공유</TopHeader.Right>
+      </TopHeader>
+      <div className="comment__contatiner">
+        <div className="comment__list">
+          {comments &&
+            comments.pages?.map((page, index) => (
+              <div key={index}>
+                {page.items.map((comment: CommentType) => (
+                  <CommentItem key={comment.id} item={comment} />
+                ))}
+              </div>
+            ))}
+          {bottom && <div ref={bottom} />}
+          <div className="spinner_container">
+            {status === 'success' && isFetchingNextPage ? (
+              <ImSpinner6 className="spinner" />
+            ) : null}
+          </div>
         </div>
-      </main>
-      <Input></Input>
+        <CommentInput />
+      </div>
     </>
   );
-}
-
-export async function getServerSideProps() {
-  const queryClient = new QueryClient();
-  queryClient.prefetchQuery(['comments'], getComments);
-
-  return {
-    props: {
-      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-    },
-  };
 }
