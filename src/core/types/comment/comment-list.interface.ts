@@ -1,4 +1,3 @@
-export interface CommentListType {
-  page?: number;
-  limit?: number;
-}
+import { BaseListType } from '../common';
+
+export type CommentListType = BaseListType;

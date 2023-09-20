@@ -5,8 +5,8 @@ export interface CommentType {
   userid: number;
   user: UserType;
   feedId: number;
-  comment: string;
+  comment: string | undefined;
   replyCount: number;
-  created_at?: string;
-  updated_at?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
