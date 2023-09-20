@@ -29,12 +29,11 @@ const FeedItem = ({ item }: FeedItemProps) => {
   const [imgSrc, setImgSrc] = useState(
     `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${item.user?.profileImage}`,
   );
-  const [scrollY, setScrollY] = useLocalStorage('scroll_location', 0);
+  const [_, setScrollY] = useLocalStorage('scroll_location', 0);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const router = useRouter();
   const handlecommentbutton = () => {
-    router.push(`/comment/${item.id}`);
-    console.log(scrollY);
+    router.push(`/feed/${item.id}/comment`);
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
