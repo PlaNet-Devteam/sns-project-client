@@ -1,3 +1,7 @@
+
 import { BaseListType } from '../common';
 
-export type FeedListType = BaseListType;
+export interface FeedListType extends BaseListType {
+  userId?: number;
+  tag?: string;
+}

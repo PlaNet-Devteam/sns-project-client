@@ -2,21 +2,27 @@ import React, { useEffect } from 'react';
 import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { ImSpinner6 } from 'react-icons/im';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { FeedType } from '@/core/types/feed';
 import FeedItem from '@/components/feed/FeedItem';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
 import LogoTitleSVG from '@/assets/intro/logo_title.svg';
 import FeedService from '@/services/feed';
 import { useInfinityScroll } from '@/hooks/useInfinityScroll';
+import { userState } from '@/store/userAtom';
+import useAuth from '@/hooks/useAuth';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 const Feed = () => {
   const [scrollY] = useLocalStorage('scroll_location', 0);
+  const user = useRecoilValue(userState);
+  const { payload } = useAuth();
 
   const { data: feeds } = useQuery(['feeds'], () =>
     FeedService.getFeeds({
       page: 1,
       limit: 10,
+      userId: user?.id || payload?._id,
     }),
   );
 
