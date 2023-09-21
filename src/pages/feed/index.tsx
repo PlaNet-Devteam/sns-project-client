@@ -31,8 +31,8 @@ const Feed = () => {
     status,
     hasNextPage,
     bottom,
-  } = useInfinityScroll('newFeeds', (page, limit) =>
-    FeedService.getFeeds({ page, limit, userId: user?.id || payload?._id }),
+  } = useInfinityScroll(['newFeeds'], (page, limit) =>
+    FeedService.getFeeds({ page, limit }),
   );
 
   useEffect(() => {

@@ -1,18 +1,12 @@
-export interface CommentsType {
-  comment: Array<CommentType>;
-}
+import { UserType } from '../user';
 
 export interface CommentType {
   id: number;
   userid: number;
+  user: UserType;
   feedId: number;
-  comment: string;
-  likeCount: number;
+  comment: string | undefined;
   replyCount: number;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface CommentPropsType {
-  comment: CommentType;
+  createdAt?: string;
+  updatedAt?: string;
 }

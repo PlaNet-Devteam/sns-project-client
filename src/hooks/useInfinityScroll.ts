@@ -6,7 +6,7 @@ import { AxiosErrorResponseType } from '@/core/types/error/axios-error-response.
 import { useObserver } from './useObserver';
 
 export const useInfinityScroll = (
-  queryKey: string,
+  queryKey: string[],
   callback: (page: number, limit?: number) => Promise<any>,
   limit = 10,
 ) => {
@@ -15,7 +15,7 @@ export const useInfinityScroll = (
 
   const { data, fetchNextPage, isFetchingNextPage, status, hasNextPage } =
     useInfiniteQuery(
-      [queryKey],
+      [...queryKey],
       ({ pageParam = 1 }) => {
         return callback(pageParam, limit);
       },

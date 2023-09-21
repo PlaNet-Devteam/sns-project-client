@@ -3,7 +3,32 @@
 @use './input';
 
 .comment__contatiner {
-  height: 100%;
+  display: grid;
+  height:100%;
+  grid-template-rows:  calc(100vh - (3.75rem * 2) ) 3.75rem;
+  min-height: inherit;
   padding-top: 3.75rem;
-  padding-bottom: 3.75rem;
+  .comment__list {
+    overflow-y: auto;
+  }
+  .comment__filter {
+    position: sticky;
+    top: 0;
+    padding: 0.5rem 1.5rem;
+    background-color: var(--bg-color);
+    .comment__filter__option {
+      color:white;
+      padding: 0.25rem 0.5rem;
+      border:1px solid white;
+      border-radius: 20rem;
+      font-size: var(--font-size-xs);
+      + .comment__filter__option {
+        margin-left: 0.5rem;
+      }
+      &--active {
+        background-color: white;
+        color:var(--bg-color);
+      }
+    }
+  }
 }
