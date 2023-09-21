@@ -6,7 +6,7 @@ dayjs.locale('ko');
 
 export const formattedDate = () => {
   const setConvertTime = (time: string | undefined) => {
-    return dayjs(time).add(9, 'h').fromNow();
+    return dayjs(time).fromNow();
   };
 
   const dayDiff = (time: string | undefined) => {
