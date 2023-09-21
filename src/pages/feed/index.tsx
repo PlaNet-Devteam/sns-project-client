@@ -25,7 +25,7 @@ const Feed = () => {
     status,
     hasNextPage,
     bottom,
-  } = useInfinityScroll('newFeeds', (page, limit) =>
+  } = useInfinityScroll(['newFeeds'], (page, limit) =>
     FeedService.getFeeds({ page, limit }),
   );
 
