@@ -51,15 +51,25 @@ const CommentItem = ({ item }: CommentPropsType) => {
   return (
     <>
       <div className="comment">
-        <Link href={`/${item.user.username}`}>
-          <Image
-            className="comment__profile-image"
-            width={60}
-            height={60}
-            quality={100}
-            src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${item.user?.profileImage}`}
-            alt="profile"
-          ></Image>
+        <Link
+          href={`/${item.user.username}`}
+          className="comment__profile-image"
+        >
+          {item.user?.profileImage ? (
+            <Image
+              width={100}
+              height={100}
+              src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${item.user?.profileImage}`}
+              alt="profile"
+            ></Image>
+          ) : (
+            <Image
+              src={'/img/icons/icon_default_profile.svg'}
+              width={100}
+              height={100}
+              alt="프로필 이미지"
+            />
+          )}
         </Link>
         <div className="comment__info">
           <div className="comment__info-top">

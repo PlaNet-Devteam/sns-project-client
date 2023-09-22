@@ -4,9 +4,9 @@ import { useSetRecoilState } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
 import { BaseProps } from '@/core/types/common';
 import UserService from '@/services/user';
-import { userState } from '@/store/userAtom';
 import { AxiosErrorResponseType } from '@/core/types/error/axios-error-response.type';
 import useAuth from '@/hooks/useAuth';
+import { profileState } from '@/store/profileAtom';
 import ProfileInfo from '../profile/ProfileInfo';
 import ProfileCount from '../profile/ProfileCount';
 import ProfileFeedTabs from '../profile/ProfileFeedTabs';
@@ -16,15 +16,13 @@ import TopHeader from '../nav/topHeader/TopHeader';
 const ProfileLayout = ({ children }: BaseProps) => {
   const router = useRouter();
   const { payload, onLogout } = useAuth();
-  const setUser = useSetRecoilState(userState);
+  const setProfie = useSetRecoilState(profileState);
 
   const { data: profile } = useQuery(
     ['user', router.query.username],
     () => {
       if (router.query.username === 'undefined') return router.push('/login');
-      return UserService.findUserByUsername(
-        (router.query.username as string) || (payload?.username as string),
-      );
+      return UserService.findUserByUsername(router.query.username as string);
     },
     {
       onError: (error: AxiosErrorResponseType) => {
@@ -41,8 +39,8 @@ const ProfileLayout = ({ children }: BaseProps) => {
   };
 
   useEffect(() => {
-    setUser(profile);
-  }, [profile, setUser]);
+    setProfie(profile);
+  }, [profile, setProfie]);
 
   return (
     <>

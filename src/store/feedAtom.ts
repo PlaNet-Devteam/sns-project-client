@@ -1,11 +1,5 @@
 import { atom } from 'recoil';
-import { FeedImageType, FeedType } from '@/core/types/feed';
-import { FeedModifyType } from '@/core/types/feed/feed-modify.interface';
-
-// const feedImageState = atom<FeedImageType[]>({
-//   key: 'feedImageState',
-//   default: [],
-// });
+import { FeedType } from '@/core/types/feed';
 
 const feedImageState = atom<number>({
   key: 'feedImageState',
