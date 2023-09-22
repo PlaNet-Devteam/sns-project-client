@@ -33,9 +33,6 @@ const FeedItem = ({ item }: FeedItemProps) => {
   const [_, setScrollY] = useLocalStorage('scroll_location', 0);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const router = useRouter();
-  const handlecommentbutton = () => {
-    router.push(`/feed/${item.id}/comment`);
-  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModalOpen = () => {
@@ -166,13 +163,9 @@ const FeedItem = ({ item }: FeedItemProps) => {
               <AiOutlineLike color="white" size={'1.5rem'} />
             )}
           </button>
-          <button className="subscription_icon">
-            <img
-              src="/comment.svg"
-              alt="comment"
-              onClick={handlecommentbutton}
-            />
-          </button>
+          <Link href={`/feed/${item.id}/comment`} className="subscription_icon">
+            <img src="/comment.svg" alt="comment" />
+          </Link>
           <img className="subscription_icon" src="/share.svg" alt="share" />
         </div>
       </div>

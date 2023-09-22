@@ -67,13 +67,23 @@ const CommentInput = () => {
   return (
     <>
       <div className="comment__input">
-        <Image
-          className="comment__profile-image"
-          width={100}
-          height={100}
-          src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${user?.profileImage}`}
-          alt="profile"
-        ></Image>
+        <div className="comment__profile-image">
+          {user?.profileImage ? (
+            <Image
+              width={100}
+              height={100}
+              src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${user?.profileImage}`}
+              alt="profile"
+            ></Image>
+          ) : (
+            <Image
+              src={'/img/icons/icon_default_profile.svg'}
+              width={100}
+              height={100}
+              alt="프로필 이미지"
+            />
+          )}
+        </div>
         <form
           onSubmit={(event) => onSubmitForm(event, commentCreate)}
           className="comment__form"
