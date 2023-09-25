@@ -13,9 +13,9 @@ const commentState = atom<CommentType | null>({
   default: null,
 });
 
-const commentIdState = atom({
+const commentIdState = atom<number>({
   key: 'commentIdState',
-  default: '',
+  default: 0,
 });
 
 export { commentState, commentIdState, commentModifyState };

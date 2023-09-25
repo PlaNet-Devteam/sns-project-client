@@ -87,8 +87,11 @@ export default function CommentPage() {
         </div>
         <CommentInput />
         {isModifyModalOpen && (
-          <CommentInputModal isOpen={isModifyModalOpen}>
-            <Dialog.Dimmed onClick={onClickCloseModifyCommentModalHandler} />
+          <CommentInputModal
+            isOpen={isModifyModalOpen}
+            onClose={onClickCloseModifyCommentModalHandler}
+          >
+            <CommentInput />
           </CommentInputModal>
         )}
       </div>

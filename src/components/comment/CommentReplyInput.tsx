@@ -2,21 +2,28 @@ import React, { FormEvent, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
 import { FaPaperPlane } from 'react-icons/fa';
 import { userState } from '@/store/userAtom';
 import useForm from '@/hooks/useForm';
 import { CommentCreateType } from '@/core/types/comment';
-import CommentService from '@/services/comment';
-import { commentModifyState, commentState } from '@/store/commentAtom';
+import CommentReplyService from '@/services/comment-reply';
+import { commentIdState } from '@/store/commentAtom';
+import {
+  commentReplyModalState,
+  commentReplyState,
+  replyToUserCommentState,
+  replyToUsernameState,
+} from '@/store/commentReplyAtom';
 import LoadingLayer from '../common/LoadingLayer';
 
-const CommentInput = () => {
+const CommentReplyInput = () => {
   const queryClient = useQueryClient();
-  const router = useRouter();
   const commentInput = useRef<HTMLInputElement>(null);
-  const [modifyComment, setModifyComemnt] = useRecoilState(commentState);
-  const setModifyModdalOpen = useSetRecoilState(commentModifyState);
+  const [modifyReply, setModifyReply] = useRecoilState(commentReplyState);
+  const commentId = useRecoilValue(commentIdState);
+  const setIsReplyModalOpen = useSetRecoilState(commentReplyModalState);
+  const replyToUsername = useRecoilValue(replyToUsernameState);
+  const isReplyToUserComment = useRecoilValue(replyToUserCommentState);
 
   const {
     formData: commentCreate,
@@ -30,22 +37,19 @@ const CommentInput = () => {
 
   const { mutateAsync, isLoading } = useMutation({
     mutationFn: (formData: CommentCreateType) => {
-      if (modifyComment) {
-        return CommentService.updateComment(modifyComment.id, formData);
+      if (modifyReply) {
+        return CommentReplyService.updateReply(modifyReply.id, formData);
       } else {
-        return CommentService.createComment(
-          parseInt(router.query.id as string),
-          formData,
-        );
+        return CommentReplyService.createReply(commentId, formData);
       }
     },
     onSuccess: () => {
       onReset();
-      if (modifyComment) {
-        setModifyComemnt(null);
-        setModifyModdalOpen(false);
+      if (modifyReply) {
+        setModifyReply(null);
+        setIsReplyModalOpen(false);
       }
-      return queryClient.invalidateQueries(['comments', router.query.id]);
+      return queryClient.invalidateQueries(['replies', commentId]);
     },
   });
 
@@ -60,13 +64,23 @@ const CommentInput = () => {
   useEffect(() => {
     const element = commentInput.current;
     if (element) {
-      element.value = modifyComment?.comment || '';
+      if (replyToUsername) {
+        element.value = isReplyToUserComment ? `@${replyToUsername} ` : '';
+      } else {
+        element.value = modifyReply?.comment || '';
+      }
+
       element.focus();
     }
   }, []);
 
   return (
     <>
+      {replyToUsername && (
+        <div className="comment__reply-info">
+          @{replyToUsername} 에게 답글 작성중...
+        </div>
+      )}
       <div className="comment__input">
         <div className="comment__profile-image">
           {user?.profileImage ? (
@@ -94,7 +108,7 @@ const CommentInput = () => {
             value={commentCreate.comment}
             type="text"
             name="comment"
-            placeholder="댓글 작성"
+            placeholder="답글 작성"
             onChange={onChange}
           />
           <button type="submit">
@@ -107,4 +121,4 @@ const CommentInput = () => {
   );
 };
 
-export default CommentInput;
+export default CommentReplyInput;

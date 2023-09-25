@@ -6,7 +6,7 @@ import { AxiosErrorResponseType } from '@/core/types/error/axios-error-response.
 import { useObserver } from './useObserver';
 
 export const useInfinityScroll = (
-  queryKey: string[],
+  queryKey: unknown[],
   callback: (page: number, limit?: number) => Promise<any>,
   limit = 10,
 ) => {
