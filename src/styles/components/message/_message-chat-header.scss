@@ -1,5 +1,5 @@
-.msg__header {
-  position: relative;
+.chat__header {
+  position: absolute;
   top: 0;
   width: 390px;
   height: 3.75rem;
@@ -9,18 +9,18 @@
   border-bottom: 1px solid rgb(49, 49, 49);
   background-color: var(--bg-color);
 
-  .msg__header-button {
+  .chat__header-button {
     font-size: 15px;
     font-weight: 00;
     justify-self: center;
     align-self: center;
     color: white;
   }
-  .msg__header-username {
+  .chat__header-username {
     justify-self: center;
     align-self: center;
   }
-  .msg__header-icons {
+  .chat__header-icons {
     width: 20px;
     height: 20px;
     color: #1ba2f3;

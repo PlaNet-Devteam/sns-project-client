@@ -1,4 +1,6 @@
 @use './message-header';
+@use './message-userlist';
+@use './message-chat-header';
 
 .message__container {
   display: flex;
@@ -36,8 +38,7 @@
 .message__form {
   display: flex;
   flex-direction: row;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px;
   width: 390px;
 
   input {
@@ -56,9 +57,21 @@
 .message__option {
   width: 1.5rem;
   height: 1.5rem;
+  color: #1ba2f3;
 }
 
 .message__submit {
   width: 1.5rem;
   height: 1.5rem;
+  margin-left: 10px;
+  color: #1ba2f3;
+}
+.msglist__container {
+  display: flex;
+  flex-direction: column;
+}
+.none__chatroom {
+  align-self: center;
+  color: white;
+  margin-top: 200px;
 }
