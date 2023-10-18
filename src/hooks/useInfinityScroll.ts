@@ -3,11 +3,12 @@ import { useRef } from 'react';
 import { useRouter } from 'next/router';
 import { IntersectionObserverCallback } from '@/core/types/feed';
 import { AxiosErrorResponseType } from '@/core/types/error/axios-error-response.type';
+import { InfinitePagesType } from '@/core/types/common';
 import { useObserver } from './useObserver';
 
-export const useInfinityScroll = (
+export const useInfinityScroll = <T>(
   queryKey: unknown[],
-  callback: (page: number, limit?: number) => Promise<any>,
+  callback: (page: number, limit?: number) => Promise<InfinitePagesType<T>>,
   limit = 10,
 ) => {
   const bottom = useRef<HTMLDivElement>(null);
@@ -20,7 +21,7 @@ export const useInfinityScroll = (
         return callback(pageParam, limit);
       },
       {
-        getNextPageParam: (lastPage) => {
+        getNextPageParam: (lastPage: InfinitePagesType<T>) => {
           if (!lastPage.pageInfo.isLast) return lastPage.pageInfo.page + 1;
           return undefined;
         },

@@ -16,7 +16,7 @@ const CommentReplyList = ({ commentId }: CommentReplyListProps) => {
     isFetchingNextPage,
     status,
     bottom,
-  } = useInfinityScroll(['replies', commentId], (page) =>
+  } = useInfinityScroll<CommentReplyType>(['replies', commentId], (page) =>
     CommentReplyService.getReplies(commentId, {
       page,
       limit: 5,
@@ -29,7 +29,7 @@ const CommentReplyList = ({ commentId }: CommentReplyListProps) => {
       {commentReplies &&
         commentReplies.pages.map((page, index) => (
           <div key={index}>
-            {page.items.map((comment: CommentReplyType) => (
+            {page.items.map((comment) => (
               <CommentReplyItem item={comment} key={comment.id} />
             ))}
           </div>

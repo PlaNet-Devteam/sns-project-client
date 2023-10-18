@@ -26,7 +26,7 @@ export default function CommentPage() {
     isFetchingNextPage,
     status,
     bottom,
-  } = useInfinityScroll(
+  } = useInfinityScroll<CommentType>(
     ['comments', router.query.id as string, orderBy],
     (page) =>
       CommentService.getComments(parseInt(router.query.id as string), {
@@ -73,7 +73,7 @@ export default function CommentPage() {
           {comments &&
             comments.pages?.map((page, index) => (
               <div key={index}>
-                {page.items.map((comment: CommentType) => (
+                {page.items.map((comment) => (
                   <CommentItem key={comment.id} item={comment} />
                 ))}
               </div>

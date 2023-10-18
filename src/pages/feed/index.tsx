@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { ImSpinner6 } from 'react-icons/im';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { FeedType } from '@/core/types/feed';
 import FeedItem from '@/components/feed/FeedItem';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
@@ -11,6 +11,7 @@ import FeedService from '@/services/feed';
 import { useInfinityScroll } from '@/hooks/useInfinityScroll';
 import { userState } from '@/store/userAtom';
 import useAuth from '@/hooks/useAuth';
+import { InfinitePagesType } from '@/core/types/common';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 const Feed = () => {
@@ -18,7 +19,7 @@ const Feed = () => {
   const user = useRecoilValue(userState);
   const { payload } = useAuth();
 
-  const { data: feeds } = useQuery(['feeds'], () =>
+  const { data: feeds } = useQuery<InfinitePagesType<FeedType>>(['feeds'], () =>
     FeedService.getFeeds({
       page: 1,
       limit: 10,
@@ -31,7 +32,7 @@ const Feed = () => {
     status,
     hasNextPage,
     bottom,
-  } = useInfinityScroll(['newFeeds'], (page, limit) =>
+  } = useInfinityScroll<FeedType>(['newFeeds'], (page, limit) =>
     FeedService.getFeeds({ page, limit }),
   );
 
@@ -54,13 +55,11 @@ const Feed = () => {
       <title>feed</title>
       <div className="feed_container">
         {feeds &&
-          feeds.items.map((feed: FeedType) => (
-            <FeedItem key={feed.id} item={feed} />
-          ))}
+          feeds.items.map((feed) => <FeedItem key={feed.id} item={feed} />)}
         {AdditionalFeedData &&
           AdditionalFeedData.pages.slice(1).map((page, index) => (
             <div key={index}>
-              {page.items.map((feed: FeedType) => (
+              {page.items.map((feed) => (
                 <FeedItem key={feed.id} item={feed} />
               ))}
             </div>
@@ -79,14 +78,17 @@ const Feed = () => {
 
 export async function getServerSideProps() {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(['feeds'], async () => {
-    const { data } = await FeedService.getFeeds({
-      page: 1,
-      limit: 10,
-    });
+  await queryClient.prefetchQuery<InfinitePagesType<FeedType>>(
+    ['feeds'],
+    async () => {
+      const { data } = await FeedService.getFeeds({
+        page: 1,
+        limit: 10,
+      });
 
-    return data;
-  });
+      return data;
+    },
+  );
   return {
     props: {
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),

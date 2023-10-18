@@ -20,7 +20,7 @@ function ProfileFeedList({ queryKey }: ProfileFeedListProps) {
     isFetchingNextPage,
     status,
     bottom,
-  } = useInfinityScroll([`${queryKey}-${username}`], (page) =>
+  } = useInfinityScroll<FeedType>([`${queryKey}-${username}`], (page) =>
     FeedService.findAllByUser(username, {
       page,
       limit: 9,
@@ -41,7 +41,7 @@ function ProfileFeedList({ queryKey }: ProfileFeedListProps) {
         {myFeeds &&
           myFeeds.pages.map((page, index) => (
             <div key={index}>
-              {page.items.map((feed: FeedType) => (
+              {page.items.map((feed) => (
                 <ProfileFeedListItem key={feed.id} item={feed} />
               ))}
             </div>
