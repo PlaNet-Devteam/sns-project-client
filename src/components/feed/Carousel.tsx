@@ -4,12 +4,13 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import dragEvent from '@/utils/dragEvent';
 import useCarouselSize from '@/hooks/useCarouselSize';
 import { feedImageState } from '@/store/feedAtom';
+import { FeedImageType } from '@/core/types/feed';
 
 interface FeedImgProps {
-  feedImage: any;
+  feedImages: FeedImageType[];
 }
 
-const Carousel = ({ feedImage }: FeedImgProps) => {
+const Carousel = ({ feedImages }: FeedImgProps) => {
   const [transX, setTransX] = useState(0);
   const ImageState = useRecoilValue(feedImageState);
   const setImageState = useSetRecoilState(feedImageState);
@@ -35,7 +36,7 @@ const Carousel = ({ feedImage }: FeedImgProps) => {
               setTransX(inrange(deltaX, -width, width));
             },
             onDragEnd: (deltaX) => {
-              const maxIndex = feedImage.length - 1;
+              const maxIndex = feedImages.length - 1;
 
               if (deltaX < -100)
                 setImageState(inrange(ImageState + 1, 0, maxIndex));
@@ -48,7 +49,7 @@ const Carousel = ({ feedImage }: FeedImgProps) => {
         >
           <div className="Carousel__container">
             <div className="Img__container">
-              {feedImage.map((image: any) => (
+              {feedImages.map((image: FeedImageType) => (
                 <Image
                   src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`}
                   className="Carousel__Img"

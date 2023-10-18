@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import jwtDecode from 'jwt-decode';
 import { useRecoilValue } from 'recoil';
 import IconNavFeed from '@/assets/icons/icon_nav_feed.svg';
 import IconNavExplore from '@/assets/icons/icon_nav_explore.svg';
@@ -50,7 +49,7 @@ const BottomNav = () => {
     if (payload) {
       setUsername(payload.username);
     }
-  }, []);
+  }, [payload]);
 
   return (
     <>

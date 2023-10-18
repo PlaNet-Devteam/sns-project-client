@@ -24,7 +24,7 @@ function ProfileFeedListItem({ item }: ProfileFeedListItemProps) {
           setIsModalOpen(false);
         }}
       >
-        <ProfileFeedModal feedItem={item} />
+        <ProfileFeedModal item={item} />
       </FeedModal>
       <div
         className={'profile-feed-item'}

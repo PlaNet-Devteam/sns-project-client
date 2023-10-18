@@ -38,7 +38,7 @@ const Feed = () => {
 
   useEffect(() => {
     if (scrollY !== 0) window.scrollTo(0, Number(scrollY));
-  }, []);
+  }, [scrollY]);
 
   return (
     <>
@@ -76,6 +76,7 @@ const Feed = () => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export async function getServerSideProps() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery<InfinitePagesType<FeedType>>(

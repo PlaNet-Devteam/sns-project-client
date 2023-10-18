@@ -35,7 +35,7 @@ function ProfileEdit() {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState([]);
 
-  const { mutateAsync, isLoading, isError } = useMutation(
+  const { mutateAsync, isError } = useMutation(
     (formData: UserUpdateType) => {
       if (user?.id !== undefined) {
         return UserService.updateUser(user.id, formData);

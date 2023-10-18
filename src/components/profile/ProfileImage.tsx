@@ -5,7 +5,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { uploadFile } from '@/utils/uploadImage';
 import { UserType, UserUpdateType } from '@/core';
 import UserService from '@/services/user';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
 import useAuth from '@/hooks/useAuth';
 import Dialog from '../dialog/Dialog';
 import Button from '../common/Button';

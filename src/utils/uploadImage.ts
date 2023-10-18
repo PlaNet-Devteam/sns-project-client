@@ -35,7 +35,7 @@ export const uploadFile = (
     return new Promise((resolve, reject) => {
       s3.upload(
         params,
-        (err: AWS.AWSError | any, data: AWS.S3.ManagedUpload.SendData) => {
+        (err: AWS.AWSError | unknown, data: AWS.S3.ManagedUpload.SendData) => {
           if (err) {
             reject(err);
           } else {

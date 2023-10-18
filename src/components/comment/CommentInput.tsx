@@ -63,7 +63,7 @@ const CommentInput = () => {
       element.value = modifyComment?.comment || '';
       element.focus();
     }
-  }, []);
+  }, [modifyComment?.comment]);
 
   return (
     <>

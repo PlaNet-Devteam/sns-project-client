@@ -12,7 +12,6 @@ import { useInfinityScroll } from '@/hooks/useInfinityScroll';
 import { ORDER_BY } from '@/core';
 import { commentModifyState, commentState } from '@/store/commentAtom';
 import CommentInputModal from '@/components/comment/CommentInputModal';
-import Dialog from '@/components/dialog/Dialog';
 
 export default function CommentPage() {
   const router = useRouter();

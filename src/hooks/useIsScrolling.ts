@@ -21,6 +21,7 @@ export function useIsScrolling() {
     };
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const ScrollDebounce = useCallback(
     debounce(async () => {
       try {
@@ -37,7 +38,7 @@ export function useIsScrolling() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [handleScroll]);
 
   return isScrolling;
 }

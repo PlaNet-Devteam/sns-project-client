@@ -4,20 +4,23 @@ import Link from 'next/link';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import router from 'next/router';
 import { formattedDate } from '@/utils/formattedDate';
+import { FeedType } from '@/core/types/feed';
 import Carousel from '../feed/Carousel';
 
-const ProfileFeedModal = (feedItem: any) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+interface ProfileFeedModalProps {
+  item: FeedType;
+}
+
+const ProfileFeedModal = ({ item }: ProfileFeedModalProps) => {
+  const setIsModalOpen = useState(false)[1];
   const handleModalOpen = () => {
     setIsModalOpen((prevState) => !prevState);
   };
   const handlecommentbutton = () => {
-    router.push(`/comment/${feedItem.feedItem.id}`);
+    router.push(`/comment/${item.id}`);
   };
 
-  const convertedDate = formattedDate()(
-    feedItem.feedItem.updatedAt || feedItem.feedItem.createdAt,
-  );
+  const convertedDate = formattedDate()(item.updatedAt || item.createdAt);
 
   return (
     <>
@@ -25,13 +28,13 @@ const ProfileFeedModal = (feedItem: any) => {
         <div style={{ padding: '0px' }}>
           <div className="modal-profile_container">
             <figure>
-              <Link href={`/${feedItem.user?.username}`}>
-                {feedItem.user?.profileImage ? (
+              <Link href={`/${item.user?.username}`}>
+                {item.user?.profileImage ? (
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${feedItem.user?.profileImage}`}
+                    src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${item.user?.profileImage}`}
                     width={100}
                     height={100}
-                    alt={`${feedItem.user?.nickname}님의 프로필 이미지`}
+                    alt={`${item.user?.nickname}님의 프로필 이미지`}
                   />
                 ) : (
                   <Image
@@ -46,20 +49,18 @@ const ProfileFeedModal = (feedItem: any) => {
             <div className="profile_info">
               <div className="profile_text">
                 <div>
-                  <div>{feedItem.feedItem.user?.nickname}</div>
+                  <div>{item.user?.nickname}</div>
                 </div>
                 <div className="upload_time">{convertedDate}</div>
               </div>
               <BsThreeDotsVertical onClick={handleModalOpen} />
             </div>
           </div>
-          <div className="profile-feed-modal_text">
-            {feedItem.feedItem.description}
-          </div>
-          <Carousel feedImage={feedItem.feedItem.feedImages} />
+          <div className="profile-feed-modal_text">{item.description}</div>
+          {item.feedImages && <Carousel feedImages={item.feedImages} />}
           <div className="subscription_text_container">
-            <div>좋아요 {feedItem.feedItem.likeCount}개</div>
-            <div>댓글 {feedItem.feedItem.commentCount}개 공유 0회</div>
+            <div>좋아요 {item.likeCount}개</div>
+            <div>댓글 {item.commentCount}개 공유 0회</div>
           </div>
         </div>
         <div className="subscription_icon_container">
