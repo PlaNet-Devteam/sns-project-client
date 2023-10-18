@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FaPaperPlane } from 'react-icons/fa';
+import { useRouter } from 'next/router';
 import { userState } from '@/store/userAtom';
 import useForm from '@/hooks/useForm';
 import { CommentCreateType } from '@/core/types/comment';
@@ -17,6 +18,7 @@ import {
 import LoadingLayer from '../common/LoadingLayer';
 
 const CommentReplyInput = () => {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const commentInput = useRef<HTMLInputElement>(null);
   const [modifyReply, setModifyReply] = useRecoilState(commentReplyState);
@@ -45,11 +47,10 @@ const CommentReplyInput = () => {
     },
     onSuccess: () => {
       onReset();
-      if (modifyReply) {
-        setModifyReply(null);
-        setIsReplyModalOpen(false);
-      }
-      return queryClient.invalidateQueries(['replies', commentId]);
+      setModifyReply(null);
+      setIsReplyModalOpen(false);
+      queryClient.invalidateQueries(['replies', commentId]);
+      queryClient.invalidateQueries(['comments', router.query.id]);
     },
   });
 

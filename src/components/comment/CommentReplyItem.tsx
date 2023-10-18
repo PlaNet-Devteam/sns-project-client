@@ -23,6 +23,7 @@ export interface CommentPropsType {
 }
 
 const CommentReplyItem = ({ item }: CommentPropsType) => {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const { payload } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,7 +43,8 @@ const CommentReplyItem = ({ item }: CommentPropsType) => {
       CommentReplyService.deleteReply(item.commentId, item.id),
     onSuccess: () => {
       setIsModalOpen(false);
-      return queryClient.invalidateQueries(['replies', item.commentId]);
+      queryClient.invalidateQueries(['comments', router.query.id]);
+      queryClient.invalidateQueries(['replies', item.commentId]);
     },
   });
 
@@ -101,11 +103,12 @@ const CommentReplyItem = ({ item }: CommentPropsType) => {
             </div>
             <div className="comment__content">{item.comment}</div>
             <div className="comment__like-reply">
-              <div className="comment__add-reply">
-                <button onClick={() => onClickReplyUsernameHandler(item)}>
-                  답글 달기
-                </button>
-              </div>
+              <button
+                onClick={() => onClickReplyUsernameHandler(item)}
+                className="comment__add-reply"
+              >
+                답글 달기
+              </button>
             </div>
           </div>
           <div></div>

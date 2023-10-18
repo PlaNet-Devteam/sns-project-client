@@ -35,11 +35,13 @@ const CommentReplyList = ({ commentId }: CommentReplyListProps) => {
           </div>
         ))}
       <div ref={bottom} />
-      <div className="spinner_container">
-        {status === 'success' && !isFetchingNextPage === undefined ? (
-          <ImSpinner6 className="spinner" />
-        ) : null}
-      </div>
+      {commentReplies && commentReplies.pages[0].totalCount > 0 && (
+        <div className="spinner_container">
+          {status === 'success' && !isFetchingNextPage === undefined ? (
+            <ImSpinner6 className="spinner" />
+          ) : null}
+        </div>
+      )}
     </>
   );
 };

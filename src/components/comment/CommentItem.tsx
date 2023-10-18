@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { useRouter } from 'next/router';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { formattedDate } from '@/utils/formattedDate';
 import CommentService from '@/services/comment';
 import useAuth from '@/hooks/useAuth';
@@ -78,6 +78,7 @@ const CommentItem = ({ item }: CommentPropsType) => {
     setIsReplyModalOpen(true);
     setCommentId(item.id);
     setReplyToUsername(item.user.username);
+    setIsReplyListOpen(true);
   };
 
   const onCloseReplyModalHandler = () => {
@@ -143,6 +144,7 @@ const CommentItem = ({ item }: CommentPropsType) => {
             >
               답글 보기 ({item.replyCount})
             </button>
+
             {isReplyListOpen && <CommentReplyList commentId={item.id} />}
           </div>
         )}
