@@ -30,10 +30,10 @@ const CommentItem = ({ item }: CommentPropsType) => {
   const queryClient = useQueryClient();
   const { payload } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isReplyListOpen, setIsReplyListOpen] = useState(false);
   const setModifyModalOpen = useSetRecoilState(commentModifyState);
   const setModifyComment = useSetRecoilState(commentState);
   //  코멘트 답글 (REPLY)
+  const [isReplyListOpen, setIsReplyListOpen] = useState(false);
   const setCommentId = useSetRecoilState(commentIdState);
   const setReplyToUsername = useSetRecoilState(replyToUsernameState);
   const setIsReplyModalOpen = useSetRecoilState(commentReplyModalState);
