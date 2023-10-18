@@ -67,13 +67,22 @@ const CommentReplyInput = () => {
     if (element) {
       if (replyToUsername) {
         element.value = isReplyToUserComment ? `@${replyToUsername} ` : '';
-      } else {
+      }
+
+      element.focus();
+    }
+  }, [isReplyToUserComment, replyToUsername]);
+
+  useEffect(() => {
+    const element = commentInput.current;
+    if (element) {
+      if (modifyReply) {
         element.value = modifyReply?.comment || '';
       }
 
       element.focus();
     }
-  }, []);
+  }, [modifyReply]);
 
   return (
     <>
