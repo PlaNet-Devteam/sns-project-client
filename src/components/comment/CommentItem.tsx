@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { useRouter } from 'next/router';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { formattedDate } from '@/utils/formattedDate';
 import CommentService from '@/services/comment';
 import useAuth from '@/hooks/useAuth';
@@ -15,15 +15,11 @@ import {
 } from '@/store/commentAtom';
 import {
   commentReplyModalState,
-  commentReplyState,
-  replyToUserCommentState,
   replyToUsernameState,
 } from '@/store/commentReplyAtom';
 import { CommentType } from '../../core/types/comment/index';
 import Dialog from '../dialog/Dialog';
 import CommentReplyList from './CommentReplyList';
-import CommentReplyInput from './CommentReplyInput';
-import CommentInputModal from './CommentInputModal';
 
 export interface CommentPropsType {
   item: CommentType;
@@ -40,11 +36,7 @@ const CommentItem = ({ item }: CommentPropsType) => {
   //  코멘트 답글 (REPLY)
   const setCommentId = useSetRecoilState(commentIdState);
   const setReplyToUsername = useSetRecoilState(replyToUsernameState);
-  const setModifyReply = useSetRecoilState(commentReplyState);
-  const [isReplyModalOpen, setIsReplyModalOpen] = useRecoilState(
-    commentReplyModalState,
-  );
-  const setIsReplyToUserComment = useSetRecoilState(replyToUserCommentState);
+  const setIsReplyModalOpen = useSetRecoilState(commentReplyModalState);
 
   const handleModalOpen = () => {
     setIsModalOpen((prevState) => !prevState);
@@ -79,14 +71,6 @@ const CommentItem = ({ item }: CommentPropsType) => {
     setCommentId(item.id);
     setReplyToUsername(item.user.username);
     setIsReplyListOpen(true);
-  };
-
-  const onCloseReplyModalHandler = () => {
-    setIsReplyModalOpen(false);
-    setReplyToUsername('');
-    setCommentId(0);
-    setModifyReply(null);
-    setIsReplyToUserComment(false);
   };
 
   return (
@@ -171,14 +155,6 @@ const CommentItem = ({ item }: CommentPropsType) => {
           <Dialog.LabelButton color="danger">신고</Dialog.LabelButton>
         )}
       </Dialog>
-      {isReplyModalOpen && (
-        <CommentInputModal
-          isOpen={isReplyModalOpen}
-          onClose={onCloseReplyModalHandler}
-        >
-          <CommentReplyInput />
-        </CommentInputModal>
-      )}
     </>
   );
 };

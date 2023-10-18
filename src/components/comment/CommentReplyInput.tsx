@@ -86,7 +86,7 @@ const CommentReplyInput = () => {
 
   return (
     <>
-      {replyToUsername && (
+      {!modifyReply && replyToUsername && (
         <div className="comment__reply-info">
           @{replyToUsername} 에게 답글 작성중...
         </div>

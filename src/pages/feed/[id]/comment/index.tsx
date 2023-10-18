@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { ImSpinner6 } from 'react-icons/im';
 import { useState } from 'react';
 import classNames from 'classnames';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import CommentItem from '@/components/comment/CommentItem';
 import CommentInput from '@/components/comment/CommentInput';
 import { CommentType } from '@/core/types/comment/index';
@@ -10,8 +10,19 @@ import TopHeader from '@/components/nav/topHeader/TopHeader';
 import CommentService from '@/services/comment';
 import { useInfinityScroll } from '@/hooks/useInfinityScroll';
 import { ORDER_BY } from '@/core';
-import { commentModifyState, commentState } from '@/store/commentAtom';
+import {
+  commentIdState,
+  commentModifyState,
+  commentState,
+} from '@/store/commentAtom';
 import CommentInputModal from '@/components/comment/CommentInputModal';
+import {
+  commentReplyModalState,
+  commentReplyState,
+  replyToUserCommentState,
+  replyToUsernameState,
+} from '@/store/commentReplyAtom';
+import CommentReplyInput from '@/components/comment/CommentReplyInput';
 
 export default function CommentPage() {
   const router = useRouter();
@@ -19,6 +30,12 @@ export default function CommentPage() {
   const setModifyComment = useSetRecoilState(commentState);
   const [isModifyModalOpen, setModifyModdalOpen] =
     useRecoilState(commentModifyState);
+  const isReplyModalOpen = useRecoilValue(commentReplyModalState);
+  const setCommentId = useSetRecoilState(commentIdState);
+  const setReplyToUsername = useSetRecoilState(replyToUsernameState);
+  const setModifyReply = useSetRecoilState(commentReplyState);
+  const setIsReplyModalOpen = useSetRecoilState(commentReplyModalState);
+  const setIsReplyToUserComment = useSetRecoilState(replyToUserCommentState);
 
   const {
     data: comments,
@@ -38,6 +55,14 @@ export default function CommentPage() {
   const onClickCloseModifyCommentModalHandler = () => {
     setModifyModdalOpen(false);
     setModifyComment(null);
+  };
+
+  const onCloseReplyModalHandler = () => {
+    setIsReplyModalOpen(false);
+    setReplyToUsername('');
+    setCommentId(0);
+    setModifyReply(null);
+    setIsReplyToUserComment(false);
   };
 
   return (
@@ -85,15 +110,23 @@ export default function CommentPage() {
           </div>
         </div>
         <CommentInput />
-        {isModifyModalOpen && (
-          <CommentInputModal
-            isOpen={isModifyModalOpen}
-            onClose={onClickCloseModifyCommentModalHandler}
-          >
-            <CommentInput />
-          </CommentInputModal>
-        )}
       </div>
+      {isModifyModalOpen && (
+        <CommentInputModal
+          isOpen={isModifyModalOpen}
+          onClose={onClickCloseModifyCommentModalHandler}
+        >
+          <CommentInput />
+        </CommentInputModal>
+      )}
+      {isReplyModalOpen && (
+        <CommentInputModal
+          isOpen={isReplyModalOpen}
+          onClose={onCloseReplyModalHandler}
+        >
+          <CommentReplyInput />
+        </CommentInputModal>
+      )}
     </>
   );
 }
