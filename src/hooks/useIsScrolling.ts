@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 export function useIsScrolling() {
   const [isScrolling, setIsScrolling] = useState(false);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleScroll = () => {
     if (!isScrolling) {
       setIsScrolling(true);
