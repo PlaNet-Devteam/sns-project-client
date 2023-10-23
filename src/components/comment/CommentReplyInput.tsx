@@ -1,5 +1,4 @@
 import React, { FormEvent, useEffect, useRef } from 'react';
-import Image from 'next/image';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FaPaperPlane } from 'react-icons/fa';
@@ -16,6 +15,7 @@ import {
   replyToUsernameState,
 } from '@/store/commentReplyAtom';
 import LoadingLayer from '../common/LoadingLayer';
+import UserProfileImage from '../common/UserProfileImage';
 
 const CommentReplyInput = () => {
   const router = useRouter();
@@ -93,21 +93,7 @@ const CommentReplyInput = () => {
       )}
       <div className="comment__input">
         <div className="comment__profile-image">
-          {user?.profileImage ? (
-            <Image
-              width={100}
-              height={100}
-              src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${user?.profileImage}`}
-              alt="profile"
-            ></Image>
-          ) : (
-            <Image
-              src={'/img/icons/icon_default_profile.svg'}
-              width={100}
-              height={100}
-              alt="프로필 이미지"
-            />
-          )}
+          <UserProfileImage imagePath={user?.profileImage} />
         </div>
         <form
           onSubmit={(event) => onSubmitForm(event, commentCreate)}

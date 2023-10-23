@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -17,6 +16,7 @@ import {
 import CommentReplyService from '@/services/comment-reply';
 import { commentIdState } from '@/store/commentAtom';
 import Dialog from '../dialog/Dialog';
+import UserProfileImage from '../common/UserProfileImage';
 
 export interface CommentPropsType {
   item: CommentReplyType;
@@ -73,21 +73,7 @@ const CommentReplyItem = ({ item }: CommentPropsType) => {
             href={`/${item.user.username}`}
             className="comment__profile-image"
           >
-            {item.user?.profileImage ? (
-              <Image
-                width={100}
-                height={100}
-                src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${item.user?.profileImage}`}
-                alt="profile"
-              ></Image>
-            ) : (
-              <Image
-                src={'/img/icons/icon_default_profile.svg'}
-                width={100}
-                height={100}
-                alt="프로필 이미지"
-              />
-            )}
+            <UserProfileImage imagePath={item.user.profileImage} />
           </Link>
           <div className="comment__info">
             <div className="comment__info-top">
