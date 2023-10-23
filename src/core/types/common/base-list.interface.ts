@@ -5,3 +5,13 @@ export interface BaseListType {
   limit?: number;
   orderBy?: ORDER_BY;
 }
+
+export interface InfinitePagesType<T> {
+  items: T[];
+  totalCount: number;
+  pageInfo: {
+    page: number;
+    limit: number;
+    isLast: boolean;
+  };
+}

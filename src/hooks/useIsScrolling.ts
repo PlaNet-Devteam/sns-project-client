@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 export function useIsScrolling() {
   const [isScrolling, setIsScrolling] = useState(false);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleScroll = () => {
     if (!isScrolling) {
       setIsScrolling(true);
@@ -21,6 +22,7 @@ export function useIsScrolling() {
     };
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const ScrollDebounce = useCallback(
     debounce(async () => {
       try {
@@ -37,7 +39,7 @@ export function useIsScrolling() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [handleScroll]);
 
   return isScrolling;
 }

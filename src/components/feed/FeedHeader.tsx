@@ -2,11 +2,11 @@ import Link from 'next/link';
 
 interface FeedHeaderProps {
   back?: string;
-  backLink?: any;
+  backLink?: string;
   title: string;
   next?: string;
   nextColor?: boolean;
-  nextLink?: any;
+  nextLink?: string;
 }
 
 const FeedHeader = ({

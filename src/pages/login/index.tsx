@@ -6,7 +6,7 @@ import { useSetRecoilState } from 'recoil';
 import useForm from '@/hooks/useForm';
 import { AuthLoginType } from '@/core/types/auth';
 import JwtStorageService, { ACCESS_TOKEN } from '@/core/utils/jwt-storage';
-import LoadingLayer from '@/components/common/LoadingLayer';
+// import LoadingLayer from '@/components/common/LoadingLayer';
 import ErrorMessage from '@/components/common/ErrorMessage';
 import AuthService from '@/services/auth';
 import Button from '@/components/common/Button';
@@ -29,8 +29,8 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState([]);
   const setUser = useSetRecoilState(userState);
 
-  const { mutateAsync, isLoading, isError } = useMutation(
-    (formData: AuthLoginType) => AuthService.login(formData),
+  const { mutateAsync, isError } = useMutation((formData: AuthLoginType) =>
+    AuthService.login(formData),
   );
 
   const onSubmitForm = async (

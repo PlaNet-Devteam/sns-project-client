@@ -24,7 +24,7 @@ function CreateFeed() {
   const router = useRouter();
   const [imageList, setImageList] = useState<FeedFileType[]>([]);
   const orderIndex = useRef<number>(0);
-  const scrollRef = useRef<any>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
   const { isDrag, onDragStart, onDragEnd, onThrottleDragMove } =
     useMouseDrag(scrollRef);
 

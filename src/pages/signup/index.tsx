@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import useForm from '@/hooks/useForm';
 import { GENDER, USER_STATUS, UserCreateType } from '@/core';
-import LoadingLayer from '@/components/common/LoadingLayer';
+// import LoadingLayer from '@/components/common/LoadingLayer';
 import ErrorMessage from '@/components/common/ErrorMessage';
 import UserService from '@/services/user';
 import Button from '@/components/common/Button';
@@ -12,11 +12,7 @@ import ButtonGroup from '@/components/common/ButtonGroup';
 import IconGoogle from '@/assets/icons/icon_google.svg';
 
 const SignUp = () => {
-  const {
-    formData: userCreate,
-    onChange,
-    onReset,
-  } = useForm<UserCreateType>({
+  const { formData: userCreate, onChange } = useForm<UserCreateType>({
     email: '',
     username: '',
     nickname: '',
@@ -30,8 +26,8 @@ const SignUp = () => {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState([]);
 
-  const { mutateAsync, isLoading, isError } = useMutation(
-    (formData: UserCreateType) => UserService.createUser(formData),
+  const { mutateAsync, isError } = useMutation((formData: UserCreateType) =>
+    UserService.createUser(formData),
   );
 
   const onSubmitForm = async (

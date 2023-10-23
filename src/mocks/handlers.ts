@@ -3,7 +3,6 @@ import { rest } from 'msw';
 export const handlers = [
   rest.get('https://example.com/feeds', (req, res, ctx) => {
     const page = req.url.searchParams.get('page');
-    const limit = req.url.searchParams.get('limit');
     if (page === '1') {
       return res(
         ctx.json({

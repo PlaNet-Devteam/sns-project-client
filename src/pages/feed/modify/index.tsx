@@ -23,7 +23,7 @@ function ModifyFeed() {
     feedItem?.feedImages || [],
   );
   const orderIndex = useRef<number>(0);
-  const scrollRef = useRef<any>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
   const { isDrag, onDragStart, onDragEnd, onThrottleDragMove } =
     useMouseDrag(scrollRef);
   const { formData: feedModify, onChange } = useForm<FeedModifyType>({

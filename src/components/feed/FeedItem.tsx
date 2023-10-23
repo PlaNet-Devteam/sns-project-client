@@ -14,7 +14,7 @@ import useAuth from '@/hooks/useAuth';
 import { feedState } from '@/store/feedAtom';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Dialog from '../dialog/Dialog';
-import LoadingLayer from '../common/LoadingLayer';
+// import LoadingLayer from '../common/LoadingLayer';
 import FeedModal from '../common/FeedModal';
 import Carousel from './Carousel';
 
@@ -30,7 +30,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
   const [imgSrc, setImgSrc] = useState(
     `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${item.user?.profileImage}`,
   );
-  const [_, setScrollY] = useLocalStorage('scroll_location', 0);
+  const setScrollY = useLocalStorage('scroll_location', 0)[1];
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const router = useRouter();
 
@@ -140,7 +140,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
               setIsImgModalOpen(false);
             }}
           >
-            <Carousel feedImage={item.feedImages} />
+            {item.feedImages && <Carousel feedImages={item.feedImages} />}
           </FeedModal>
           <div onClick={openModalIfImgCnt}>
             {item.feedImages && item.feedImages.length > 0 && (

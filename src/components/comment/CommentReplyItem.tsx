@@ -6,71 +6,63 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { useRouter } from 'next/router';
 import { useSetRecoilState } from 'recoil';
 import { formattedDate } from '@/utils/formattedDate';
-import CommentService from '@/services/comment';
 import useAuth from '@/hooks/useAuth';
-import {
-  commentIdState,
-  commentModifyState,
-  commentState,
-} from '@/store/commentAtom';
+import { CommentReplyType } from '@/core/types/comment-reply';
 import {
   commentReplyModalState,
+  commentReplyState,
+  replyToUserCommentState,
   replyToUsernameState,
 } from '@/store/commentReplyAtom';
-import { CommentType } from '../../core/types/comment/index';
+import CommentReplyService from '@/services/comment-reply';
+import { commentIdState } from '@/store/commentAtom';
 import Dialog from '../dialog/Dialog';
-import CommentReplyList from './CommentReplyList';
 
 export interface CommentPropsType {
-  item: CommentType;
+  item: CommentReplyType;
 }
 
-const CommentItem = ({ item }: CommentPropsType) => {
+const CommentReplyItem = ({ item }: CommentPropsType) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { payload } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const setModifyModalOpen = useSetRecoilState(commentModifyState);
-  const setModifyComment = useSetRecoilState(commentState);
-  //  코멘트 답글 (REPLY)
-  const [isReplyListOpen, setIsReplyListOpen] = useState(false);
-  const setCommentId = useSetRecoilState(commentIdState);
+  const setIsReplyModdalOpen = useSetRecoilState(commentReplyModalState);
+  const setModifyReply = useSetRecoilState(commentReplyState);
   const setReplyToUsername = useSetRecoilState(replyToUsernameState);
-  const setIsReplyModalOpen = useSetRecoilState(commentReplyModalState);
+  const setCommentId = useSetRecoilState(commentIdState);
+  const setIsReplyToUserComment = useSetRecoilState(replyToUserCommentState);
 
   const handleModalOpen = () => {
     setIsModalOpen((prevState) => !prevState);
   };
 
-  const deleteCommentItemMutation = useMutation({
-    mutationKey: ['delete-comment', item.id],
-    mutationFn: (item: CommentType) =>
-      CommentService.deleteComment(item.feedId, item.id),
+  const deleteCommentReplyItemMutation = useMutation({
+    mutationKey: ['delete-reply', item.id],
+    mutationFn: (item: CommentReplyType) =>
+      CommentReplyService.deleteReply(item.commentId, item.id),
     onSuccess: () => {
       setIsModalOpen(false);
-      return queryClient.invalidateQueries(['comments', router.query.id]);
+      queryClient.invalidateQueries(['comments', router.query.id]);
+      queryClient.invalidateQueries(['replies', item.commentId]);
     },
   });
 
-  const handleDeleteCommentItem = async (item: CommentType) => {
-    deleteCommentItemMutation.mutate(item);
+  const handleDeleteCommentReplyItem = async (item: CommentReplyType) => {
+    deleteCommentReplyItemMutation.mutate(item);
   };
 
-  const handleModifyCommentItem = async (item: CommentType) => {
+  const handleModifyCommentReplyItem = async (item: CommentReplyType) => {
     setIsModalOpen(false);
-    setModifyModalOpen(true);
-    setModifyComment(item);
+    setIsReplyModdalOpen(true);
+    setModifyReply(item);
   };
 
-  const onClickViewReplyHandler = () => {
-    setIsReplyListOpen((prevState) => !prevState);
-  };
-
-  const onClickAddReplyHandler = (item: CommentType) => {
-    setIsReplyModalOpen(true);
-    setCommentId(item.id);
+  const onClickReplyUsernameHandler = (item: CommentReplyType) => {
+    setCommentId(item.commentId);
+    setIsReplyToUserComment(true);
     setReplyToUsername(item.user.username);
-    setIsReplyListOpen(true);
+    setIsReplyModdalOpen(true);
   };
 
   return (
@@ -99,7 +91,11 @@ const CommentItem = ({ item }: CommentPropsType) => {
           </Link>
           <div className="comment__info">
             <div className="comment__info-top">
-              <span className="comment__username">@{item.user?.username}</span>
+              <span className="comment__username">
+                <button onClick={() => onClickReplyUsernameHandler(item)}>
+                  @{item.user?.username}
+                </button>
+              </span>
               <span className="comment__time">
                 {formattedDate()(item.updatedAt || item.createdAt)}{' '}
                 {item.updatedAt && <>(편집됨)</>}
@@ -108,8 +104,8 @@ const CommentItem = ({ item }: CommentPropsType) => {
             <div className="comment__content">{item.comment}</div>
             <div className="comment__like-reply">
               <button
+                onClick={() => onClickReplyUsernameHandler(item)}
                 className="comment__add-reply"
-                onClick={() => onClickAddReplyHandler(item)}
               >
                 답글 달기
               </button>
@@ -120,25 +116,13 @@ const CommentItem = ({ item }: CommentPropsType) => {
             <BsThreeDotsVertical onClick={handleModalOpen} />
           </div>
         </div>
-        {item.replyCount > 0 && (
-          <div className="comment__view">
-            <button
-              className="comment__view-reply"
-              onClick={onClickViewReplyHandler}
-            >
-              답글 보기 ({item.replyCount})
-            </button>
-
-            {isReplyListOpen && <CommentReplyList commentId={item.id} />}
-          </div>
-        )}
       </div>
       <Dialog isOpen={isModalOpen}>
         <Dialog.Dimmed onClick={handleModalOpen} />
         {item.user.username === payload?.username && (
           <Dialog.LabelButton
             color="white"
-            onClick={() => handleModifyCommentItem(item)}
+            onClick={() => handleModifyCommentReplyItem(item)}
           >
             수정
           </Dialog.LabelButton>
@@ -146,7 +130,7 @@ const CommentItem = ({ item }: CommentPropsType) => {
         {item.user.username === payload?.username && (
           <Dialog.LabelButton
             color="danger"
-            onClick={() => handleDeleteCommentItem(item)}
+            onClick={() => handleDeleteCommentReplyItem(item)}
           >
             삭제
           </Dialog.LabelButton>
@@ -159,4 +143,4 @@ const CommentItem = ({ item }: CommentPropsType) => {
   );
 };
 
-export default CommentItem;
+export default CommentReplyItem;
