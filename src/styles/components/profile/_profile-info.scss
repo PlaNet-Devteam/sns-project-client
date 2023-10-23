@@ -85,6 +85,10 @@
       color: rgba($color: white, $alpha: 0.6);
     }
   }
+
+  &__btn-follow {
+    min-width:6rem;
+  }
 }
 
 @keyframes rotate {

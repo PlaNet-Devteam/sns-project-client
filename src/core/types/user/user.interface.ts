@@ -1,6 +1,7 @@
 import { GENDER, USER_STATUS } from '@/core/enum';
 
 export interface UserType {
+  id: number;
   username: string;
   nickname: string;
   email: string;
@@ -11,7 +12,8 @@ export interface UserType {
   profileImage?: string;
   bio?: string;
   gender?: GENDER;
-  id: number;
+  followingIds: number[];
+  followerIds: number[];
 }
 
 export interface UserPayloadType {

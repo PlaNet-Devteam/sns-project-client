@@ -43,6 +43,11 @@ $size-lg: 4rem;
     color: var(--white);
   }
 
+  &-bg--gray {
+    background: var(--gray);
+    color: var(--white);
+  }
+
   &-bg--ghost {
     background-color: transparent;
     border-color: var(--white);
