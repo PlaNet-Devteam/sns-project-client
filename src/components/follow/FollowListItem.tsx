@@ -52,8 +52,8 @@ const FollowListItem = ({ queryKey, item, user }: FollowListItemProps) => {
         });
       } else {
         followUserMutation({
-          userId: item.followingId,
-          followingId: myInfo?.id,
+          userId: myInfo?.id,
+          followingId: item.userId,
         });
       }
     }
@@ -83,6 +83,10 @@ const FollowListItem = ({ queryKey, item, user }: FollowListItemProps) => {
           <span className={styles.item_profileInfo_nickname}>
             {user.nickname}
           </span>
+          <div>
+            userId: {item.userId} <br />
+            followingId: {item.followingId}
+          </div>
         </div>
       </div>
       {myInfo?.id !== user.id && (
