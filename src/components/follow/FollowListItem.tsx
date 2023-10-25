@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FiUserPlus, FiTrash, FiUserMinus } from 'react-icons/fi';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
 import Link from 'next/link';
 import { FollowCreateType, FollowType } from '@/core/types/follow';
@@ -18,6 +18,7 @@ interface FollowListItemProps {
 }
 
 const FollowListItem = ({ queryKey, item, user }: FollowListItemProps) => {
+  const queryClient = useQueryClient();
   const myInfo = useRecoilValue(userState);
   const [followings, setFollowings] = useState<number[] | undefined>(
     myInfo?.followingIds,
@@ -30,6 +31,7 @@ const FollowListItem = ({ queryKey, item, user }: FollowListItemProps) => {
       setFollowings((prevState) => {
         return prevState?.concat([formData.followingId]);
       });
+      queryClient.invalidateQueries(['user', myInfo?.username]);
     },
   });
 
@@ -40,6 +42,7 @@ const FollowListItem = ({ queryKey, item, user }: FollowListItemProps) => {
       setFollowings((prevState) => {
         return prevState?.filter((number) => number !== formData.followingId);
       });
+      queryClient.invalidateQueries(['user', myInfo?.username]);
     },
   });
 
