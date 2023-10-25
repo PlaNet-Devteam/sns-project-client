@@ -72,9 +72,10 @@ const FollowListItem = ({ queryKey, item, user }: FollowListItemProps) => {
     <div className={styles.item}>
       <div className={styles.item_userProfile}>
         <div className={styles.item_profileImage}>
-          <Link href={`/${user.username}`}>
-            <UserProfileImage imagePath={user.profileImage} />
-          </Link>
+          <UserProfileImage
+            username={user.username}
+            imagePath={user.profileImage}
+          />
         </div>
         <div className={styles.item_profileInfo}>
           <span className={styles.item_profileInfo_username}>
@@ -83,10 +84,6 @@ const FollowListItem = ({ queryKey, item, user }: FollowListItemProps) => {
           <span className={styles.item_profileInfo_nickname}>
             {user.nickname}
           </span>
-          <div>
-            userId: {item.userId} <br />
-            followingId: {item.followingId}
-          </div>
         </div>
       </div>
       {myInfo?.id !== user.id && (

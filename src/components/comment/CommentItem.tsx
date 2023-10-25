@@ -77,12 +77,12 @@ const CommentItem = ({ item }: CommentPropsType) => {
     <>
       <div className="comment">
         <div className="comment__wrapper">
-          <Link
-            href={`/${item.user.username}`}
-            className="comment__profile-image"
-          >
-            <UserProfileImage imagePath={item.user.profileImage} />
-          </Link>
+          <div className="comment__profile-image">
+            <UserProfileImage
+              username={item.user.username}
+              imagePath={item.user.profileImage}
+            />
+          </div>
           <div className="comment__info">
             <div className="comment__info-top">
               <span className="comment__username">@{item.user?.username}</span>

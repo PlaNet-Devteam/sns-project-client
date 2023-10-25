@@ -1,14 +1,16 @@
 import Image from 'next/image';
 import React from 'react';
+import Link from 'next/link';
 import styles from './UserProfileImage.module.scss';
 
 interface UserProfileImageProps {
+  username?: string;
   imagePath?: string;
 }
 
-const UserProfileImage = ({ imagePath }: UserProfileImageProps) => {
+const UserProfileImage = ({ username, imagePath }: UserProfileImageProps) => {
   return (
-    <div className={styles.profile_image}>
+    <Link href={`/${username}`} className={styles.profile_image}>
       {imagePath ? (
         <Image
           width={100}
@@ -24,7 +26,7 @@ const UserProfileImage = ({ imagePath }: UserProfileImageProps) => {
           alt="기본 프로필 이미지"
         />
       )}
-    </div>
+    </Link>
   );
 };
 

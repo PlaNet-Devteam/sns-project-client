@@ -96,9 +96,10 @@ const FeedItem = ({ item }: FeedItemProps) => {
         <div>
           <div className="profile_container">
             <figure>
-              <Link href={`/${item.user?.username}`}>
-                <UserProfileImage imagePath={item.user.profileImage} />
-              </Link>
+              <UserProfileImage
+                username={item.user.username}
+                imagePath={item.user.profileImage}
+              />
             </figure>
             <div className="profile_info">
               <div className="profile_text">
