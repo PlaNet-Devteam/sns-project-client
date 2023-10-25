@@ -44,24 +44,28 @@ const FollowListItem = ({ queryKey, item, user }: FollowListItemProps) => {
   });
 
   const onClickFollowHandler = (item: FollowType) => {
-    if (queryKey === FOLLOW.FOLLOWINGS) {
-      followUserMutation({
-        userId: item.userId,
-        followingId: item.followingId,
-      });
-    } else {
-      followUserMutation({
-        userId: item.followingId,
-        followingId: item.userId,
-      });
+    if (myInfo) {
+      if (queryKey === FOLLOW.FOLLOWINGS) {
+        followUserMutation({
+          userId: myInfo?.id,
+          followingId: item.followingId,
+        });
+      } else {
+        followUserMutation({
+          userId: item.followingId,
+          followingId: myInfo?.id,
+        });
+      }
     }
   };
 
   const onClickUnfollowHandler = (item: FollowType) => {
-    unfollowUserMutation({
-      userId: item.userId,
-      followingId: item.followingId,
-    });
+    if (myInfo) {
+      unfollowUserMutation({
+        userId: myInfo?.id,
+        followingId: item.followingId,
+      });
+    }
   };
 
   return (
