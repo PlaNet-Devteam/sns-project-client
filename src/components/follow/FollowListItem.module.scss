@@ -1,0 +1,38 @@
+.item {
+  margin-top:1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  .item_userProfile {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    .item_profileImage {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+    .item_profileInfo {
+      span {
+        display: block;
+        line-height: 1.6;
+  
+      }
+      &_nickname {
+        color: var(--gray);
+      }
+    }
+
+  }
+
+ .item_options {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+ }
+ 
+}

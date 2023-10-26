@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import router from 'next/router';
 import { formattedDate } from '@/utils/formattedDate';
 import { FeedType } from '@/core/types/feed';
 import Carousel from '../feed/Carousel';
+import UserProfileImage from '../common/UserProfileImage';
 
 interface ProfileFeedModalProps {
   item: FeedType;
@@ -28,23 +28,10 @@ const ProfileFeedModal = ({ item }: ProfileFeedModalProps) => {
         <div style={{ padding: '0px' }}>
           <div className="modal-profile_container">
             <figure>
-              <Link href={`/${item.user?.username}`}>
-                {item.user?.profileImage ? (
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${item.user?.profileImage}`}
-                    width={100}
-                    height={100}
-                    alt={`${item.user?.nickname}님의 프로필 이미지`}
-                  />
-                ) : (
-                  <Image
-                    src={'/img/icons/icon_default_profile.svg'}
-                    width={100}
-                    height={100}
-                    alt="프로필 이미지"
-                  />
-                )}
-              </Link>
+              <UserProfileImage
+                username={item.user?.username}
+                imagePath={item.user?.profileImage}
+              />
             </figure>
             <div className="profile_info">
               <div className="profile_text">

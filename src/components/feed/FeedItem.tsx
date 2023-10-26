@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -16,6 +15,7 @@ import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Dialog from '../dialog/Dialog';
 // import LoadingLayer from '../common/LoadingLayer';
 import FeedModal from '../common/FeedModal';
+import UserProfileImage from '../common/UserProfileImage';
 import Carousel from './Carousel';
 
 interface FeedItemProps {
@@ -27,9 +27,6 @@ const FeedItem = ({ item }: FeedItemProps) => {
   const { payload } = useAuth();
   const setFeedModifyState = useSetRecoilState(feedState);
 
-  const [imgSrc, setImgSrc] = useState(
-    `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${item.user?.profileImage}`,
-  );
   const setScrollY = useLocalStorage('scroll_location', 0)[1];
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const router = useRouter();
@@ -99,26 +96,10 @@ const FeedItem = ({ item }: FeedItemProps) => {
         <div>
           <div className="profile_container">
             <figure>
-              <Link href={`/${item.user?.username}`}>
-                {item.user?.profileImage ? (
-                  <Image
-                    src={imgSrc}
-                    width={100}
-                    height={100}
-                    alt={`${item.user?.nickname}님의 프로필 이미지`}
-                    onError={() => {
-                      setImgSrc('/img/icons/icon_default_profile.svg');
-                    }}
-                  />
-                ) : (
-                  <Image
-                    src={'/img/icons/icon_default_profile.svg'}
-                    width={100}
-                    height={100}
-                    alt="프로필 이미지"
-                  />
-                )}
-              </Link>
+              <UserProfileImage
+                username={item.user.username}
+                imagePath={item.user.profileImage}
+              />
             </figure>
             <div className="profile_info">
               <div className="profile_text">
