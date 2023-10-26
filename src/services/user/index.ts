@@ -18,6 +18,10 @@ const UserService = {
     const { data } = await api.patch(`/user/${id}`, formData);
     return data.data;
   },
+  findAllUserData: async () => {
+    const { data } = await api.get('/user/users');
+    return data;
+  },
 };
 
 export default UserService;

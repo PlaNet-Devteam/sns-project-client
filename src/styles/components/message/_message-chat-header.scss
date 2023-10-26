@@ -1,0 +1,28 @@
+.chat__header {
+  position: absolute;
+  top: 0;
+  width: 390px;
+  height: 3.75rem;
+  display: grid;
+  color: white;
+  grid-template-columns: 1fr 3.5fr 1fr;
+  border-bottom: 1px solid rgb(49, 49, 49);
+  background-color: var(--bg-color);
+
+  .chat__header-button {
+    font-size: 15px;
+    font-weight: 00;
+    justify-self: center;
+    align-self: center;
+    color: white;
+  }
+  .chat__header-username {
+    justify-self: center;
+    align-self: center;
+  }
+  .chat__header-icons {
+    width: 20px;
+    height: 20px;
+    color: #1ba2f3;
+  }
+}
