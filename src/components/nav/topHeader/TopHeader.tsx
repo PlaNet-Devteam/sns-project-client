@@ -6,8 +6,20 @@ const HeaderLeft = ({ children }: BaseProps) => {
   return <div className="top-header__left-area">{children}</div>;
 };
 
-const HeaderTitle = ({ children }: BaseProps) => {
-  return <div className="top-header__title-area">{children}</div>;
+interface HeaderTitleProps extends BaseProps {
+  isEnglish?: boolean;
+}
+
+const HeaderTitle = ({ children, isEnglish }: HeaderTitleProps) => {
+  return (
+    <div
+      className={classNames('top-header__title-area', {
+        'is-english': isEnglish,
+      })}
+    >
+      {children}
+    </div>
+  );
 };
 
 const HeaderRight = ({ children }: BaseProps) => {
