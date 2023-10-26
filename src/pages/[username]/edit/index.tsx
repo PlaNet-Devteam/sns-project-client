@@ -69,11 +69,13 @@ function ProfileEdit() {
           <button onClick={() => router.back()}>뒤로</button>
         </TopHeader.Left>
         <TopHeader.Title>프로필 수정</TopHeader.Title>
-        <TopHeader.Right>설정</TopHeader.Right>
+        <TopHeader.Right>
+          <button onClick={() => router.push('/settings')}>설정</button>
+        </TopHeader.Right>
       </TopHeader>
       <div className="profile-edit grid">
         {/* {isLoading && <LoadingLayer />} */}
-        <div className="layout-container ">
+        <div>
           <div className="profile-info">
             <h2 className="profile-info__title">{user?.username}</h2>
             {user && <ProfileImage profile={user} />}

@@ -24,6 +24,12 @@
     width: 7rem;
   }
 
+  .top-header__title-area {
+    &.is-english {
+      letter-spacing: 0.4rem;
+    }
+  }
+
   .inner__container {
     position: relative;
     z-index: 1;

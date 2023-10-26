@@ -22,7 +22,7 @@ const useAuth = () => {
     JwtStorageService.removeToken(ACCESS_TOKEN);
     JwtStorageService.removeToken(REFRESH_TOKEN);
     resetUser(null);
-    router.replace('/login');
+    location.replace('/login');
   };
 
   return {
