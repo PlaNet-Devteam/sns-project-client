@@ -4,16 +4,14 @@ import { BaseProps } from '@/core/types/common';
 import DialogLabelButton from './DialogLabelButton';
 import styles from './Dialog.module.scss';
 import DialogDimmed from './DialogDimmed';
+import DialogContent from './DialogContent';
 
-// * 라벨버튼은 최대 2개만 가져오기
 const DialogLabelButtonType = (<DialogLabelButton />).type;
 function getDialogLabelButtons(children: ReactNode) {
   const childrenArray = Children.toArray(children);
-  return childrenArray
-    .filter(
-      (child) => isValidElement(child) && child.type === DialogLabelButtonType,
-    )
-    .slice(0, 2);
+  return childrenArray.filter(
+    (child) => isValidElement(child) && child.type === DialogLabelButtonType,
+  );
 }
 
 const DialogDimmedTye = (<DialogDimmed />).type;
@@ -28,11 +26,21 @@ interface DialogMainProps extends BaseProps {
   isOpen: boolean;
 }
 
+const DialogContentType = (<DialogContent />).type;
+function getDialogContent(children: ReactNode) {
+  const childrenArray = Children.toArray(children);
+  return childrenArray
+    .filter(
+      (child) => isValidElement(child) && child.type === DialogContentType,
+    )
+    .slice(0, 1);
+}
+
 const DialogMain = ({ children, isOpen }: DialogMainProps) => {
   if (!isOpen) {
     return null;
   }
-
+  const dialogContent = getDialogContent(children);
   const dialogLabelButtons = getDialogLabelButtons(children);
   const dialogDimmed = getDialogDimmed(children);
 
@@ -41,7 +49,10 @@ const DialogMain = ({ children, isOpen }: DialogMainProps) => {
       {dialogLabelButtons && (
         <div className={styles.container}>
           {dialogDimmed}
-          <div className={styles.dialog}>{dialogLabelButtons}</div>
+          <div className={styles.dialog}>
+            {dialogContent}
+            {dialogLabelButtons}
+          </div>
         </div>
       )}
     </div>,
@@ -52,6 +63,7 @@ const DialogMain = ({ children, isOpen }: DialogMainProps) => {
 const Dialog = Object.assign(DialogMain, {
   LabelButton: DialogLabelButton,
   Dimmed: DialogDimmed,
+  Content: DialogContent,
 });
 
 export default Dialog;

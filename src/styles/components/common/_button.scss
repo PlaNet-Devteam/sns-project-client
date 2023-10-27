@@ -31,11 +31,11 @@ $size-lg: 4rem;
     color: var(--black);
   }
   &-bg--primary {
-    background: var(--button-primary-color);
+    background: var(--primary-bg-color);
     color: var(--white);
   }
   &-bg--secondary {
-    background: var(--button-secondary-color);
+    background: var(--secondary-color);
     color: var(--white);
   }
   &-bg--essential {
