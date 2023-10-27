@@ -71,8 +71,8 @@ const Settings = () => {
       </TopHeader>
       <article className="article__container">
         <div className="inner__container">
-          {settingList.map((list) => (
-            <SettingsList title={list.title} items={list.items} />
+          {settingList.map((list, index) => (
+            <SettingsList title={list.title} items={list.items} key={index} />
           ))}
           <div className="button-group">
             <Button
