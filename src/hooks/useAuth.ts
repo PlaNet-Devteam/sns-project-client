@@ -1,5 +1,4 @@
 import jwtDecode from 'jwt-decode';
-import { useRouter } from 'next/router';
 import { useSetRecoilState } from 'recoil';
 import JwtStorageService, {
   ACCESS_TOKEN,
@@ -9,7 +8,6 @@ import { UserPayloadType } from '@/core';
 import { userState } from '@/store/userAtom';
 
 const useAuth = () => {
-  const router = useRouter();
   const accessToken = JwtStorageService.getToken(ACCESS_TOKEN);
   const resetUser = useSetRecoilState(userState);
   let decodePayload: UserPayloadType | null = null;

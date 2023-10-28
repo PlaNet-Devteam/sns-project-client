@@ -10,12 +10,14 @@ import { profileState } from '@/store/profileAtom';
 import { userState } from '@/store/userAtom';
 import { FollowCreateType } from '@/core/types/follow';
 import FollowService from '@/services/follow';
+import { USER_STATUS } from '@/core';
 import ProfileInfo from '../profile/ProfileInfo';
 import ProfileCount from '../profile/ProfileCount';
 import ProfileFeedTabs from '../profile/ProfileFeedTabs';
 import Button from '../common/Button';
 import TopHeader from '../nav/topHeader/TopHeader';
 import LoadingSpinner from '../common/LoadingSpinner';
+import InactivatedUser from '../common/InactivatedUser';
 
 const ProfileLayout = ({ children }: BaseProps) => {
   const router = useRouter();
@@ -34,8 +36,8 @@ const ProfileLayout = ({ children }: BaseProps) => {
       onError: (error: AxiosErrorResponseType) => {
         if (error?.response?.status === 404) {
           alert(error?.response?.data.message);
+          router.push('/_error');
         }
-        router.push('/_error');
       },
     },
   );
@@ -96,7 +98,7 @@ const ProfileLayout = ({ children }: BaseProps) => {
           <h1 className="blind">프로필</h1>
         </TopHeader.Title>
         <TopHeader.Right>
-          {profile && (
+          {payload && profile ? (
             <>
               {payload?.username === profile.username && (
                 <button onClick={() => router.push('/profile/edit')}>
@@ -104,6 +106,8 @@ const ProfileLayout = ({ children }: BaseProps) => {
                 </button>
               )}
             </>
+          ) : (
+            <button onClick={() => router.push('/login')}>로그인</button>
           )}
         </TopHeader.Right>
       </TopHeader>
@@ -123,6 +127,7 @@ const ProfileLayout = ({ children }: BaseProps) => {
               </Button>
             </div>
           )}
+
           {payload && payload?._id !== profile.id && (
             <div className="text-center">
               {myInfo?.followingIds.includes(profile?.id) ? (
@@ -153,7 +158,31 @@ const ProfileLayout = ({ children }: BaseProps) => {
           <ProfileCount profile={profile} />
           <section className="profile-feeds">
             <ProfileFeedTabs />
-            {children}
+            {payload ? ( // 1 - 로그인 상태
+              <>
+                {payload.username !== profile.username ? ( // 2 -다른 유저 프로필
+                  <>
+                    {!myInfo?.followingIds.includes(profile?.id) &&
+                    profile.status === USER_STATUS.INACTIVE ? ( // 3- 유저 비활성 상태 & 팔로잉 안했을 경우
+                      <>
+                        <InactivatedUser />
+                      </>
+                    ) : (
+                      // 3- 유저비활성 상태 & 팔로잉 했을 경우
+                      <> {children}</>
+                    )}
+                  </>
+                ) : (
+                  // 2- 내 프로필
+                  <> {children}</>
+                )}
+              </>
+            ) : (
+              // 1 - 미 로그인 상태
+              <>
+                <InactivatedUser />
+              </>
+            )}
           </section>
         </div>
       )}

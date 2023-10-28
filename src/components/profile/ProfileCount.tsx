@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { FOLLOW, UserType, followTransformer } from '@/core';
+import useAuth from '@/hooks/useAuth';
 import Modal from '../common/Modal';
 import FollowList from '../follow/FollowList';
 
@@ -12,15 +13,20 @@ interface ProfileCountType {
 function ProfileCount({ profile }: ProfileCountType) {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const { payload } = useAuth();
   const [queryKey, setQueryKey] = useState('');
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
 
   const onClickFollowUserModalOpen = (queryKey: string) => {
+    if (!payload) return alert('로그인이 필요합니다');
+
     setQueryKey(queryKey);
     setIsFollowingModalOpen(true);
   };
 
   const onClickFollowUserModalClose = () => {
+    if (!payload) return alert('로그인이 필요합니다');
+
     setIsFollowingModalOpen(false);
     setQueryKey('');
     return queryClient.invalidateQueries(['user', router.query.username]);

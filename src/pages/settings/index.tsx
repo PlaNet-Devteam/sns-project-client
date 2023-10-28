@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { RiLockPasswordLine, RiFileUserLine } from 'react-icons/ri';
 import { MdSecurity, MdNoAccounts } from 'react-icons/md';
-import { BiHelpCircle, BiLike, BiBlock } from 'react-icons/bi';
+import { BiHelpCircle } from 'react-icons/bi';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
 import SettingsList, {
   SettingsListType,
@@ -27,22 +27,19 @@ const Settings = () => {
           icon: <RiFileUserLine />,
           title: '개인정보',
         },
-        {
-          icon: <MdSecurity />,
-          title: '내 정보 및 권한',
-        },
       ],
     },
     {
       title: '콘텐츠 정보',
       items: [
         {
-          icon: <BiLike />,
-          title: '좋아요 수 노출 관리',
+          icon: <MdSecurity />,
+          title: '계정 공개 범위',
+          onClick: () => router.push('/settings/account-status'),
         },
         {
           icon: <MdNoAccounts />,
-          title: '차단 유저 관리',
+          title: '차단된 계정',
         },
       ],
     },
@@ -51,10 +48,6 @@ const Settings = () => {
         {
           icon: <BiHelpCircle />,
           title: '도움말',
-        },
-        {
-          icon: <BiBlock />,
-          title: '계정 삭제',
         },
       ],
     },

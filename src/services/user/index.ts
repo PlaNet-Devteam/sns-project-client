@@ -1,5 +1,6 @@
 import { USER_API, UserCreateType, UserUpdateType } from '@/core';
 import { api } from '@/core/base.service';
+import { UserUpdateStatusType } from '@/core/types/user/user-update-status.interface';
 
 const UserService = {
   getFindMe: async () => {
@@ -16,6 +17,10 @@ const UserService = {
   },
   updateUser: async (id: number, formData: UserUpdateType) => {
     const { data } = await api.patch(`/user/${id}`, formData);
+    return data.data;
+  },
+  updateUserStatus: async (formData: UserUpdateStatusType) => {
+    const { data } = await api.patch(USER_API.UPDATE_STATUS, formData);
     return data.data;
   },
   findAllUserData: async () => {

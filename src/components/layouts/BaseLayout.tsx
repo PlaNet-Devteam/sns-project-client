@@ -25,9 +25,9 @@ const BaseLayout = ({ children }: BaseProps) => {
     {
       onError: (error: AxiosErrorResponseType) => {
         if (error?.response?.status === 404) {
-          alert(error?.response?.data.message);
+          // alert(error?.response?.data.message);
+          // router.push('/_error');
         }
-        router.push('/_error');
       },
     },
   );
