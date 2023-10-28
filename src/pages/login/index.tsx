@@ -15,11 +15,7 @@ import IconGoogle from '@/assets/icons/icon_google.svg';
 import { userState } from '@/store/userAtom';
 
 const Login = () => {
-  const {
-    formData: authLogin,
-    onChange,
-    onReset,
-  } = useForm<AuthLoginType>({
+  const { formData: authLogin, onChange } = useForm<AuthLoginType>({
     email: '',
     password: '',
     rememberMe: true,
@@ -29,8 +25,10 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState([]);
   const setUser = useSetRecoilState(userState);
 
-  const { mutateAsync, isError } = useMutation((formData: AuthLoginType) =>
-    AuthService.login(formData),
+  const { mutateAsync, isError, isSuccess } = useMutation(
+    (formData: AuthLoginType) => {
+      return AuthService.login(formData);
+    },
   );
 
   const onSubmitForm = async (
@@ -43,8 +41,10 @@ const Login = () => {
       if (accessToken) {
         JwtStorageService.setToken(ACCESS_TOKEN, `${accessToken}`);
         setUser(userInfo);
-        onReset();
-        router.replace('/feed');
+        router.reload();
+        if (isSuccess) {
+          router.replace('/feed');
+        }
       }
     } catch (error: any) {
       console.log('error?.response', error?.response);

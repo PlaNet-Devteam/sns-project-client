@@ -130,7 +130,8 @@ const ProfileLayout = ({ children }: BaseProps) => {
 
           {payload && payload?._id !== profile.id && (
             <div className="text-center">
-              {myInfo?.followingIds.includes(profile?.id) ? (
+              {myInfo?.followingIds &&
+              myInfo?.followingIds.includes(profile?.id) ? (
                 <>
                   <Button
                     variant="gray"
@@ -162,13 +163,14 @@ const ProfileLayout = ({ children }: BaseProps) => {
               <>
                 {payload.username !== profile.username ? ( // 2 -다른 유저 프로필
                   <>
-                    {!myInfo?.followingIds.includes(profile?.id) &&
-                    profile.status === USER_STATUS.INACTIVE ? ( // 3- 유저 비활성 상태 & 팔로잉 안했을 경우
+                    {myInfo?.followingIds &&
+                    !myInfo?.followingIds.includes(profile?.id) &&
+                    profile.status === USER_STATUS.INACTIVE ? ( // 3- 유저 비활성 상태 & 팔로잉 안 했을 경우
                       <>
                         <InactivatedUser />
                       </>
                     ) : (
-                      // 3- 유저비활성 상태 & 팔로잉 했을 경우
+                      // 3- 유저 비활성 상태 & 팔로잉 했을 경우
                       <> {children}</>
                     )}
                   </>
@@ -180,7 +182,14 @@ const ProfileLayout = ({ children }: BaseProps) => {
             ) : (
               // 1 - 미 로그인 상태
               <>
-                <InactivatedUser />
+                {profile.status === USER_STATUS.INACTIVE ? ( // 2 - 유저 활성 상태
+                  <>
+                    <InactivatedUser />
+                  </>
+                ) : (
+                  // 2 - 유저 비활성 상태
+                  <>{children}</>
+                )}
               </>
             )}
           </section>
