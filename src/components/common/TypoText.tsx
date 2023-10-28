@@ -17,10 +17,14 @@ interface ColorType {
 
 interface TypoTextProps extends BaseProps {
   color?: keyof ColorType;
-  tagName: keyof JSX.IntrinsicElements;
+  tagName?: keyof JSX.IntrinsicElements;
 }
 
-const TypoText = ({ color = 'black', tagName, children }: TypoTextProps) => {
+const TypoText = ({
+  color = 'black',
+  tagName = 'p',
+  children,
+}: TypoTextProps) => {
   const Element = tagName;
 
   return (
