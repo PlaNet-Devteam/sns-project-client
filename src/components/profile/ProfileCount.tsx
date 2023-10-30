@@ -22,7 +22,10 @@ function ProfileCount({ profile }: ProfileCountType) {
 
   const onClickFollowUserModalOpen = (queryKey: string) => {
     if (!payload) return alert('로그인이 필요합니다');
-    if (!myInfo?.followingIds.includes(profile.id))
+    if (
+      payload.username !== profile.username &&
+      !myInfo?.followingIds.includes(profile.id)
+    )
       return alert('리스트를 보려면 팔로우하세요');
     setQueryKey(queryKey);
     setIsFollowingModalOpen(true);
