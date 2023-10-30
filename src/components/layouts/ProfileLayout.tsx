@@ -182,12 +182,12 @@ const ProfileLayout = ({ children }: BaseProps) => {
             ) : (
               // 1 - 미 로그인 상태
               <>
-                {profile.status === USER_STATUS.INACTIVE ? ( // 2 - 유저 활성 상태
+                {profile.status === USER_STATUS.INACTIVE ? ( // 2 - 유저 비활성 상태
                   <>
                     <InactivatedUser />
                   </>
                 ) : (
-                  // 2 - 유저 비활성 상태
+                  // 2 - 유저 활성화 상태
                   <>{children}</>
                 )}
               </>

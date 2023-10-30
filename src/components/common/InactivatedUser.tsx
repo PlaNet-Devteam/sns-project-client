@@ -1,7 +1,7 @@
 import React from 'react';
 import { BsFillShieldLockFill } from 'react-icons/bs';
 import Link from 'next/link';
-import { useRecoilStateLoadable, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { userState } from '@/store/userAtom';
 import TypoText from './TypoText';
 import styles from './InactivatedUser.module.scss';
