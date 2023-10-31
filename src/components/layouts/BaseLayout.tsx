@@ -21,7 +21,7 @@ const BaseLayout = ({ children }: BaseProps) => {
     ['user', payload?.username],
     () => {
       if (payload?.username === 'undefined') return router.push('/login');
-      return UserService.findUserByUsername(payload?.username as string);
+      return UserService.getFindMe();
     },
     {
       onError: (error: AxiosErrorResponseType) => {
