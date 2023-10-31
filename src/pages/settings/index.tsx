@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { RiLockPasswordLine, RiFileUserLine } from 'react-icons/ri';
 import { MdSecurity, MdNoAccounts } from 'react-icons/md';
-import { BiHelpCircle } from 'react-icons/bi';
+import { BiHelpCircle, BiTrash } from 'react-icons/bi';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
 import SettingsList, {
   SettingsListType,
@@ -48,6 +48,11 @@ const Settings = () => {
         {
           icon: <BiHelpCircle />,
           title: '도움말',
+        },
+        {
+          icon: <BiTrash />,
+          title: '계정 삭제',
+          onClick: () => router.push('/settings/delete-account'),
         },
       ],
     },
