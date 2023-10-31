@@ -22,21 +22,22 @@ const DeleteAccount = () => {
 
   const { mutateAsync, isLoading, isError } = useMutation({
     mutationFn: (formData: UserDeleteType) => UserService.deleteUser(formData),
-    onSuccess: () => {
-      setIsModalOpen(false);
-      onLogout();
-    },
-    onError: (error: AxiosErrorResponseType) => {
-      setErrorMessage(error?.response?.data.message);
-    },
   });
 
   const { formData: accountDelete, onChange } = useForm<UserDeleteType>({
     password: '',
   });
 
-  const onClickDeleteUserHandler = (formData: UserDeleteType) => {
-    mutateAsync(formData);
+  const onClickDeleteUserHandler = async (formData: UserDeleteType) => {
+    try {
+      await mutateAsync(formData);
+      setIsModalOpen(false);
+      onLogout();
+    } catch (error: any) {
+      console.log('error?.response', error?.response);
+      setErrorMessage(error?.response?.data.message);
+      setIsModalOpen(false);
+    }
   };
 
   const onClickModalOpenHandler = (event?: FormEvent) => {
@@ -100,6 +101,7 @@ const DeleteAccount = () => {
         <Dialog.Content>
           <div className="text-center">
             <TypoText tagName="p" color="white">
+              정말로 <br />
               계정을 삭제할까요?
             </TypoText>
           </div>
