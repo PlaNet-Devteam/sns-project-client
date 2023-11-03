@@ -4,11 +4,12 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
 import { BaseProps } from '@/core/types/common';
 import { userState } from '@/store/userAtom';
-import { AxiosErrorResponseType, UserType } from '@/core';
+import { AxiosErrorResponseType, UserType, YN } from '@/core';
 import useAuth from '@/hooks/useAuth';
 import UserService from '@/services/user';
 import { profileState } from '@/store/profileAtom';
 import BottomNav from '../nav/bottomNav/BottomNav';
+import ActivateUser from '../common/ActivateUser';
 
 const BaseLayout = ({ children }: BaseProps) => {
   const router = useRouter();
@@ -20,14 +21,14 @@ const BaseLayout = ({ children }: BaseProps) => {
     ['user', payload?.username],
     () => {
       if (payload?.username === 'undefined') return router.push('/login');
-      return UserService.findUserByUsername(payload?.username as string);
+      return UserService.getFindMe();
     },
     {
       onError: (error: AxiosErrorResponseType) => {
         if (error?.response?.status === 404) {
-          alert(error?.response?.data.message);
+          // alert(error?.response?.data.message);
+          // router.push('/_error');
         }
-        router.push('/_error');
       },
     },
   );
@@ -44,6 +45,17 @@ const BaseLayout = ({ children }: BaseProps) => {
   useEffect(() => {
     setUser(userInfo);
   }, [userInfo, setUser]);
+
+  // * 계정 삭제 요청 상태 시 보여주는 화면
+  if (userInfo?.delYn === YN.Y) {
+    return (
+      <main className="app-main">
+        <div className="layout__container">
+          <ActivateUser />
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="app-main">

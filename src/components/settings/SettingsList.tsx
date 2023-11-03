@@ -12,8 +12,8 @@ const SettingsList = ({ title, items }: SettingsListType) => {
     <div className={styles.list}>
       {title && <h3 className={styles.title}>{title}</h3>}
       <div className={styles.items}>
-        {items.map((item) => (
-          <SettingsListItem item={item} />
+        {items.map((item, index) => (
+          <SettingsListItem item={item} key={index} />
         ))}
       </div>
     </div>

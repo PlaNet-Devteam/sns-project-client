@@ -36,6 +36,8 @@ api.interceptors.response.use(
     if (error.code === 'ERR_NETWORK') {
       alert('네트워크 오류');
       location.replace('/');
+      JwtStorageService.removeToken(ACCESS_TOKEN);
+      JwtStorageService.removeToken(REFRESH_TOKEN);
     }
     if (error.response) {
       const { data } = error.response;

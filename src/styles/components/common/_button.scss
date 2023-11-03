@@ -31,11 +31,11 @@ $size-lg: 4rem;
     color: var(--black);
   }
   &-bg--primary {
-    background: var(--button-primary-color);
+    background: var(--primary-bg-color);
     color: var(--white);
   }
   &-bg--secondary {
-    background: var(--button-secondary-color);
+    background: var(--secondary-color);
     color: var(--white);
   }
   &-bg--essential {
@@ -116,7 +116,7 @@ $size-lg: 4rem;
 
   // full size
   &-size--full {
-    width: 100%;
+    width: 100%; 
   }
 
   // english
@@ -144,5 +144,11 @@ $size-lg: 4rem;
   svg {
     width: 1.5em;
     height: 1.5em;
+  }
+}
+
+.button-size--full {
+  + .button-size--full {
+    margin-top: 1rem;
   }
 }

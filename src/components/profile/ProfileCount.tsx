@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
+import { useRecoilValue } from 'recoil';
 import { FOLLOW, UserType, followTransformer } from '@/core';
+import useAuth from '@/hooks/useAuth';
+import { userState } from '@/store/userAtom';
 import Modal from '../common/Modal';
 import FollowList from '../follow/FollowList';
 
@@ -12,10 +15,18 @@ interface ProfileCountType {
 function ProfileCount({ profile }: ProfileCountType) {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const { payload } = useAuth();
+  const myInfo = useRecoilValue(userState);
   const [queryKey, setQueryKey] = useState('');
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
 
   const onClickFollowUserModalOpen = (queryKey: string) => {
+    if (!payload) return alert('로그인이 필요합니다');
+    if (
+      payload.username !== profile.username &&
+      !myInfo?.followingIds.includes(profile.id)
+    )
+      return alert('리스트를 보려면 팔로우하세요');
     setQueryKey(queryKey);
     setIsFollowingModalOpen(true);
   };

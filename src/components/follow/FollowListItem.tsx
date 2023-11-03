@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { FiUserPlus, FiTrash, FiUserMinus } from 'react-icons/fi';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
-import Link from 'next/link';
 import { FollowCreateType, FollowType } from '@/core/types/follow';
 import { FOLLOW, UserType } from '@/core';
 import FollowService from '@/services/follow';
@@ -98,7 +97,6 @@ const FollowListItem = ({ queryKey, item, user }: FollowListItemProps) => {
                   <>
                     <Button
                       variant="primary"
-                      isFull={true}
                       isEnglish={true}
                       iconOnly
                       size="sm"
@@ -111,7 +109,6 @@ const FollowListItem = ({ queryKey, item, user }: FollowListItemProps) => {
                   <>
                     <Button
                       variant="gray"
-                      isFull={true}
                       isEnglish={true}
                       iconOnly
                       size="sm"
@@ -128,7 +125,6 @@ const FollowListItem = ({ queryKey, item, user }: FollowListItemProps) => {
                   <>
                     <Button
                       variant="primary"
-                      isFull={true}
                       isEnglish={true}
                       iconOnly
                       size="sm"
@@ -138,13 +134,7 @@ const FollowListItem = ({ queryKey, item, user }: FollowListItemProps) => {
                     </Button>
                   </>
                 )}
-                <Button
-                  variant="gray"
-                  isFull={true}
-                  isEnglish={true}
-                  iconOnly
-                  size="sm"
-                >
+                <Button variant="gray" isEnglish={true} iconOnly size="sm">
                   <FiTrash />
                 </Button>
               </>
