@@ -10,7 +10,7 @@ import { profileState } from '@/store/profileAtom';
 import { userState } from '@/store/userAtom';
 import { FollowCreateType } from '@/core/types/follow';
 import FollowService from '@/services/follow';
-import { USER_BLOCK, USER_STATUS, UserBlockCreateType } from '@/core';
+import { USER_STATUS, UserBlockCreateType } from '@/core';
 import UserBlockService from '@/services/user-block';
 import ProfileInfo from '../profile/ProfileInfo';
 import ProfileCount from '../profile/ProfileCount';
@@ -45,7 +45,6 @@ const ProfileLayout = ({ children }: BaseProps) => {
     {
       onError: (error: AxiosErrorResponseType) => {
         if (error?.response?.status === 404) {
-          alert(error?.response?.data.message);
           router.push('/_error');
         }
       },
@@ -92,8 +91,13 @@ const ProfileLayout = ({ children }: BaseProps) => {
 
   const { mutateAsync: userBlockMutation, isLoading: isLoadingUserBlock } =
     useMutation({
-      mutationFn: (formData: UserBlockCreateType) =>
-        UserBlockService.createUserBlock(formData),
+      mutationFn: (formData: UserBlockCreateType) => {
+        if (profile?.isBlockedByViewer) {
+          return UserBlockService.deleteUserBlock(formData);
+        } else {
+          return UserBlockService.createUserBlock(formData);
+        }
+      },
       onSuccess: () => {
         setIsModalOpen(false);
         queryClient.invalidateQueries(['user', payload?.username]);
@@ -158,7 +162,12 @@ const ProfileLayout = ({ children }: BaseProps) => {
                   <Button
                     variant="danger"
                     size="sm"
-                    onClick={() => onClickUnfollowUser(profile.id)}
+                    onClick={() =>
+                      onClickUserBlockHandler({
+                        userId: payload._id,
+                        blockedUserId: profile.id,
+                      })
+                    }
                   >
                     {!isLoadingUserBlock ? (
                       '차단 해제'
@@ -264,7 +273,6 @@ const ProfileLayout = ({ children }: BaseProps) => {
               onClickUserBlockHandler({
                 userId: payload?._id,
                 blockedUserId: profile?.id,
-                actionType: USER_BLOCK.BLOCKED,
               })
             }
           >
