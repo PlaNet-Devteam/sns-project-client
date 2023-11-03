@@ -16,6 +16,7 @@ export interface UserType {
   gender?: GENDER;
   followingIds: number[];
   followerIds: number[];
+  isBlockedByViewer?: boolean;
 }
 
 export interface UserPayloadType {

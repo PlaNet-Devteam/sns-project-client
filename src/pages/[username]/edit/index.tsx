@@ -69,9 +69,7 @@ function ProfileEdit() {
           <button onClick={() => router.back()}>뒤로</button>
         </TopHeader.Left>
         <TopHeader.Title>프로필 수정</TopHeader.Title>
-        <TopHeader.Right>
-          <button onClick={() => router.push('/settings')}>설정</button>
-        </TopHeader.Right>
+        <TopHeader.Right></TopHeader.Right>
       </TopHeader>
       <div className="profile-edit grid">
         {/* {isLoading && <LoadingLayer />} */}

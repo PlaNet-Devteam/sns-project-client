@@ -4,6 +4,7 @@ import { ImSpinner6 } from 'react-icons/im';
 import { FeedType } from '@/core/types/feed';
 import { useInfinityScroll } from '@/hooks/useInfinityScroll';
 import FeedService from '@/services/feed';
+import useAuth from '@/hooks/useAuth';
 import EmptyData from '../common/EmptyData';
 import ProfileFeedListItem from './ProfileFeedListItem';
 
@@ -14,6 +15,7 @@ interface ProfileFeedListProps {
 function ProfileFeedList({ queryKey }: ProfileFeedListProps) {
   const router = useRouter();
   const { username } = router.query;
+  const { payload } = useAuth();
 
   const {
     data: myFeeds,
@@ -24,10 +26,11 @@ function ProfileFeedList({ queryKey }: ProfileFeedListProps) {
     FeedService.findAllByUser(username, {
       page,
       limit: 9,
+      viewerId: payload?._id,
     }),
   );
 
-  if (myFeeds?.pages && myFeeds?.pages[0].totalCount === 0) {
+  if (myFeeds?.pages[0].totalCount === 0) {
     return (
       <>
         <EmptyData /> <div ref={bottom} />
@@ -38,14 +41,13 @@ function ProfileFeedList({ queryKey }: ProfileFeedListProps) {
   return (
     <>
       <div className="profile-feeds-list">
-        {myFeeds &&
-          myFeeds.pages.map((page, index) => (
-            <div key={index}>
-              {page.items.map((feed) => (
-                <ProfileFeedListItem key={feed.id} item={feed} />
-              ))}
-            </div>
-          ))}
+        {myFeeds?.pages.map((page, index) => (
+          <div key={index}>
+            {page.items.map((feed) => (
+              <ProfileFeedListItem key={feed.id} item={feed} />
+            ))}
+          </div>
+        ))}
       </div>
       {bottom && <div ref={bottom} />}
 

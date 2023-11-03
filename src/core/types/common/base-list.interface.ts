@@ -4,6 +4,7 @@ export interface BaseListType {
   page?: number;
   limit?: number;
   orderBy?: ORDER_BY;
+  viewerId?: number;
 }
 
 export interface InfinitePagesType<T> {

@@ -40,6 +40,7 @@ const Settings = () => {
         {
           icon: <MdNoAccounts />,
           title: '차단된 계정',
+          onClick: () => router.push('/settings/block-user'),
         },
       ],
     },

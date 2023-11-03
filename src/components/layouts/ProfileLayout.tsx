@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -10,7 +10,8 @@ import { profileState } from '@/store/profileAtom';
 import { userState } from '@/store/userAtom';
 import { FollowCreateType } from '@/core/types/follow';
 import FollowService from '@/services/follow';
-import { USER_STATUS } from '@/core';
+import { USER_BLOCK, USER_STATUS, UserBlockCreateType } from '@/core';
+import UserBlockService from '@/services/user-block';
 import ProfileInfo from '../profile/ProfileInfo';
 import ProfileCount from '../profile/ProfileCount';
 import ProfileFeedTabs from '../profile/ProfileFeedTabs';
@@ -18,6 +19,7 @@ import Button from '../common/Button';
 import TopHeader from '../nav/topHeader/TopHeader';
 import LoadingSpinner from '../common/LoadingSpinner';
 import InactivatedUser from '../common/InactivatedUser';
+import Dialog from '../dialog/Dialog';
 
 const ProfileLayout = ({ children }: BaseProps) => {
   const router = useRouter();
@@ -25,12 +27,20 @@ const ProfileLayout = ({ children }: BaseProps) => {
   const { payload, onLogout } = useAuth();
   const myInfo = useRecoilValue(userState);
   const setProfie = useSetRecoilState(profileState);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data: profile } = useQuery(
     ['user', router.query.username],
     () => {
       if (router.query.username === 'undefined') return router.push('/login');
-      return UserService.findUserByUsername(router.query.username as string);
+      if (payload?._id) {
+        // 로그인한 상태라면 'viewer id' 에 나의 아이디 전송
+        return UserService.findUserByUsername(router.query.username as string, {
+          viewerId: payload?._id,
+        });
+      } else {
+        return UserService.findUserByUsername(router.query.username as string);
+      }
     },
     {
       onError: (error: AxiosErrorResponseType) => {
@@ -80,6 +90,23 @@ const ProfileLayout = ({ children }: BaseProps) => {
     }
   };
 
+  const { mutateAsync: userBlockMutation, isLoading: isLoadingUserBlock } =
+    useMutation({
+      mutationFn: (formData: UserBlockCreateType) =>
+        UserBlockService.createUserBlock(formData),
+      onSuccess: () => {
+        setIsModalOpen(false);
+        queryClient.invalidateQueries(['user', payload?.username]);
+        queryClient.invalidateQueries(['user', router.query.username]);
+      },
+    });
+
+  const onClickUserBlockHandler = (
+    createUserBlockType: UserBlockCreateType,
+  ) => {
+    userBlockMutation(createUserBlockType);
+  };
+
   const onLogoutHandler = () => {
     onLogout();
   };
@@ -100,11 +127,7 @@ const ProfileLayout = ({ children }: BaseProps) => {
         <TopHeader.Right>
           {payload && profile ? (
             <>
-              {payload?.username === profile.username && (
-                <button onClick={() => router.push('/profile/edit')}>
-                  편집
-                </button>
-              )}
+              <button onClick={() => setIsModalOpen(true)}>설정</button>
             </>
           ) : (
             <button onClick={() => router.push('/login')}>로그인</button>
@@ -130,28 +153,48 @@ const ProfileLayout = ({ children }: BaseProps) => {
 
           {payload && payload?._id !== profile.id && (
             <div className="text-center">
-              {myInfo?.followingIds &&
-              myInfo?.followingIds.includes(profile?.id) ? (
+              {profile?.isBlockedByViewer ? (
                 <>
                   <Button
-                    variant="gray"
+                    variant="danger"
                     size="sm"
                     onClick={() => onClickUnfollowUser(profile.id)}
-                    className="profile-info__btn-follow"
                   >
-                    {!isLoadingUnfollow ? '팔로우 취소' : <LoadingSpinner />}
+                    {!isLoadingUserBlock ? (
+                      '차단 해제'
+                    ) : (
+                      <LoadingSpinner variant="white" />
+                    )}
                   </Button>
                 </>
               ) : (
                 <>
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    onClick={() => onClickFollowUser(profile.id)}
-                    className="profile-info__btn-follow"
-                  >
-                    {!isLoadingFollow ? '팔로우' : <LoadingSpinner />}
-                  </Button>
+                  {myInfo?.followingIds &&
+                  myInfo?.followingIds.includes(profile?.id) ? (
+                    <>
+                      <Button
+                        variant="gray"
+                        size="sm"
+                        onClick={() => onClickUnfollowUser(profile.id)}
+                      >
+                        {!isLoadingUnfollow ? (
+                          '팔로우 취소'
+                        ) : (
+                          <LoadingSpinner />
+                        )}
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => onClickFollowUser(profile.id)}
+                      >
+                        {!isLoadingFollow ? '팔로우' : <LoadingSpinner />}
+                      </Button>
+                    </>
+                  )}
                 </>
               )}
             </div>
@@ -195,6 +238,43 @@ const ProfileLayout = ({ children }: BaseProps) => {
           </section>
         </div>
       )}
+
+      <Dialog isOpen={isModalOpen}>
+        <Dialog.Dimmed onClick={() => setIsModalOpen(false)} />
+        {payload?.username === profile?.username && (
+          <Dialog.LabelButton
+            color="essential"
+            onClick={() => router.push('/profile/edit')}
+          >
+            프로필 편집
+          </Dialog.LabelButton>
+        )}
+        {payload?.username === profile?.username && (
+          <Dialog.LabelButton
+            color="white"
+            onClick={() => router.push('/settings')}
+          >
+            설정 및 개인정보
+          </Dialog.LabelButton>
+        )}
+        {payload && payload?.username !== profile?.username && (
+          <Dialog.LabelButton
+            color="danger"
+            onClick={() =>
+              onClickUserBlockHandler({
+                userId: payload?._id,
+                blockedUserId: profile?.id,
+                actionType: USER_BLOCK.BLOCKED,
+              })
+            }
+          >
+            {profile?.isBlockedByViewer ? '차단 해제' : '차단'}
+          </Dialog.LabelButton>
+        )}
+        <Dialog.LabelButton color="gray" onClick={() => setIsModalOpen(false)}>
+          닫기
+        </Dialog.LabelButton>
+      </Dialog>
     </>
   );
 };

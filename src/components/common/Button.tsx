@@ -3,15 +3,9 @@ import Link from 'next/link';
 import classNames from 'classnames';
 import { BaseProps } from '@/core/types/common';
 interface ButtonProps extends BaseProps {
-  variant?:
-    | 'default'
-    | 'primary'
-    | 'secondary'
-    | 'essential'
-    | 'ghost'
-    | 'gray';
+  variant?: keyof VariantType;
   size?: 'sm' | 'md' | 'lg';
-  color?: 'essential' | 'white' | 'black' | 'success' | 'danger';
+  color?: keyof ColorType;
   isFull?: boolean;
   isEnglish?: boolean;
   isDisabled?: boolean;
@@ -32,6 +26,7 @@ interface VariantType {
   secondary: string;
   essential: string;
   ghost: string;
+  danger: string;
   gray: string;
 }
 
@@ -47,6 +42,7 @@ interface ColorType {
   black: string;
   success: string;
   danger: string;
+  gray: string;
 }
 interface IconSizeType {
   sm: string;
@@ -65,6 +61,7 @@ const VARIANTS: VariantType = {
   primary: 'button-bg--primary',
   secondary: 'button-bg--secondary',
   essential: 'button-bg--essential',
+  danger: 'button-bg--danger',
   ghost: 'button-bg--ghost',
   gray: 'button-bg--gray',
 };
@@ -75,6 +72,7 @@ const COLORS: ColorType = {
   black: 'button-text--black',
   success: 'button-text--success',
   danger: 'button-text--danger',
+  gray: 'button-text--gray',
 };
 
 const ICON_SIZES: IconSizeType = {

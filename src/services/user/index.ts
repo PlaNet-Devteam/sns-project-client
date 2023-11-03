@@ -1,4 +1,9 @@
-import { USER_API, UserCreateType, UserUpdateType } from '@/core';
+import {
+  USER_API,
+  UserByViewerType,
+  UserCreateType,
+  UserUpdateType,
+} from '@/core';
 import { api } from '@/core/base.service';
 import { UserDeleteType } from '@/core/types/user/user-delete.interface';
 import { UserUpdateStatusType } from '@/core/types/user/user-update-status.interface';
@@ -8,8 +13,15 @@ const UserService = {
     const { data } = await api.get(USER_API.FIND_ME);
     return data.data;
   },
-  findUserByUsername: async (username: string) => {
-    const { data } = await api.get(`/user/username/${username}`);
+  findUserByUsername: async (
+    username: string,
+    paramData?: UserByViewerType,
+  ) => {
+    const { data } = await api.get(`/user/username/${username}`, {
+      params: {
+        ...paramData,
+      },
+    });
     return data.data;
   },
   createUser: async (formData: UserCreateType) => {

@@ -21,6 +21,7 @@ function ProfileCount({ profile }: ProfileCountType) {
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
 
   const onClickFollowUserModalOpen = (queryKey: string) => {
+    if (profile?.isBlockedByViewer) return;
     if (!payload) return alert('로그인이 필요합니다');
     if (
       payload.username !== profile.username &&
@@ -53,14 +54,18 @@ function ProfileCount({ profile }: ProfileCountType) {
           onClick={() => onClickFollowUserModalOpen(FOLLOW.FOLLOWERS)}
         >
           <span className="profile-counts__title">팔로워</span>
-          <p className="profile-counts__count">{profile?.followerCount}</p>
+          <p className="profile-counts__count">
+            {profile?.isBlockedByViewer ? 0 : profile?.followerCount}
+          </p>
         </div>
         <div
           className="profile-counts__box"
           onClick={() => onClickFollowUserModalOpen(FOLLOW.FOLLOWINGS)}
         >
           <span className="profile-counts__title">팔로잉</span>
-          <p className="profile-counts__count">{profile?.followingCount}</p>
+          <p className="profile-counts__count">
+            {profile?.isBlockedByViewer ? 0 : profile?.followingCount}
+          </p>
         </div>
       </section>
       {isFollowingModalOpen && (
