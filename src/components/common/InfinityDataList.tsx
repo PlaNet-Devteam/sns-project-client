@@ -18,6 +18,7 @@ const InfinityDataList = <T,>({
   queryKey,
   listType,
   ChildCompoentToRender,
+  propsObject,
   fetchData,
 }: InfinityDataListProps<any>) => {
   const {
@@ -43,7 +44,11 @@ const InfinityDataList = <T,>({
           {items?.pages.map((page, index) => (
             <div key={index}>
               {page.items.map((item, index2) => (
-                <ChildCompoentToRender key={index2} item={item} />
+                <ChildCompoentToRender
+                  key={index2}
+                  item={item}
+                  {...propsObject}
+                />
               ))}
             </div>
           ))}

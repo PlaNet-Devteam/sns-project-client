@@ -1,14 +1,11 @@
-import React, { ChangeEvent, useState } from 'react';
-import { ImSpinner6 } from 'react-icons/im';
+import React from 'react';
 import { useRouter } from 'next/router';
 import FollowService from '@/services/follow';
-import { FOLLOW, ORDER_BY } from '@/core';
-import { useInfinityScroll } from '@/hooks/useInfinityScroll';
-import { FollowType } from '@/core/types/follow';
-import useDebounce from '@/hooks/useDebounce';
-import EmptyData from '../common/EmptyData';
+import { ORDER_BY, UserType } from '@/core';
+import useSearchInput from '@/hooks/useSearchInput';
+import SearchInput from '../common/SearchInput';
+import InfinityDataList from '../common/InfinityDataList';
 import FollowListItem from './FollowListItem';
-import FollowSearchInput from './FollowSearchInput';
 
 interface FollowListProps {
   queryKey: string;
@@ -16,75 +13,29 @@ interface FollowListProps {
 
 const FollowList = ({ queryKey }: FollowListProps) => {
   const router = useRouter();
-  const [searchKeyword, setSearchKeyword] = useState('');
-
-  const debouncedSearchKeyword = useDebounce(searchKeyword).trim();
-
-  const {
-    data: follows,
-    isFetchingNextPage,
-    status,
-    bottom,
-  } = useInfinityScroll<FollowType>(
-    [`${queryKey}`, router.query.username, debouncedSearchKeyword],
-    (page) =>
-      FollowService.getAllUsers(router.query.username as string, queryKey, {
-        page,
-        limit: 5,
-        orderBy: ORDER_BY.ASC,
-        query: debouncedSearchKeyword,
-      }),
-  );
-
-  const onChangeSearchKeyword = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(event?.target.value);
-  };
-
-  if (follows && follows.pages[0].totalCount === 0) {
-    return (
-      <>
-        <FollowSearchInput
-          value={searchKeyword}
-          onChange={onChangeSearchKeyword}
-          placeholder="유저명 혹은 닉네임 검색"
-        />
-        <EmptyData /> <div ref={bottom} />
-      </>
-    );
-  }
+  const { searchKeyword, onChange, debouncedSearchKeyword } = useSearchInput();
 
   return (
     <>
-      <FollowSearchInput
+      <SearchInput
         value={searchKeyword}
-        onChange={onChangeSearchKeyword}
+        onChange={onChange}
         placeholder="유저명 혹은 닉네임 검색"
       />
-      {follows &&
-        follows.pages.map((page, index) => (
-          <div key={index}>
-            {page.items.map((follow) => (
-              <FollowListItem
-                queryKey={queryKey}
-                item={follow}
-                user={
-                  queryKey === FOLLOW.FOLLOWINGS
-                    ? follow.following
-                    : follow.follower
-                }
-                key={follow.id}
-              />
-            ))}
-          </div>
-        ))}
-      {bottom && <div ref={bottom} />}
-      {follows && follows.pages[0].totalCount > 0 && (
-        <div className="spinner_container">
-          {status === 'success' && !isFetchingNextPage === undefined ? (
-            <ImSpinner6 className="spinner" />
-          ) : null}
-        </div>
-      )}
+      <InfinityDataList<UserType>
+        queryKey={[queryKey, router.query.username, debouncedSearchKeyword]}
+        listType={'scroll'}
+        fetchData={(page, limit) =>
+          FollowService.getAllUsers(router.query.username as string, queryKey, {
+            page,
+            limit,
+            orderBy: ORDER_BY.ASC,
+            query: debouncedSearchKeyword,
+          })
+        }
+        ChildCompoentToRender={FollowListItem}
+        propsObject={{ queryKey }}
+      ></InfinityDataList>
     </>
   );
 };
