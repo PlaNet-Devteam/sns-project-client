@@ -18,16 +18,23 @@ export const useObserver = ({
   threshold = 0,
 }: ObserverProps) => {
   useLayoutEffect(() => {
-    let observer: IntersectionObserver;
+    let observer: IntersectionObserver | null = null;
     if (target) {
       observer = new IntersectionObserver(onIntersect, {
         root,
         rootMargin,
         threshold,
       });
-      observer.observe(target.current ?? target);
+
+      if (target.current) {
+        observer.observe(target.current);
+      }
     }
 
-    return () => observer && observer.disconnect();
+    return () => {
+      if (observer && target?.current) {
+        observer.unobserve(target.current);
+      }
+    };
   }, [target, rootMargin, threshold, onIntersect, root]);
 };

@@ -6,7 +6,7 @@ $size-lg: 4rem;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem 0.5rem;
+  padding: 1rem 1rem;
   border-radius: var(--border-radius-md);
   border: 0;
   text-decoration: none;
@@ -42,7 +42,10 @@ $size-lg: 4rem;
     background: var(--essential-color);
     color: var(--white);
   }
-
+  &-bg--danger {
+    background: var(--danger-color);
+    color: var(--white);
+  }
   &-bg--gray {
     background: var(--gray);
     color: var(--white);
@@ -110,6 +113,15 @@ $size-lg: 4rem;
     svg {
       * {
         fill: var(--danger-color);
+      }
+    }
+  }
+
+  &-text--gray {
+    color: var(--gray);
+    svg {
+      * {
+        fill: var(--gray);
       }
     }
   }

@@ -47,5 +47,12 @@ export const useInfinityScroll = <T>(
     target: bottom,
     onIntersect,
   });
-  return { data, isFetchingNextPage, status, bottom, hasNextPage };
+  return {
+    data,
+    isFetchingNextPage,
+    status,
+    bottom,
+    hasNextPage,
+    fetchNextPage,
+  };
 };

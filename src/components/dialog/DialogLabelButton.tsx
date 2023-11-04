@@ -9,18 +9,20 @@ interface ColorType {
   black: string;
   success: string;
   danger: string;
+  gray: string;
 }
 
 const COLORS: ColorType = {
-  essential: 'button-text--essential',
-  white: 'button-text--white',
-  black: 'button-text--black',
-  success: 'button-text--success',
-  danger: 'button-text--danger',
+  essential: 'essential',
+  white: 'white',
+  black: 'black',
+  success: 'success',
+  danger: 'danger',
+  gray: 'gray',
 };
 
 interface DialogLabelButtonProps extends BaseProps {
-  color?: 'essential' | 'white' | 'black' | 'success' | 'danger';
+  color?: keyof ColorType;
   onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
@@ -31,7 +33,10 @@ const DialogLabelButton = ({
 }: DialogLabelButtonProps) => {
   return (
     <div
-      className={classNames(styles.button, COLORS[color as keyof ColorType])}
+      className={classNames(
+        styles.button,
+        styles[COLORS[color as keyof ColorType]],
+      )}
       onClick={onClick}
     >
       {children}

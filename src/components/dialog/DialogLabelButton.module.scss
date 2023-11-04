@@ -6,19 +6,22 @@
   + .button {
     border-top: 1px solid rgba($color: white, $alpha: 0.1);
   }
-  &-text--essential {
+  &.essential {
     color: var(--essential-color);
   }
-  &-text--white {
+  &.white {
     color: var(--white);
   }
-  &-text--black {
+  &.black {
     color: var(--black);
   }
-  &-text--success {
+  &.success {
     color: var(--success-color);
   }
-  &-text--danger {
+  &.danger {
     color: var(--danger-color);
+  }
+  &.gray {
+    color: var(--gray);
   }
 }
