@@ -1,0 +1,28 @@
+.tabs {
+  position: sticky;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-color);
+  margin-bottom:1rem;
+  .tab {
+    width: 100%;
+    padding: 0.5rem 0;
+    text-align: center;
+    color:white;
+    opacity: 0.5;
+
+    &.active {
+      opacity: 1;
+      * {
+        stroke: white;
+      }
+    }
+    + .tab {
+      border-left: 1px solid var(--border-color);
+    }
+  }
+}
