@@ -92,5 +92,11 @@ a {
 }
 
 
+* {
+  + .row-box {
+    margin-top: 1rem;
+  }
+}
+
 // import compnents
 @import './components/index';

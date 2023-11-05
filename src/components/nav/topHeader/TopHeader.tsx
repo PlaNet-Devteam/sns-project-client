@@ -31,7 +31,7 @@ const HeaderMain = ({ children, className }: BaseProps) => {
 
   const handleScroll = () => {
     const scrollY = window.scrollY;
-    if (scrollY > 60) {
+    if (scrollY > 0) {
       setIsScrolling(true);
     } else {
       setIsScrolling(false);

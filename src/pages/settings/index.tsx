@@ -26,6 +26,7 @@ const Settings = () => {
         {
           icon: <RiFileUserLine />,
           title: '개인정보',
+          onClick: () => router.push('/settings/my-profile'),
         },
       ],
     },
