@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { BsThreeDotsVertical } from 'react-icons/bs';
+import {
+  BsBookmark,
+  BsBookmarkFill,
+  BsThreeDotsVertical,
+} from 'react-icons/bs';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AiOutlineLike, AiFillLike } from 'react-icons/ai';
 import { useSetRecoilState } from 'recoil';
@@ -86,6 +90,30 @@ const FeedItem = ({ item }: FeedItemProps) => {
     }
   };
 
+  const bookmarkFeedItemMutation = useMutation({
+    mutationKey: ['bookmark-feed', item.id],
+    mutationFn: (feedId: number) => FeedService.bookmarkFeed(feedId),
+    onSuccess: () => {
+      return queryClient.invalidateQueries(['feeds']);
+    },
+  });
+
+  const deleteBookmarkFeedItemMutation = useMutation({
+    mutationKey: ['delete-bookmark-feed', item.id],
+    mutationFn: (feedId: number) => FeedService.deleteBookmarkFeed(feedId),
+    onSuccess: () => {
+      return queryClient.invalidateQueries(['feeds']);
+    },
+  });
+
+  const onClickBookmarkHandler = (feedId: number) => {
+    if (item.bookmarkedYn) {
+      deleteBookmarkFeedItemMutation.mutate(feedId);
+    } else {
+      bookmarkFeedItemMutation.mutate(feedId);
+    }
+  };
+
   return (
     <>
       <div
@@ -147,7 +175,16 @@ const FeedItem = ({ item }: FeedItemProps) => {
           <Link href={`/feed/${item.id}/comment`} className="subscription_icon">
             <img src="/comment.svg" alt="comment" />
           </Link>
-          <img className="subscription_icon" src="/share.svg" alt="share" />
+          <button
+            className="subscription_icon"
+            onClick={() => onClickBookmarkHandler(item.id)}
+          >
+            {item.bookmarkedYn ? (
+              <BsBookmarkFill color="whtie" size={'1.5rem'} />
+            ) : (
+              <BsBookmark color="white" size={'1.5rem'} />
+            )}
+          </button>
         </div>
       </div>
       <Dialog isOpen={isModalOpen}>
