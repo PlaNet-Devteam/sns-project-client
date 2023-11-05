@@ -1,7 +1,8 @@
 import {
   USER_API,
-  UserByViewerType,
   UserCreateType,
+  UserListType,
+  UserByViewerType,
   UserUpdateType,
 } from '@/core';
 import { api } from '@/core/base.service';
@@ -20,6 +21,14 @@ const UserService = {
     const { data } = await api.get(`/user/username/${username}`, {
       params: {
         ...paramData,
+      },
+    });
+    return data.data;
+  },
+  getUsers: async (listData?: UserListType) => {
+    const { data } = await api.get('/user', {
+      params: {
+        ...listData,
       },
     });
     return data.data;

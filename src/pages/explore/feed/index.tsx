@@ -1,9 +1,9 @@
 import React from 'react';
-import ExploreUserList from '@/components/explore/ExploreUserList';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
 import ExploreTab from '@/components/explore/ExploreTab';
+import ExploreFeedList from '@/components/explore/ExploreFeedList';
 
-const Explore = () => {
+const ExploreFeed = () => {
   return (
     <>
       <TopHeader>
@@ -14,11 +14,11 @@ const Explore = () => {
       <article className="article__container">
         <div className="inner__container">
           <ExploreTab />
-          <ExploreUserList />
+          <ExploreFeedList />
         </div>
       </article>
     </>
   );
 };
 
-export default Explore;
+export default ExploreFeed;

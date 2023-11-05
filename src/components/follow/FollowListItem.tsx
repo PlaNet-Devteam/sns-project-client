@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FiUserPlus, FiTrash, FiUserMinus } from 'react-icons/fi';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
-import { FollowCreateType, FollowType } from '@/core/types/follow';
+import { FollowCreateType } from '@/core/types/follow';
 import { FOLLOW, UserType } from '@/core';
 import FollowService from '@/services/follow';
 import { userState } from '@/store/userAtom';
@@ -12,11 +12,10 @@ import styles from './FollowListItem.module.scss';
 
 interface FollowListItemProps {
   queryKey: string;
-  item: FollowType;
-  user: UserType;
+  item: UserType;
 }
 
-const FollowListItem = ({ queryKey, item, user }: FollowListItemProps) => {
+const FollowListItem = ({ queryKey, item }: FollowListItemProps) => {
   const queryClient = useQueryClient();
   const myInfo = useRecoilValue(userState);
   const [followings, setFollowings] = useState<number[] | undefined>(
@@ -45,27 +44,27 @@ const FollowListItem = ({ queryKey, item, user }: FollowListItemProps) => {
     },
   });
 
-  const onClickFollowHandler = (item: FollowType) => {
+  const onClickFollowHandler = (item: UserType) => {
     if (myInfo) {
       if (queryKey === FOLLOW.FOLLOWINGS) {
         followUserMutation({
           userId: myInfo?.id,
-          followingId: item.followingId,
+          followingId: item.id,
         });
       } else {
         followUserMutation({
           userId: myInfo?.id,
-          followingId: item.userId,
+          followingId: item.id,
         });
       }
     }
   };
 
-  const onClickUnfollowHandler = (item: FollowType) => {
+  const onClickUnfollowHandler = (item: UserType) => {
     if (myInfo) {
       unfollowUserMutation({
         userId: myInfo?.id,
-        followingId: item.followingId,
+        followingId: item.id,
       });
     }
   };
@@ -75,25 +74,25 @@ const FollowListItem = ({ queryKey, item, user }: FollowListItemProps) => {
       <div className={styles.item_userProfile}>
         <div className={styles.item_profileImage}>
           <UserProfileImage
-            username={user.username}
-            imagePath={user.profileImage}
+            username={item.username}
+            imagePath={item.profileImage}
           />
         </div>
         <div className={styles.item_profileInfo}>
           <span className={styles.item_profileInfo_username}>
-            {user.username}
+            {item.username}
           </span>
           <span className={styles.item_profileInfo_nickname}>
-            {user.nickname}
+            {item.nickname}
           </span>
         </div>
       </div>
-      {myInfo?.id !== user.id && (
+      {myInfo?.id !== item.id && (
         <>
           <div className={styles.item_options}>
             {queryKey === FOLLOW.FOLLOWINGS ? (
               <>
-                {followings && !followings.includes(item.followingId) ? (
+                {followings && !followings.includes(item.id) ? (
                   <>
                     <Button
                       variant="primary"
@@ -121,7 +120,7 @@ const FollowListItem = ({ queryKey, item, user }: FollowListItemProps) => {
               </>
             ) : (
               <>
-                {followings && !followings.includes(item.userId) && (
+                {followings && !followings.includes(item.id) && (
                   <>
                     <Button
                       variant="primary"

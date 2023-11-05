@@ -8,9 +8,9 @@ export interface UserType {
   status: USER_STATUS;
   inactiveAt?: Date;
   delYn?: YN;
-  followerCount?: number;
-  followingCount?: number;
-  feedCount?: number;
+  followerCount: number;
+  followingCount: number;
+  feedCount: number;
   profileImage?: string;
   bio?: string;
   gender?: GENDER;

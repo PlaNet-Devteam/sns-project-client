@@ -1,17 +1,13 @@
 import React, { ChangeEventHandler } from 'react';
-import styles from './FollowSearchInput.module.scss';
+import styles from './SearchInput.module.scss';
 
-interface FollowSearchInputProps {
+interface SearchInputProps {
   value: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
   placeholder?: string;
 }
 
-const FollowSearchInput = ({
-  value,
-  onChange,
-  placeholder,
-}: FollowSearchInputProps) => {
+const SearchInput = ({ value, onChange, placeholder }: SearchInputProps) => {
   return (
     <div className={styles.input}>
       <div className="input-group">
@@ -28,4 +24,4 @@ const FollowSearchInput = ({
   );
 };
 
-export default FollowSearchInput;
+export default SearchInput;
