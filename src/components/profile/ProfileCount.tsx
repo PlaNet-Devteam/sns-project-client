@@ -20,14 +20,14 @@ function ProfileCount({ profile }: ProfileCountType) {
   const [queryKey, setQueryKey] = useState('');
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
 
+  const isVisibleFollowModal =
+    payload?.username !== profile.username &&
+    !myInfo?.followingIds?.includes(profile.id);
+
   const onClickFollowUserModalOpen = (queryKey: string) => {
     if (profile?.isBlockedByViewer) return;
     if (!payload) return alert('로그인이 필요합니다');
-    if (
-      payload.username !== profile.username &&
-      !myInfo?.followingIds.includes(profile.id)
-    )
-      return alert('리스트를 보려면 팔로우하세요');
+    if (isVisibleFollowModal) return alert('리스트를 보려면 팔로우하세요');
     setQueryKey(queryKey);
     setIsFollowingModalOpen(true);
   };

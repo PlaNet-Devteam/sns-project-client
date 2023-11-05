@@ -51,7 +51,7 @@ const AccountStatus = () => {
         <TopHeader.Left>
           <button onClick={() => router.back()}>뒤로</button>
         </TopHeader.Left>
-        <TopHeader.Title></TopHeader.Title>
+        <TopHeader.Title>계정 공개 범위</TopHeader.Title>
         <TopHeader.Right></TopHeader.Right>
       </TopHeader>
       <article className="article__container">

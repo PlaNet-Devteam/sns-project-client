@@ -14,7 +14,7 @@ const ExploreUserListItem = ({ item }: ExploreUserListItemProps) => {
   const myInfo = useRecoilValue(userState);
 
   const isVisibleFollowerCount =
-    payload?._id === item.id || myInfo?.followingIds.includes(item.id);
+    payload?._id === item.id || myInfo?.followingIds?.includes(item.id);
 
   return (
     <div className={styles.item}>

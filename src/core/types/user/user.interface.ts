@@ -14,8 +14,10 @@ export interface UserType {
   profileImage?: string;
   bio?: string;
   gender?: GENDER;
-  followingIds: number[];
-  followerIds: number[];
+  followingIds?: number[];
+  followerIds?: number[];
+  lastLoginAt?: Date;
+  createdAt?: Date;
   isBlockedByViewer?: boolean;
 }
 
