@@ -158,7 +158,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
           </div>
           <div className="subscription_text_container">
             <div>좋아요 {item.likeCount}개</div>
-            <div>댓글 {item.commentCount}개 공유 0회</div>
+            <div>댓글 {item.commentCount}개</div>
           </div>
         </div>
         <div className="subscription_icon_container">

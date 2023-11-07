@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import { ImSpinner6 } from 'react-icons/im';
 import { useState } from 'react';
 import classNames from 'classnames';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -8,7 +7,6 @@ import CommentInput from '@/components/comment/CommentInput';
 import { CommentType } from '@/core/types/comment/index';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
 import CommentService from '@/services/comment';
-import { useInfinityScroll } from '@/hooks/useInfinityScroll';
 import { ORDER_BY } from '@/core';
 import {
   commentIdState,
@@ -23,6 +21,7 @@ import {
   replyToUsernameState,
 } from '@/store/commentReplyAtom';
 import CommentReplyInput from '@/components/comment/CommentReplyInput';
+import InfinityDataList from '@/components/common/InfinityDataList';
 
 export default function CommentPage() {
   const router = useRouter();
@@ -36,21 +35,6 @@ export default function CommentPage() {
   const setModifyReply = useSetRecoilState(commentReplyState);
   const setIsReplyModalOpen = useSetRecoilState(commentReplyModalState);
   const setIsReplyToUserComment = useSetRecoilState(replyToUserCommentState);
-
-  const {
-    data: comments,
-    isFetchingNextPage,
-    status,
-    bottom,
-  } = useInfinityScroll<CommentType>(
-    ['comments', router.query.id as string, orderBy],
-    (page) =>
-      CommentService.getComments(parseInt(router.query.id as string), {
-        page,
-        limit: 10,
-        orderBy,
-      }),
-  );
 
   const onClickCloseModifyCommentModalHandler = () => {
     setModifyModdalOpen(false);
@@ -94,20 +78,18 @@ export default function CommentPage() {
               최신 순
             </button>
           </div>
-          {comments &&
-            comments.pages?.map((page, index) => (
-              <div key={index}>
-                {page.items.map((comment) => (
-                  <CommentItem key={comment.id} item={comment} />
-                ))}
-              </div>
-            ))}
-          {bottom && <div ref={bottom} />}
-          <div className="spinner_container">
-            {status === 'success' && isFetchingNextPage ? (
-              <ImSpinner6 className="spinner" />
-            ) : null}
-          </div>
+          <InfinityDataList<CommentType>
+            queryKey={['comments', router.query.id as string, orderBy]}
+            listType={'scroll'}
+            fetchData={(page, limit) =>
+              CommentService.getComments(parseInt(router.query.id as string), {
+                page,
+                limit,
+                orderBy,
+              })
+            }
+            ChildCompoentToRender={CommentItem}
+          ></InfinityDataList>
         </div>
         <CommentInput />
       </div>
