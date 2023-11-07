@@ -15,6 +15,7 @@ export interface FeedType {
   tags?: string[];
   displayYn?: YN;
   likedYn?: boolean;
+  bookmarkedYn?: boolean;
   createdAt?: string;
   updatedAt?: string;
 }

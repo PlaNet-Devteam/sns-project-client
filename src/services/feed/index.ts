@@ -23,6 +23,15 @@ const FeedService = {
     });
     return data.data;
   },
+  findAllByBookmark: async (listData?: FeedListType) => {
+    const { data } = await api.get('/feed/bookmark', {
+      params: {
+        ...listData,
+      },
+    });
+
+    return data.data;
+  },
   createFeed: async (formData: FeedCreateType) => {
     const { data } = await api.post('/feed', formData);
     return data.data;
@@ -41,6 +50,14 @@ const FeedService = {
   },
   delteLikeFeed: async (feedId: number) => {
     const { data } = await api.delete(`/feed/${feedId}/like`);
+    return data;
+  },
+  bookmarkFeed: async (feedId: number) => {
+    const { data } = await api.post(`/feed/${feedId}/bookmark`);
+    return data;
+  },
+  deleteBookmarkFeed: async (feedId: number) => {
+    const { data } = await api.delete(`/feed/${feedId}/bookmark`);
     return data;
   },
 };
