@@ -10,7 +10,7 @@ export interface FeedType {
   likeCount?: number;
   commentCount?: number;
   showLikeCountYn?: YN;
-  feedImages?: FeedImageType[];
+  feedImages: FeedImageType[];
   comments?: string[];
   tags?: string[];
   displayYn?: YN;
