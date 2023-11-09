@@ -8,6 +8,8 @@ import ProfileImage from '@/components/profile/ProfileImage';
 import UserListHeader from '@/components/message/UserListHeader';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 
+const randomRoomId = Math.random().toString(16).substring(2, 14);
+
 const UserList = () => {
   const [openModalIndex, setOpenModalIndex] = useState(null);
   const { data: userlist, isLoading } = useQuery(['AllUser'], () =>
@@ -36,10 +38,9 @@ const UserList = () => {
               <button className="profile__button">
                 <Link
                   href={{
-                    pathname: `/message/${userdata.username}`,
-                    query: { username: userdata.username },
+                    pathname: `/message/${randomRoomId}`,
                   }}
-                  as={userdata.username}
+                  as={randomRoomId}
                 >
                   DM 보내기
                 </Link>
