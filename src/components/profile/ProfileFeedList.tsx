@@ -23,12 +23,12 @@ function ProfileFeedList({ queryKey }: ProfileFeedListProps) {
           listType={'scroll'}
           fetchData={(page) => {
             if (queryKey === 'bookmark') {
-              return FeedService.findAllByBookmark({
+              return FeedService.getFeedsByBookmark({
                 page,
                 limit: 9,
               });
             } else {
-              return FeedService.findAllByUser(username, {
+              return FeedService.getFeedsByUser(username, {
                 page,
                 limit: 9,
                 viewerId: payload?._id,
