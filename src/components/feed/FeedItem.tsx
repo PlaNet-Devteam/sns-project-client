@@ -15,6 +15,7 @@ import FeedService from '@/services/feed';
 import { formattedDate } from '@/utils/formattedDate';
 import useAuth from '@/hooks/useAuth';
 import { feedState } from '@/store/feedAtom';
+import { genHashTagLink } from '@/utils/generateHashTag';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Dialog from '../dialog/Dialog';
 // import LoadingLayer from '../common/LoadingLayer';
@@ -141,7 +142,9 @@ const FeedItem = ({ item }: FeedItemProps) => {
               <BsThreeDotsVertical onClick={handleModalOpen} />
             </div>
           </div>
-          <div className="feed_text">{item.description}</div>
+          <div className="feed_text">
+            {item.description && genHashTagLink(item.description)}
+          </div>
           <FeedModal
             modalPurpose="Img"
             isModalOpen={isImgModalOpen}
