@@ -15,13 +15,13 @@ import FeedService from '@/services/feed';
 import { formattedDate } from '@/utils/formattedDate';
 import useAuth from '@/hooks/useAuth';
 import { feedState } from '@/store/feedAtom';
-import { genHashTagLink } from '@/utils/generateHashTag';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Dialog from '../dialog/Dialog';
 // import LoadingLayer from '../common/LoadingLayer';
 import FeedModal from '../common/FeedModal';
 import UserProfileImage from '../common/UserProfileImage';
 import Carousel from './Carousel';
+import HashTagWithLink from './HashTagWithLink';
 
 interface FeedItemProps {
   item: FeedType;
@@ -143,7 +143,9 @@ const FeedItem = ({ item }: FeedItemProps) => {
             </div>
           </div>
           <div className="feed_text">
-            {item.description && genHashTagLink(item.description)}
+            {item.description && (
+              <HashTagWithLink description={item.description} />
+            )}
           </div>
           <FeedModal
             modalPurpose="Img"
