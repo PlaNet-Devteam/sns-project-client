@@ -37,12 +37,12 @@ const ExploreFeedList = () => {
             <InfinityDataList<FeedType>
               queryKey={['allFeeds']}
               listType={'scroll'}
-              fetchData={(page) => {
-                return FeedService.getFeeds({
+              fetchData={(page) =>
+                FeedService.getFeeds({
                   page,
                   limit: 9,
-                });
-              }}
+                })
+              }
               ChildCompoentToRender={ProfileFeedListItem}
             ></InfinityDataList>
           </div>
