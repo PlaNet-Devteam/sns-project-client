@@ -21,6 +21,7 @@ import Dialog from '../dialog/Dialog';
 import FeedModal from '../common/FeedModal';
 import UserProfileImage from '../common/UserProfileImage';
 import Carousel from './Carousel';
+import HashTagWithLink from './HashTagWithLink';
 
 interface FeedItemProps {
   item: FeedType;
@@ -141,7 +142,11 @@ const FeedItem = ({ item }: FeedItemProps) => {
               <BsThreeDotsVertical onClick={handleModalOpen} />
             </div>
           </div>
-          <div className="feed_text">{item.description}</div>
+          <div className="feed_text">
+            {item.description && (
+              <HashTagWithLink description={item.description} />
+            )}
+          </div>
           <FeedModal
             modalPurpose="Img"
             isModalOpen={isImgModalOpen}

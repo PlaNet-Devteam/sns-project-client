@@ -9,10 +9,26 @@ const FeedService = {
         ...listData,
       },
     });
+    return data.data;
+  },
+  getFeedsByTag: async (listData?: FeedListType) => {
+    const { data } = await api.get('/feed/tag', {
+      params: {
+        ...listData,
+      },
+    });
+    return data.data;
+  },
+  getFeedsByFollowing: async (listData?: FeedListType) => {
+    const { data } = await api.get('/feed/following', {
+      params: {
+        ...listData,
+      },
+    });
 
     return data.data;
   },
-  findAllByUser: async (
+  getFeedsByUser: async (
     username: string | string[] | undefined,
     listData?: FeedListType,
   ) => {
@@ -23,7 +39,7 @@ const FeedService = {
     });
     return data.data;
   },
-  findAllByBookmark: async (listData?: FeedListType) => {
+  getFeedsByBookmark: async (listData?: FeedListType) => {
     const { data } = await api.get('/feed/bookmark', {
       params: {
         ...listData,

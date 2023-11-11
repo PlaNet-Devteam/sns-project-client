@@ -1,0 +1,8 @@
+.item {
+  display: block;
+  padding:0.5rem 1rem;
+  color: var(--white);
+  &:hover {
+    background-color: rgba($color: white, $alpha: 0.1);
+  }
+}
