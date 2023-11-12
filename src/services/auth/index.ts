@@ -6,6 +6,10 @@ const AuthService = {
     const { data } = await api.post(AUTH_API.LOGIN, formData);
     return data.data;
   },
+  logout: async () => {
+    const { data } = await api.post(AUTH_API.LOGOUT);
+    return data.data;
+  },
   refreshToken: async () => {
     const { data } = await api.post(AUTH_API.REFRESH_TOKEN);
     return data;
