@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { RiLockPasswordLine, RiFileUserLine } from 'react-icons/ri';
-import { MdSecurity, MdNoAccounts } from 'react-icons/md';
+import { MdSecurity, MdNoAccounts, MdHistory } from 'react-icons/md';
 import { BiHelpCircle, BiTrash } from 'react-icons/bi';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
 import SettingsList, {
@@ -42,6 +42,11 @@ const Settings = () => {
           icon: <MdNoAccounts />,
           title: '차단된 계정',
           onClick: () => router.push('/settings/block-user'),
+        },
+        {
+          icon: <MdHistory />,
+          title: '보관함',
+          onClick: () => router.push('/settings/archived'),
         },
       ],
     },

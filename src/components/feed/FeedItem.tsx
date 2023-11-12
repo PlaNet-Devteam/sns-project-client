@@ -15,7 +15,7 @@ import FeedService from '@/services/feed';
 import { formattedDate } from '@/utils/formattedDate';
 import useAuth from '@/hooks/useAuth';
 import { feedState } from '@/store/feedAtom';
-import { YN } from '@/core';
+import { FEED_STATUS, YN } from '@/core';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Dialog from '../dialog/Dialog';
 // import LoadingLayer from '../common/LoadingLayer';
@@ -52,26 +52,49 @@ const FeedItem = ({ item }: FeedItemProps) => {
     },
   });
 
-  const { mutateAsync: updateShowLikeCountYnMutation, isLoading } = useMutation(
-    {
-      mutationKey: ['updaet-feed', item.id],
-      mutationFn: (feedId: number) => {
-        if (item.showLikeCountYn === YN.Y) {
-          return FeedService.updateFeed(feedId, {
-            showLikeCountYn: YN.N,
-          });
-        } else {
-          return FeedService.updateFeed(feedId, {
-            showLikeCountYn: YN.Y,
-          });
-        }
-      },
-      onSuccess: () => {
-        setIsModalOpen(false);
-        return queryClient.invalidateQueries(['feeds']);
-      },
+  const {
+    mutateAsync: updateShowLikeCountYnMutation,
+    isLoading: isLoadingShowLikeCountYn,
+  } = useMutation({
+    mutationKey: ['update-feed-show-like-count-yn', item.id],
+    mutationFn: (feedId: number) => {
+      if (item.showLikeCountYn === YN.Y) {
+        return FeedService.updateShowLikeCount(feedId, {
+          showLikeCountYn: YN.N,
+        });
+      } else {
+        return FeedService.updateShowLikeCount(feedId, {
+          showLikeCountYn: YN.Y,
+        });
+      }
     },
-  );
+    onSuccess: () => {
+      setIsModalOpen(false);
+      return queryClient.invalidateQueries(['feeds']);
+    },
+  });
+
+  const {
+    mutateAsync: updateStatusArchivedMutation,
+    isLoading: isLoadingStatusArchived,
+  } = useMutation({
+    mutationKey: ['update-feed-status', item.id],
+    mutationFn: (feedId: number) => {
+      if (item.status === FEED_STATUS.ACTIVE) {
+        return FeedService.updateFeedStatus(feedId, {
+          status: FEED_STATUS.ARCHIVED,
+        });
+      } else {
+        return FeedService.updateFeedStatus(feedId, {
+          status: FEED_STATUS.ACTIVE,
+        });
+      }
+    },
+    onSuccess: () => {
+      setIsModalOpen(false);
+      return queryClient.invalidateQueries(['feeds']);
+    },
+  });
 
   const handleDeleteFeedItem = async (feedId: number) => {
     deleteFeedItemMutation.mutate(feedId);
@@ -84,6 +107,10 @@ const FeedItem = ({ item }: FeedItemProps) => {
 
   const onClickShowLikeCountHandler = (feedId: number) => {
     updateShowLikeCountYnMutation(feedId);
+  };
+
+  const onClickStatusArchivedHandler = (feedId: number) => {
+    updateStatusArchivedMutation(feedId);
   };
 
   const openModalIfImgCnt = () => {
@@ -234,9 +261,21 @@ const FeedItem = ({ item }: FeedItemProps) => {
         {item.user.username === payload?.username && (
           <Dialog.LabelButton
             color="white"
+            onClick={() => onClickStatusArchivedHandler(item.id)}
+          >
+            {isLoadingStatusArchived ? (
+              <LoadingSpinner variant="white" />
+            ) : (
+              <>보관</>
+            )}
+          </Dialog.LabelButton>
+        )}
+        {item.user.username === payload?.username && (
+          <Dialog.LabelButton
+            color="white"
             onClick={() => onClickShowLikeCountHandler(item.id)}
           >
-            {isLoading ? (
+            {isLoadingShowLikeCountYn ? (
               <LoadingSpinner variant="white" />
             ) : (
               <>
