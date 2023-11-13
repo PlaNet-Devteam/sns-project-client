@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useSetRecoilState } from 'recoil';
 import { FeedImageType } from '@/core/types/feed';
 import { feedImageState } from '@/store/feedAtom';
+import styles from './FeedImg.module.scss';
 
 interface FeedImgProps {
   feedImages: FeedImageType[];
@@ -20,8 +21,8 @@ const FeedImg = ({ feedImages }: FeedImgProps) => {
   }));
 
   return (
-    <div className="feed-images__container">
-      <div className="feed-images">
+    <div className={styles.contianer}>
+      <div className={styles.images}>
         {modifiedFeedImages
           .slice(0, 4)
           .map((image: FeedImageType, index: number) => {
@@ -29,10 +30,10 @@ const FeedImg = ({ feedImages }: FeedImgProps) => {
 
             if (index % 2 === 0) {
               return (
-                <div key={image.sortOrder} className="feed-images__column">
-                  <div className="feed-images__row">
+                <div key={image.sortOrder} className={styles.images_column}>
+                  <div className={styles.images_row}>
                     <figure
-                      className="feed-images__image"
+                      className={styles.images_image}
                       onClick={() => setImageState(image.firIndex)}
                     >
                       <Image
@@ -44,10 +45,10 @@ const FeedImg = ({ feedImages }: FeedImgProps) => {
                     </figure>
                   </div>
                   {feedImages[index + 1] && (
-                    <div className={'feed-images__row'}>
+                    <div className={styles.images_row}>
                       <figure
-                        className={classNames('feed-images__image', {
-                          'feed-images__image--more': moreImages,
+                        className={classNames(styles.images_image, {
+                          [styles.images_image_more]: moreImages,
                         })}
                         onClick={() => setImageState(image.secIndex)}
                       >
@@ -60,7 +61,7 @@ const FeedImg = ({ feedImages }: FeedImgProps) => {
                       </figure>
                       {moreImages && (
                         <div
-                          className="feed-images_button"
+                          className={styles.images_button}
                           onClick={() => setImageState(0)}
                         >
                           +{imageCount - 4}
