@@ -1,11 +1,16 @@
 .text {
+
+  line-height: 1.6;
+  font-size: var(--font-size-sm);
+
   + .text {
     margin-top:0.5rem;
   }
+  + .span {
+    margin-top: 0;
+  }
 
-  line-height: 1.6;
-
-
+ 
   &.primary {
     color: var(--primary-color);
   }

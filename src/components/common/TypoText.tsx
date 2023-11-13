@@ -29,7 +29,11 @@ const TypoText = ({
 
   return (
     <Element
-      className={classnames(styles.text, styles[color as keyof ColorType])}
+      className={classnames(
+        styles.text,
+        styles[color as keyof ColorType],
+        styles[tagName as keyof JSX.IntrinsicElements],
+      )}
     >
       {children}
     </Element>
