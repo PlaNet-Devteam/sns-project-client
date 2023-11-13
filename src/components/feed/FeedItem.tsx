@@ -15,11 +15,13 @@ import FeedService from '@/services/feed';
 import { formattedDate } from '@/utils/formattedDate';
 import useAuth from '@/hooks/useAuth';
 import { feedState } from '@/store/feedAtom';
+import { FEED_STATUS, YN } from '@/core';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Dialog from '../dialog/Dialog';
 // import LoadingLayer from '../common/LoadingLayer';
 import FeedModal from '../common/FeedModal';
 import UserProfileImage from '../common/UserProfileImage';
+import LoadingSpinner from '../common/LoadingSpinner';
 import Carousel from './Carousel';
 import HashTagWithLink from './HashTagWithLink';
 
@@ -50,6 +52,50 @@ const FeedItem = ({ item }: FeedItemProps) => {
     },
   });
 
+  const {
+    mutateAsync: updateShowLikeCountYnMutation,
+    isLoading: isLoadingShowLikeCountYn,
+  } = useMutation({
+    mutationKey: ['update-feed-show-like-count-yn', item.id],
+    mutationFn: (feedId: number) => {
+      if (item.showLikeCountYn === YN.Y) {
+        return FeedService.updateShowLikeCount(feedId, {
+          showLikeCountYn: YN.N,
+        });
+      } else {
+        return FeedService.updateShowLikeCount(feedId, {
+          showLikeCountYn: YN.Y,
+        });
+      }
+    },
+    onSuccess: () => {
+      setIsModalOpen(false);
+      return queryClient.invalidateQueries(['feeds']);
+    },
+  });
+
+  const {
+    mutateAsync: updateStatusArchivedMutation,
+    isLoading: isLoadingStatusArchived,
+  } = useMutation({
+    mutationKey: ['update-feed-status', item.id],
+    mutationFn: (feedId: number) => {
+      if (item.status === FEED_STATUS.ACTIVE) {
+        return FeedService.updateFeedStatus(feedId, {
+          status: FEED_STATUS.ARCHIVED,
+        });
+      } else {
+        return FeedService.updateFeedStatus(feedId, {
+          status: FEED_STATUS.ACTIVE,
+        });
+      }
+    },
+    onSuccess: () => {
+      setIsModalOpen(false);
+      return queryClient.invalidateQueries(['feeds']);
+    },
+  });
+
   const handleDeleteFeedItem = async (feedId: number) => {
     deleteFeedItemMutation.mutate(feedId);
   };
@@ -57,6 +103,14 @@ const FeedItem = ({ item }: FeedItemProps) => {
   const handleModifyFeedItem = async (item: FeedType) => {
     setFeedModifyState(item);
     router.replace('/feed/modify');
+  };
+
+  const onClickShowLikeCountHandler = (feedId: number) => {
+    updateShowLikeCountYnMutation(feedId);
+  };
+
+  const onClickStatusArchivedHandler = (feedId: number) => {
+    updateStatusArchivedMutation(feedId);
   };
 
   const openModalIfImgCnt = () => {
@@ -162,7 +216,9 @@ const FeedItem = ({ item }: FeedItemProps) => {
             )}
           </div>
           <div className="subscription_text_container">
-            <div>좋아요 {item.likeCount}개</div>
+            <div>
+              {item.showLikeCountYn === YN.Y && <>좋아요 {item.likeCount}개</>}
+            </div>
             <div>댓글 {item.commentCount}개 공유 0회</div>
           </div>
         </div>
@@ -200,6 +256,32 @@ const FeedItem = ({ item }: FeedItemProps) => {
             onClick={() => handleModifyFeedItem(item)}
           >
             수정
+          </Dialog.LabelButton>
+        )}
+        {item.user.username === payload?.username && (
+          <Dialog.LabelButton
+            color="white"
+            onClick={() => onClickStatusArchivedHandler(item.id)}
+          >
+            {isLoadingStatusArchived ? (
+              <LoadingSpinner variant="white" />
+            ) : (
+              <>보관</>
+            )}
+          </Dialog.LabelButton>
+        )}
+        {item.user.username === payload?.username && (
+          <Dialog.LabelButton
+            color="white"
+            onClick={() => onClickShowLikeCountHandler(item.id)}
+          >
+            {isLoadingShowLikeCountYn ? (
+              <LoadingSpinner variant="white" />
+            ) : (
+              <>
+                좋아요 수 {item.showLikeCountYn === YN.Y ? '숨기기' : '보이기'}
+              </>
+            )}
           </Dialog.LabelButton>
         )}
         {item.user.username === payload?.username && (

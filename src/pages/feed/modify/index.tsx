@@ -14,7 +14,7 @@ import FeedService from '@/services/feed';
 import Button from '@/components/common/Button';
 import useMouseDrag from '@/hooks/useMouseDrag';
 import { feedState } from '@/store/feedAtom';
-import { FeedModifyType } from '@/core/types/feed/feed-modify.interface';
+import { FeedUpdateType } from '@/core/types/feed/feed-update.interface';
 
 function ModifyFeed() {
   const router = useRouter();
@@ -26,18 +26,18 @@ function ModifyFeed() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const { isDrag, onDragStart, onDragEnd, onThrottleDragMove } =
     useMouseDrag(scrollRef);
-  const { formData: feedModify, onChange } = useForm<FeedModifyType>({
+  const { formData: feedModify, onChange } = useForm<FeedUpdateType>({
     description: feedItem?.description || '',
     feedImages: imageList,
   });
 
-  const { mutateAsync } = useMutation((formData: FeedModifyType) =>
-    FeedService.modifyFeed(feedItem?.id || 0, formData),
+  const { mutateAsync } = useMutation((formData: FeedUpdateType) =>
+    FeedService.updateFeed(feedItem?.id || 0, formData),
   );
 
   const onSubmitForm = async (
     event: FormEvent<HTMLFormElement>,
-    formData: FeedModifyType,
+    formData: FeedUpdateType,
   ) => {
     event.preventDefault();
 

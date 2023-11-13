@@ -17,7 +17,6 @@ const Feed = () => {
   const { data: feeds } = useQuery<InfinitePagesType<FeedType>>(['feeds'], () =>
     FeedService.getFeedsByFollowing({
       page: 1,
-      limit: 10,
     }),
   );
 
@@ -78,7 +77,6 @@ export async function getServerSideProps() {
     async () => {
       const { data } = await FeedService.getFeeds({
         page: 1,
-        limit: 10,
       });
 
       return data;

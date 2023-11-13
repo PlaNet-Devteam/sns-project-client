@@ -47,7 +47,6 @@ export default function CommentPage() {
     (page) =>
       CommentService.getComments(parseInt(router.query.id as string), {
         page,
-        limit: 10,
         orderBy,
       }),
   );

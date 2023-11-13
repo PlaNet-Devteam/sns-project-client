@@ -1,6 +1,10 @@
 import { api } from '@/core/base.service';
-import { FeedCreateType, FeedListType } from '@/core/types/feed';
-import { FeedModifyType } from '@/core/types/feed/feed-modify.interface';
+import {
+  FeedCreateType,
+  FeedListType,
+  FeedUpdateStatusType,
+} from '@/core/types/feed';
+import { FeedUpdateType } from '@/core/types/feed/feed-update.interface';
 
 const FeedService = {
   getFeeds: async (listData?: FeedListType) => {
@@ -52,9 +56,23 @@ const FeedService = {
     const { data } = await api.post('/feed', formData);
     return data.data;
   },
-  modifyFeed: async (feedId: number, feedItem: FeedModifyType) => {
-    const { data } = await api.patch(`/feed/${feedId}`, feedItem);
-    return data;
+  updateFeed: async (feedId: number, formData: FeedUpdateType) => {
+    const { data } = await api.patch(`/feed/${feedId}`, formData);
+    return data.data;
+  },
+  updateFeedStatus: async (feedId: number, formData: FeedUpdateStatusType) => {
+    const { data } = await api.patch(`/feed/${feedId}/status`, formData);
+    return data.data;
+  },
+  updateShowLikeCount: async (
+    feedId: number,
+    formData: FeedUpdateStatusType,
+  ) => {
+    const { data } = await api.patch(
+      `/feed/${feedId}/show-like-count`,
+      formData,
+    );
+    return data.data;
   },
   deleteFeed: async (feedId: number) => {
     const { data } = await api.delete(`/feed/${feedId}`);

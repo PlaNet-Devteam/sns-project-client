@@ -11,28 +11,38 @@ interface HashTagWithLinkProps {
 const HashTagWithLink = ({
   description,
 }: HashTagWithLinkProps): JSX.Element => {
-  const wordsArray = description.split(' ');
-  const descriptionWithLinks = wordsArray.map((word: string, index: number) => {
-    if (word.match(hashTagRegEx)) {
-      return (
-        <Link
-          key={index}
-          href={`/explore/feed/tags/${word.slice(1)}`}
-          className={styles.tag}
-        >
-          <TypoText tagName="span" color="essential">
-            &nbsp;
-            {word}
-            &nbsp;
-          </TypoText>
-        </Link>
-      );
-    } else {
-      return word;
-    }
+  const sentenceArray = description.split('\n').map((sentence) => {
+    return (
+      <>
+        {sentence.split(' ').map((word: string, index: number) => {
+          if (word.match(hashTagRegEx)) {
+            return (
+              <Link
+                key={index}
+                href={`/explore/feed/tags/${word.slice(1)}`}
+                className={styles.tag}
+              >
+                <TypoText tagName="span" color="essential">
+                  {word}
+                  &nbsp;
+                </TypoText>
+              </Link>
+            );
+          } else {
+            return (
+              <>
+                {word}
+                &nbsp;
+              </>
+            );
+          }
+        })}
+        <br />
+      </>
+    );
   });
 
-  return <>{descriptionWithLinks}</>;
+  return <>{sentenceArray}</>;
 };
 
 export default HashTagWithLink;
