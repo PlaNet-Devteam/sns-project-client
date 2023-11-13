@@ -1,37 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import { useSetRecoilState } from 'recoil';
-import { feedImageState } from '@/store/feedAtom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import {
+  feedImageState,
+  feedModalState,
+  isFeedModalOpenState,
+} from '@/store/feedAtom';
 import { FeedType } from '@/core/types/feed';
 import FeedModal from '../common/FeedModal';
 import ProfileFeedModal from './ProfileFeedModal';
 
 interface ProfileFeedListItemProps {
+  queryKey: string[];
   item: FeedType;
 }
 
-function ProfileFeedListItem({ item }: ProfileFeedListItemProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+function ProfileFeedListItem({ queryKey, item }: ProfileFeedListItemProps) {
   const setImageState = useSetRecoilState(feedImageState);
+  const setFeedModalState = useSetRecoilState(feedModalState);
+  const setIsFeedModalOpenState = useSetRecoilState(isFeedModalOpenState);
+
+  const onClickFeedModalOpenHandler = () => {
+    setImageState(0);
+    setIsFeedModalOpenState(true);
+    setFeedModalState((prevState) => ({
+      ...prevState,
+      queryKey: [...queryKey],
+      id: item.id,
+    }));
+  };
 
   return (
     <>
-      <FeedModal
-        modalPurpose="Feed"
-        headerText={item.description}
-        isModalOpen={isModalOpen}
-        onClickCloseModal={() => {
-          setIsModalOpen(false);
-        }}
-      >
-        <ProfileFeedModal item={item} />
-      </FeedModal>
       <div
         className={'profile-feed-item'}
-        onClick={() => {
-          setImageState(0);
-          setIsModalOpen(true);
-        }}
+        onClick={onClickFeedModalOpenHandler}
       >
         <figure className={'profile-feed-item__image'}>
           {item?.feedImages && item?.feedImages.length > 0 ? (

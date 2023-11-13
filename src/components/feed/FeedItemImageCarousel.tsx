@@ -11,19 +11,16 @@ interface FeedItemImageCarouselProps {
 const FeedItemImageCarousel = ({ feedImages }: FeedItemImageCarouselProps) => {
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
 
-  const openModalIfImgCnt = () => {
-    if (feedImages) {
-      feedImages.length > 1 ? setIsImgModalOpen(true) : null;
-    }
+  const onClickCarouselModalOpenHandler = () => {
+    setIsImgModalOpen(true);
   };
 
   return (
     <>
-      <div onClick={openModalIfImgCnt}>
+      <div onClick={onClickCarouselModalOpenHandler}>
         <FeedImg feedImages={feedImages} />
       </div>
       <FeedModal
-        modalPurpose="Img"
         isModalOpen={isImgModalOpen}
         onClickCloseModal={() => {
           setIsImgModalOpen(false);

@@ -266,6 +266,14 @@ const ProfileLayout = ({ children }: BaseProps) => {
             설정 및 개인정보
           </Dialog.LabelButton>
         )}
+        {payload?.username === profile?.username && (
+          <Dialog.LabelButton
+            color="white"
+            onClick={() => router.push('/settings/archived')}
+          >
+            피드 보관함
+          </Dialog.LabelButton>
+        )}
         {payload && payload?.username !== profile?.username && (
           <Dialog.LabelButton
             color="danger"

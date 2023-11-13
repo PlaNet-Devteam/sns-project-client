@@ -4,6 +4,7 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FeedType } from '@/core';
 import { formattedDate } from '@/utils/formattedDate';
 import UserProfileImage from '../common/UserProfileImage';
+import Button from '../common/Button';
 import styles from './FeedItemProfileInfo.module.scss';
 
 interface FeedItemProfileInfoProps {
@@ -34,9 +35,9 @@ const FeedItemProfileInfo = ({
         </div>
       </div>
       <div className={styles.options}>
-        <button onClick={onClickOptions}>
+        <Button variant="default" size="sm" iconOnly onClick={onClickOptions}>
           <BsThreeDotsVertical />
-        </button>
+        </Button>
       </div>
     </div>
   );

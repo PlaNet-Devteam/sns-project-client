@@ -45,8 +45,7 @@ const Feed = () => {
         </TopHeader.Left>
         <TopHeader.Right>메뉴</TopHeader.Right>
       </TopHeader>
-      <title>feed</title>
-      <div className="feed_container">
+      <article className="article__container">
         {feeds &&
           feeds.items.map((feed) => <FeedItem key={feed.id} item={feed} />)}
         {AdditionalFeedData &&
@@ -57,14 +56,14 @@ const Feed = () => {
               ))}
             </div>
           ))}
-      </div>
-      <div ref={bottom} />
+        <div ref={bottom} />
 
-      <div className="spinner_container">
-        {status === 'success' && !hasNextPage === undefined ? (
-          <ImSpinner6 className="spinner" />
-        ) : null}
-      </div>
+        <div className="spinner_container">
+          {status === 'success' && !hasNextPage === undefined ? (
+            <ImSpinner6 className="spinner" />
+          ) : null}
+        </div>
+      </article>
     </>
   );
 };

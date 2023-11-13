@@ -44,6 +44,7 @@ const ExploreFeedList = () => {
                 })
               }
               ChildCompoentToRender={ProfileFeedListItem}
+              propsObject={{ queryKey: ['allFeeds'] }}
             ></InfinityDataList>
           </div>
         )}

@@ -10,7 +10,7 @@ interface InfinityDataListProps<T> extends BaseProps {
   queryKey: unknown[];
   listType: 'button' | 'scroll';
   ChildCompoentToRender: React.ComponentType<T>;
-  propsObject?: Record<string, string>;
+  propsObject?: Record<string, unknown>;
   fetchData: (page: number, limit?: number) => Promise<InfinitePagesType<T>>;
 }
 

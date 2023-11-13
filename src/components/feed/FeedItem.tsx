@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { FeedType } from '@/core/types/feed';
 import FeedService from '@/services/feed';
 import useAuth from '@/hooks/useAuth';
-import { feedState } from '@/store/feedAtom';
+import {
+  feedModalState,
+  feedState,
+  isFeedModalOpenState,
+} from '@/store/feedAtom';
 import { FEED_STATUS, YN } from '@/core';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Dialog from '../dialog/Dialog';
@@ -26,8 +30,28 @@ const FeedItem = ({ item }: FeedItemProps) => {
 
   const setFeedModifyState = useSetRecoilState(feedState);
   const setScrollY = useLocalStorage('scroll_location', 0)[1];
+  const [feedModal, setFeedModalState] = useRecoilState(feedModalState);
+  const setIsFeedModalOpen = useSetRecoilState(isFeedModalOpenState);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const onResetFeedModalState = () => {
+    if (feedModal) {
+      queryClient.invalidateQueries([...feedModal.queryKey]);
+    }
+    queryClient.invalidateQueries(['user', payload?.username]);
+    setIsFeedModalOpen(false);
+    setFeedModalState(null);
+  };
+
+  const onSuccessInvalidateQueries = () => {
+    if (feedModal) {
+      queryClient.invalidateQueries(['feed-item-modal', feedModal.id]);
+    } else {
+      queryClient.invalidateQueries(['feeds']);
+    }
+    setIsModalOpen(false);
+  };
 
   const {
     mutateAsync: deleteFeedItemMutation,
@@ -36,8 +60,8 @@ const FeedItem = ({ item }: FeedItemProps) => {
     mutationKey: ['delete-feed', item.id],
     mutationFn: (feedId: number) => FeedService.deleteFeed(feedId),
     onSuccess: () => {
-      setIsModalOpen(false);
-      return queryClient.invalidateQueries(['feeds']);
+      onSuccessInvalidateQueries();
+      onResetFeedModalState();
     },
   });
 
@@ -58,8 +82,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
       }
     },
     onSuccess: () => {
-      setIsModalOpen(false);
-      return queryClient.invalidateQueries(['feeds']);
+      onSuccessInvalidateQueries();
     },
   });
 
@@ -80,8 +103,8 @@ const FeedItem = ({ item }: FeedItemProps) => {
       }
     },
     onSuccess: () => {
-      setIsModalOpen(false);
-      return queryClient.invalidateQueries(['feeds']);
+      onSuccessInvalidateQueries();
+      onResetFeedModalState();
     },
   });
 
@@ -120,7 +143,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
         <Dialog.Dimmed onClick={() => setIsModalOpen(false)} />
         {item.user.username === payload?.username && (
           <Dialog.LabelButton
-            color="white"
+            color="essential"
             onClick={() => handleModifyFeedItem(item)}
           >
             수정
@@ -134,7 +157,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
             {isLoadingStatusArchived ? (
               <LoadingSpinner variant="white" />
             ) : (
-              <>보관</>
+              <>{item.status === FEED_STATUS.ARCHIVED ? '보관 해제' : '보관'}</>
             )}
           </Dialog.LabelButton>
         )}

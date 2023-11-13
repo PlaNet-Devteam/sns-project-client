@@ -20,14 +20,9 @@ interface ButtonProps extends BaseProps {
   ) => void;
 }
 
-interface VariantType {
+interface VariantType extends ColorType {
   default: string;
-  primary: string;
-  secondary: string;
-  essential: string;
   ghost: string;
-  danger: string;
-  gray: string;
 }
 
 interface SizeType {
@@ -37,6 +32,8 @@ interface SizeType {
 }
 
 interface ColorType {
+  primary: string;
+  secondary: string;
   essential: string;
   white: string;
   black: string;
@@ -61,18 +58,23 @@ const VARIANTS: VariantType = {
   primary: 'button-bg--primary',
   secondary: 'button-bg--secondary',
   essential: 'button-bg--essential',
+  success: 'button-text--success',
   danger: 'button-bg--danger',
   ghost: 'button-bg--ghost',
   gray: 'button-bg--gray',
+  white: 'button-bg--white',
+  black: 'button-bg--black',
 };
 
 const COLORS: ColorType = {
+  primary: 'button-text--primary',
+  secondary: 'button-text--secondary',
   essential: 'button-text--essential',
-  white: 'button-text--white',
-  black: 'button-text--black',
   success: 'button-text--success',
   danger: 'button-text--danger',
   gray: 'button-text--gray',
+  white: 'button-text--white',
+  black: 'button-text--black',
 };
 
 const ICON_SIZES: IconSizeType = {

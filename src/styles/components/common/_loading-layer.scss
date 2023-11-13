@@ -8,16 +8,4 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  > div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 10rem;
-    height: 10rem;
-    border-radius: 50%;
-    background-color: rgba($color: white, $alpha: 0.5);
-    svg {
-      transform: scale(1.5);
-    }
-  }
 }

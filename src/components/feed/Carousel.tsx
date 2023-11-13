@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Image from 'next/image';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import dragEvent from '@/utils/dragEvent';
 import useCarouselSize from '@/hooks/useCarouselSize';
 import { feedImageState } from '@/store/feedAtom';
 import { FeedImageType } from '@/core/types/feed';
+import TypoText from '../common/TypoText';
+import styles from './Carousel.module.scss';
 
 interface FeedImgProps {
   feedImages: FeedImageType[];
@@ -22,42 +24,47 @@ const Carousel = ({ feedImages }: FeedImgProps) => {
     return v;
   };
 
+  const translateWidth = useMemo(() => Math.ceil(width), [width]);
+
   return (
     <>
-      <div className="Main__container" ref={ref}>
-        <div
-          className="flex"
-          style={{
-            transform: `translateX(${-ImageState * width + transX}px)`,
-            transition: `transform ${transX ? 0 : 300}ms ease-in-out 0s`,
-          }}
-          {...dragEvent({
-            onDragChange: (deltaX) => {
-              setTransX(inrange(deltaX, -width, width));
-            },
-            onDragEnd: (deltaX) => {
-              const maxIndex = feedImages.length - 1;
+      <div className={styles.container} ref={ref}>
+        <div className={styles.carousel}>
+          <div className={styles.carousel_images}>
+            <TypoText color="white">
+              {ImageState + 1} / {feedImages.length}
+            </TypoText>
+            <div
+              style={{
+                transform: `translateX(${-ImageState * translateWidth}px)`,
+                transition: `transform ${transX ? 0 : 300}ms ease-in-out 0s`,
+              }}
+              {...dragEvent({
+                onDragChange: (deltaX) => {
+                  setTransX(inrange(deltaX, -translateWidth, translateWidth));
+                },
+                onDragEnd: (deltaX) => {
+                  const maxIndex = feedImages.length - 1;
 
-              if (deltaX < -100)
-                setImageState(inrange(ImageState + 1, 0, maxIndex));
-              if (deltaX > 100)
-                setImageState(inrange(ImageState - 1, 0, maxIndex));
+                  if (deltaX < -100)
+                    setImageState(inrange(ImageState + 1, 0, maxIndex));
+                  if (deltaX > 100)
+                    setImageState(inrange(ImageState - 1, 0, maxIndex));
 
-              setTransX(0);
-            },
-          })}
-        >
-          <div className="Carousel__container">
-            <div className="Img__container">
+                  setTransX(0);
+                },
+              })}
+            >
               {feedImages.map((image: FeedImageType) => (
-                <Image
-                  src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`}
-                  className="Carousel__Img"
-                  alt="modal-img"
-                  width={1000}
-                  height={1000}
-                  draggable={false}
-                />
+                <figure className={styles.carousel_image}>
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`}
+                    alt="모달 이미지"
+                    width={1000}
+                    height={1000}
+                    draggable={false}
+                  />
+                </figure>
               ))}
             </div>
           </div>

@@ -9,8 +9,10 @@ import {
 import Link from 'next/link';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { BiComment } from 'react-icons/bi';
+import { useRecoilValue } from 'recoil';
 import { FeedType } from '@/core';
 import FeedService from '@/services/feed';
+import { feedModalState } from '@/store/feedAtom';
 import styles from './FeedItemActionButtons.module.scss';
 
 interface FeedItemActionButtonsProps {
@@ -20,16 +22,25 @@ interface FeedItemActionButtonsProps {
 const FeedItemActionButtons = ({ item }: FeedItemActionButtonsProps) => {
   const queryClient = useQueryClient();
   const [isClicked, setIsClicked] = useState(false);
+  const feedModal = useRecoilValue(feedModalState);
 
   useEffect(() => {
     setIsClicked(false);
   }, []);
 
+  const onSuccessInvalidateQueries = () => {
+    if (feedModal) {
+      queryClient.invalidateQueries(['feed-item-modal', feedModal.id]);
+    } else {
+      queryClient.invalidateQueries(['feeds']);
+    }
+  };
+
   const likeFeedItemMutation = useMutation({
     mutationKey: ['like-feed', item.id],
     mutationFn: (feedId: number) => FeedService.likeFeed(feedId),
     onSuccess: () => {
-      return queryClient.invalidateQueries(['feeds']);
+      onSuccessInvalidateQueries();
     },
   });
 
@@ -37,7 +48,23 @@ const FeedItemActionButtons = ({ item }: FeedItemActionButtonsProps) => {
     mutationKey: ['delete-like-feed', item.id],
     mutationFn: (feedId: number) => FeedService.delteLikeFeed(feedId),
     onSuccess: () => {
-      return queryClient.invalidateQueries(['feeds']);
+      onSuccessInvalidateQueries();
+    },
+  });
+
+  const bookmarkFeedItemMutation = useMutation({
+    mutationKey: ['bookmark-feed', item.id],
+    mutationFn: (feedId: number) => FeedService.bookmarkFeed(feedId),
+    onSuccess: () => {
+      onSuccessInvalidateQueries();
+    },
+  });
+
+  const deleteBookmarkFeedItemMutation = useMutation({
+    mutationKey: ['delete-bookmark-feed', item.id],
+    mutationFn: (feedId: number) => FeedService.deleteBookmarkFeed(feedId),
+    onSuccess: () => {
+      onSuccessInvalidateQueries();
     },
   });
 
@@ -50,22 +77,6 @@ const FeedItemActionButtons = ({ item }: FeedItemActionButtonsProps) => {
       setIsClicked(true);
     }
   };
-
-  const bookmarkFeedItemMutation = useMutation({
-    mutationKey: ['bookmark-feed', item.id],
-    mutationFn: (feedId: number) => FeedService.bookmarkFeed(feedId),
-    onSuccess: () => {
-      return queryClient.invalidateQueries(['feeds']);
-    },
-  });
-
-  const deleteBookmarkFeedItemMutation = useMutation({
-    mutationKey: ['delete-bookmark-feed', item.id],
-    mutationFn: (feedId: number) => FeedService.deleteBookmarkFeed(feedId),
-    onSuccess: () => {
-      return queryClient.invalidateQueries(['feeds']);
-    },
-  });
 
   const onClickBookmarkHandler = (feedId: number) => {
     if (item.bookmarkedYn) {

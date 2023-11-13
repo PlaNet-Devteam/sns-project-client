@@ -1,13 +1,13 @@
 import React from 'react';
-import RocketSVG from '@/assets/intro/rocket.svg';
+import { createPortal } from 'react-dom';
+import LoadingAni from './LoadingAni';
 
 function LoadingLayer() {
-  return (
+  return createPortal(
     <div className="loading-layer">
-      <div>
-        <RocketSVG />
-      </div>
-    </div>
+      <LoadingAni />
+    </div>,
+    document.body,
   );
 }
 

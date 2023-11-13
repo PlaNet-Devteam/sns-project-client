@@ -34,6 +34,7 @@ const FeedTagName = () => {
                 })
               }
               ChildCompoentToRender={ProfileFeedListItem}
+              propsObject={{ queryKey: ['feedByTags', router.query.tagName] }}
             ></InfinityDataList>
           </div>
         </div>
