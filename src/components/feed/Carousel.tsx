@@ -55,8 +55,8 @@ const Carousel = ({ feedImages }: FeedImgProps) => {
                 },
               })}
             >
-              {feedImages.map((image: FeedImageType) => (
-                <figure className={styles.carousel_image}>
+              {feedImages.map((image: FeedImageType, index: number) => (
+                <figure className={styles.carousel_image} key={index}>
                   <Image
                     src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`}
                     alt="모달 이미지"
