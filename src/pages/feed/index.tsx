@@ -15,9 +15,8 @@ const Feed = () => {
   const [scrollY] = useLocalStorage('scroll_location', 0);
 
   const { data: feeds } = useQuery<InfinitePagesType<FeedType>>(['feeds'], () =>
-    FeedService.getFeeds({
+    FeedService.getFeedsByFollowing({
       page: 1,
-      limit: 10,
     }),
   );
 
@@ -27,7 +26,7 @@ const Feed = () => {
     hasNextPage,
     bottom,
   } = useInfinityScroll<FeedType>(['newFeeds'], (page, limit) =>
-    FeedService.getFeeds({ page, limit }),
+    FeedService.getFeedsByFollowing({ page, limit }),
   );
 
   useEffect(() => {
@@ -78,7 +77,6 @@ export async function getServerSideProps() {
     async () => {
       const { data } = await FeedService.getFeeds({
         page: 1,
-        limit: 10,
       });
 
       return data;

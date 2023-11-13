@@ -1,6 +1,6 @@
 import { FeedImageType } from './feed-image.interface';
 
-export interface FeedModifyType {
+export interface FeedUpdateType {
   description?: string;
   feedImages?: FeedImageType[];
 }

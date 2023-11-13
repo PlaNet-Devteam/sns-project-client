@@ -39,6 +39,7 @@ const BaseLayout = ({ children }: BaseProps) => {
     `/${user?.username}/bookmark`,
     `/${profile?.username}`,
     '/explore',
+    '/explore/feed',
   ];
   const { asPath } = useRouter();
 

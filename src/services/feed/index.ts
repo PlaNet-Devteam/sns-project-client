@@ -1,6 +1,10 @@
 import { api } from '@/core/base.service';
-import { FeedCreateType, FeedListType } from '@/core/types/feed';
-import { FeedModifyType } from '@/core/types/feed/feed-modify.interface';
+import {
+  FeedCreateType,
+  FeedListType,
+  FeedUpdateStatusType,
+} from '@/core/types/feed';
+import { FeedUpdateType } from '@/core/types/feed/feed-update.interface';
 
 const FeedService = {
   getFeeds: async (listData?: FeedListType) => {
@@ -9,10 +13,26 @@ const FeedService = {
         ...listData,
       },
     });
+    return data.data;
+  },
+  getFeedsByTag: async (listData?: FeedListType) => {
+    const { data } = await api.get('/feed/tag', {
+      params: {
+        ...listData,
+      },
+    });
+    return data.data;
+  },
+  getFeedsByFollowing: async (listData?: FeedListType) => {
+    const { data } = await api.get('/feed/following', {
+      params: {
+        ...listData,
+      },
+    });
 
     return data.data;
   },
-  findAllByUser: async (
+  getFeedsByUser: async (
     username: string | string[] | undefined,
     listData?: FeedListType,
   ) => {
@@ -23,7 +43,7 @@ const FeedService = {
     });
     return data.data;
   },
-  findAllByBookmark: async (listData?: FeedListType) => {
+  getFeedsByBookmark: async (listData?: FeedListType) => {
     const { data } = await api.get('/feed/bookmark', {
       params: {
         ...listData,
@@ -36,9 +56,23 @@ const FeedService = {
     const { data } = await api.post('/feed', formData);
     return data.data;
   },
-  modifyFeed: async (feedId: number, feedItem: FeedModifyType) => {
-    const { data } = await api.patch(`/feed/${feedId}`, feedItem);
-    return data;
+  updateFeed: async (feedId: number, formData: FeedUpdateType) => {
+    const { data } = await api.patch(`/feed/${feedId}`, formData);
+    return data.data;
+  },
+  updateFeedStatus: async (feedId: number, formData: FeedUpdateStatusType) => {
+    const { data } = await api.patch(`/feed/${feedId}/status`, formData);
+    return data.data;
+  },
+  updateShowLikeCount: async (
+    feedId: number,
+    formData: FeedUpdateStatusType,
+  ) => {
+    const { data } = await api.patch(
+      `/feed/${feedId}/show-like-count`,
+      formData,
+    );
+    return data.data;
   },
   deleteFeed: async (feedId: number) => {
     const { data } = await api.delete(`/feed/${feedId}`);

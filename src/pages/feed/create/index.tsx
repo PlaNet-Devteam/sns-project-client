@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TiDelete } from 'react-icons/ti';
 import { AiOutlineCamera } from 'react-icons/ai';
 import { useRouter } from 'next/router';
@@ -9,10 +9,10 @@ import { uploadFile } from '@/utils/uploadImage';
 import FeedHeader from '@/components/feed/FeedHeader';
 import { FeedCreateType, FeedImageType } from '@/core/types/feed';
 import useForm from '@/hooks/useForm';
-import { FEED_STATUS } from '@/core/enum/feed';
 import FeedService from '@/services/feed';
 import Button from '@/components/common/Button';
 import useMouseDrag from '@/hooks/useMouseDrag';
+import { hashTagRegEx } from '@/utils/generateHashTag';
 
 export interface FeedFileType {
   sortOrder: number;
@@ -29,10 +29,9 @@ function CreateFeed() {
     useMouseDrag(scrollRef);
 
   const { formData: feedCreate, onChange } = useForm<FeedCreateType>({
-    userId: 1,
     description: '',
     feedImages: imageList,
-    status: FEED_STATUS.ACTIVE,
+    tagNames: [],
   });
 
   const { mutateAsync } = useMutation((formData: FeedCreateType) =>
@@ -105,11 +104,21 @@ function CreateFeed() {
     setImageList((prev) => prev.filter((_, idx) => idx !== index));
   };
 
+  useEffect(() => {
+    if (feedCreate.description) {
+      const hashTags = feedCreate.description
+        .match(hashTagRegEx)
+        ?.map((tag) => tag.slice(1));
+      if (hashTags) {
+        feedCreate.tagNames = hashTags;
+      }
+    }
+  }, [feedCreate]);
+
   return (
     <div className="feed-create">
       <div className="feed-create-form inner__container">
         <FeedHeader title="새 게시물" />
-
         <div className="feed-create-form-input">
           <div className="feed-create-form-input__label">
             <label

@@ -1,4 +1,4 @@
-import { YN } from '@/core/enum';
+import { FEED_STATUS, YN } from '@/core/enum';
 import { UserType } from '../user';
 import { FeedImageType } from './feed-image.interface';
 
@@ -10,11 +10,12 @@ export interface FeedType {
   likeCount?: number;
   commentCount?: number;
   showLikeCountYn?: YN;
-  feedImages?: FeedImageType[];
+  feedImages: FeedImageType[];
   comments?: string[];
   tags?: string[];
   displayYn?: YN;
   likedYn?: boolean;
+  status?: FEED_STATUS;
   bookmarkedYn?: boolean;
   createdAt?: string;
   updatedAt?: string;
