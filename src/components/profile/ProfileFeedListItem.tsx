@@ -1,14 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import {
   feedImageState,
   feedModalState,
   isFeedModalOpenState,
 } from '@/store/feedAtom';
 import { FeedType } from '@/core/types/feed';
-import FeedModal from '../common/FeedModal';
-import ProfileFeedModal from './ProfileFeedModal';
 
 interface ProfileFeedListItemProps {
   queryKey: string[];

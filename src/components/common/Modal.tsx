@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import classNames from 'classnames';
 import useModal from '@/hooks/useModal';
 import { BaseProps } from '@/core/types/common';

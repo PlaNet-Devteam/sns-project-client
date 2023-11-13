@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { useRouter } from 'next/router';

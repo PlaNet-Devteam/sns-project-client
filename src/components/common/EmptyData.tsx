@@ -1,7 +1,5 @@
 import React from 'react';
-import { GiAstronautHelmet, GiJupiter } from 'react-icons/gi';
-import { SiSaturn } from 'react-icons/si';
-
+import { GiAstronautHelmet } from 'react-icons/gi';
 import TypoText from './TypoText';
 
 function EmptyData() {
