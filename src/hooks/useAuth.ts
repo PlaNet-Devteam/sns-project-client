@@ -6,6 +6,7 @@ import JwtStorageService, {
 } from '@/core/utils/jwt-storage';
 import { UserPayloadType } from '@/core';
 import { userState } from '@/store/userAtom';
+import AuthService from '@/services/auth';
 
 const useAuth = () => {
   const accessToken = JwtStorageService.getToken(ACCESS_TOKEN);
@@ -16,11 +17,14 @@ const useAuth = () => {
     decodePayload = jwtDecode(accessToken);
   }
 
-  const onLogout = () => {
-    JwtStorageService.removeToken(ACCESS_TOKEN);
-    JwtStorageService.removeToken(REFRESH_TOKEN);
-    resetUser(null);
-    location.replace('/login');
+  const onLogout = async () => {
+    const isLoggedOut = await AuthService.logout();
+    if (isLoggedOut) {
+      JwtStorageService.removeToken(ACCESS_TOKEN);
+      JwtStorageService.removeToken(REFRESH_TOKEN);
+      resetUser(null);
+      location.replace('/login');
+    }
   };
 
   return {
