@@ -1,24 +1,30 @@
 import React, { ChangeEventHandler } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
 import styles from './SearchInput.module.scss';
+import InputField from './InputField';
 
 interface SearchInputProps {
   value: string;
+  onReset: () => void;
   onChange: ChangeEventHandler<HTMLInputElement>;
   placeholder?: string;
 }
 
-const SearchInput = ({ value, onChange, placeholder }: SearchInputProps) => {
+const SearchInput = ({
+  value,
+  onChange,
+  onReset,
+  placeholder,
+}: SearchInputProps) => {
   return (
     <div className={styles.input}>
       <div className="input-group">
-        <div className="input-field">
-          <input
-            type="text"
-            value={value}
-            onChange={onChange}
-            placeholder={placeholder}
-          />
-        </div>
+        <InputField
+          value={value}
+          onChange={onChange}
+          onReset={onReset}
+          placeholder={placeholder}
+        />
       </div>
     </div>
   );

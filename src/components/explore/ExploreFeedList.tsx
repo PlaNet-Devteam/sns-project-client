@@ -9,13 +9,15 @@ import SearchInput from '../common/SearchInput';
 import TagListItem from '../tag/TagListItem';
 
 const ExploreFeedList = () => {
-  const { searchKeyword, onChange, debouncedSearchKeyword } = useSearchInput();
+  const { searchKeyword, onChange, onReset, debouncedSearchKeyword } =
+    useSearchInput();
 
   return (
     <>
       <SearchInput
         value={searchKeyword}
         onChange={onChange}
+        onReset={onReset}
         placeholder="태그 검색"
       />
       <div className="row-box">

@@ -13,13 +13,15 @@ interface FollowListProps {
 
 const FollowList = ({ queryKey }: FollowListProps) => {
   const router = useRouter();
-  const { searchKeyword, onChange, debouncedSearchKeyword } = useSearchInput();
+  const { searchKeyword, onChange, onReset, debouncedSearchKeyword } =
+    useSearchInput();
 
   return (
     <>
       <SearchInput
         value={searchKeyword}
         onChange={onChange}
+        onReset={onReset}
         placeholder="유저명 혹은 닉네임 검색"
       />
       <InfinityDataList<UserType>

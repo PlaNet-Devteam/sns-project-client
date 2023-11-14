@@ -10,7 +10,8 @@ import SearchInput from '../common/SearchInput';
 import UserListItem from './ExploreUserListItem';
 
 const ExploreUserList = () => {
-  const { searchKeyword, onChange, debouncedSearchKeyword } = useSearchInput();
+  const { searchKeyword, onChange, onReset, debouncedSearchKeyword } =
+    useSearchInput();
   const { payload } = useAuth();
   const myInfo = useRecoilValue(userState);
 
@@ -19,6 +20,7 @@ const ExploreUserList = () => {
       <SearchInput
         value={searchKeyword}
         onChange={onChange}
+        onReset={onReset}
         placeholder="유저명 혹은 닉네임 검색"
       />
       {myInfo && <UserListItem item={myInfo} />}
