@@ -49,7 +49,7 @@ function ProfileCount({ profile }: ProfileCountType) {
           <span className="profile-counts__title">피드</span>
           <p className="profile-counts__count">{profile?.feedCount}</p>
         </div>
-        <div
+        <button
           className="profile-counts__box"
           onClick={() => onClickFollowUserModalOpen(FOLLOW.FOLLOWERS)}
         >
@@ -57,8 +57,8 @@ function ProfileCount({ profile }: ProfileCountType) {
           <p className="profile-counts__count">
             {profile?.isBlockedByViewer ? 0 : profile?.followerCount}
           </p>
-        </div>
-        <div
+        </button>
+        <button
           className="profile-counts__box"
           onClick={() => onClickFollowUserModalOpen(FOLLOW.FOLLOWINGS)}
         >
@@ -66,7 +66,7 @@ function ProfileCount({ profile }: ProfileCountType) {
           <p className="profile-counts__count">
             {profile?.isBlockedByViewer ? 0 : profile?.followingCount}
           </p>
-        </div>
+        </button>
       </section>
       {isFollowingModalOpen && (
         <Modal

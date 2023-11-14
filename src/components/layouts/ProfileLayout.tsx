@@ -189,7 +189,7 @@ const ProfileLayout = ({ children }: BaseProps) => {
                         {!isLoadingUnfollow ? (
                           '팔로우 취소'
                         ) : (
-                          <LoadingSpinner />
+                          <LoadingSpinner variant="white" />
                         )}
                       </Button>
                     </>
@@ -200,7 +200,11 @@ const ProfileLayout = ({ children }: BaseProps) => {
                         size="sm"
                         onClick={() => onClickFollowUser(profile.id)}
                       >
-                        {!isLoadingFollow ? '팔로우' : <LoadingSpinner />}
+                        {!isLoadingFollow ? (
+                          '팔로우'
+                        ) : (
+                          <LoadingSpinner variant="white" />
+                        )}
                       </Button>
                     </>
                   )}
@@ -272,6 +276,11 @@ const ProfileLayout = ({ children }: BaseProps) => {
             onClick={() => router.push('/settings/archived')}
           >
             피드 보관함
+          </Dialog.LabelButton>
+        )}
+        {payload?.username === profile?.username && (
+          <Dialog.LabelButton color="danger" onClick={onLogout}>
+            로그아웃
           </Dialog.LabelButton>
         )}
         {payload && payload?.username !== profile?.username && (

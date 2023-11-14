@@ -7,7 +7,7 @@
   &__box {
     text-align: center;
     color: white;
-    cursor: pointer;
+    font-size: var(--font-size-md);
   }
   &__title {
     display: block;
@@ -15,5 +15,6 @@
   }
   &__count {
     font-size: 1.5rem;
+    line-height: 1;
   }
 }

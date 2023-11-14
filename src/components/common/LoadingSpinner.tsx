@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import { ImSpinner2 } from 'react-icons/im';
+import styles from './LoadingSpinner.module.scss';
 
 interface LoadingSpinnerProps {
   variant?: 'default' | 'white';
@@ -20,7 +21,7 @@ const LoadingSpinner = ({ variant }: LoadingSpinnerProps) => {
   return (
     <div
       className={classNames(
-        'loading-spinner',
+        styles.spinner,
         VARIANTS[variant as keyof VariantType],
       )}
     >
