@@ -1,17 +1,17 @@
-.input_field {
+.textarea {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-wrap: nowrap;
   width: 100%;
-  height: 3rem;
+  height: 8rem;
   border-radius: 0.5rem;
   border: 0;
   outline: 0;
   font-size: 0.875rem;
   color: white;
   background-color: rgba($color: white, $alpha: 0.1);
-  input {
+  textarea {
     width: 100%;
     height: inherit;
     background-color: transparent;
@@ -19,15 +19,18 @@
     border: 0;
     padding: 1rem;
     color: inherit;
+    line-height: 1.6;
     &::placeholder {
       color: rgba($color: white, $alpha: 0.5);
     }
   }
-  button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 3rem;
-    height: inherit;
-  }
+}
+
+.button_container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 0.25rem 0 1rem;
+  text-align: right;
 }

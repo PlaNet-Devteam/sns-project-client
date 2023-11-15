@@ -1,9 +1,9 @@
 import React, { ChangeEventHandler } from 'react';
-import { AiOutlineClose } from 'react-icons/ai';
 import styles from './SearchInput.module.scss';
-import InputField from './InputField';
+import InputField from './form/InputField';
 
 interface SearchInputProps {
+  name?: string;
   value: string;
   onReset: () => void;
   onChange: ChangeEventHandler<HTMLInputElement>;
@@ -20,6 +20,7 @@ const SearchInput = ({
     <div className={styles.input}>
       <div className="input-group">
         <InputField
+          name="search"
           value={value}
           onChange={onChange}
           onReset={onReset}

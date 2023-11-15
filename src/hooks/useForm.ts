@@ -3,9 +3,9 @@ import { ChangeEvent, useCallback, useState } from 'react';
 function useForm<T extends Record<string, any>>(initialForm: T) {
   const [formData, setForm] = useState(initialForm);
 
-  const onReset = useCallback(() => {
-    setForm(initialForm);
-  }, [initialForm]);
+  const onReset = useCallback((name: string) => {
+    setForm((prevState) => ({ ...prevState, [name]: '' }));
+  }, []);
 
   const onChange = useCallback(
     (
