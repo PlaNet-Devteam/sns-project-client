@@ -1,34 +1,34 @@
-import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
-import { TiDelete } from 'react-icons/ti';
-import { AiOutlineCamera } from 'react-icons/ai';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
 import { FormEvent } from 'react';
 import { uploadFile } from '@/utils/uploadImage';
-import FeedHeader from '@/components/feed/FeedHeader';
-import { FeedCreateType, FeedImageType } from '@/core/types/feed';
+import {
+  FeedImageCreateType,
+  FeedCreateType,
+  FeedFileType,
+} from '@/core/types/feed';
 import useForm from '@/hooks/useForm';
 import FeedService from '@/services/feed';
 import Button from '@/components/common/Button';
-import useMouseDrag from '@/hooks/useMouseDrag';
 import { hashTagRegEx } from '@/utils/generateHashTag';
-
-export interface FeedFileType {
-  sortOrder: number;
-  image: string;
-  file: File;
-}
+import TextAreaField from '@/components/common/form/TextAreaField';
+import ThumbImage from '@/components/common/img/ThumbImage';
+import ThumbCarousel from '@/components/common/img/ThumbCarousel';
+import TopHeader from '@/components/nav/topHeader/TopHeader';
+import AddPhotoButton from '@/components/common/form/AddPhotoButton';
+import ButtonGroup from '@/components/common/ButtonGroup';
 
 function CreateFeed() {
   const router = useRouter();
   const [imageList, setImageList] = useState<FeedFileType[]>([]);
   const orderIndex = useRef<number>(0);
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-  const { isDrag, onDragStart, onDragEnd, onThrottleDragMove } =
-    useMouseDrag(scrollRef);
 
-  const { formData: feedCreate, onChange } = useForm<FeedCreateType>({
+  const {
+    formData: feedCreate,
+    onChange,
+    onReset,
+  } = useForm<FeedCreateType>({
     description: '',
     feedImages: imageList,
     tagNames: [],
@@ -50,10 +50,10 @@ function CreateFeed() {
     }
 
     try {
-      let imageUrlLists: FeedImageType[] = [];
+      let imageUrlLists: FeedImageCreateType[] = [];
       for (let i = 0; i < imageList.length; i++) {
         const currentImageUrl = await uploadFile(imageList[i].file, 'feed');
-        const result: FeedImageType = {
+        const result: FeedImageCreateType = {
           sortOrder: imageList[i].sortOrder,
           image: currentImageUrl as string,
         };
@@ -116,83 +116,54 @@ function CreateFeed() {
   }, [feedCreate]);
 
   return (
-    <div className="feed-create">
-      <div className="feed-create-form inner__container">
-        <FeedHeader title="새 게시물" />
-        <div className="feed-create-form-input">
-          <div className="feed-create-form-input__label">
-            <label
-              htmlFor="file"
-              className="button button-size--sm button-bg--ghost button-text--english"
-            >
-              <AiOutlineCamera
-                size={24}
-                className="feed-create-form-input__button-icon"
-              />
-              사진첨부하기
-            </label>
-          </div>
-          <input
-            id="file"
-            type="file"
-            accept="image/*"
-            multiple={true}
-            className="feed-create-form-input__input"
-            onInput={onClickUploadImageHandler}
-          />
-        </div>
-        <div
-          className="feed-create-form-image-upload"
-          onMouseDown={onDragStart}
-          onMouseUp={onDragEnd}
-          onMouseLeave={onDragEnd}
-          onMouseMove={isDrag ? onThrottleDragMove : undefined}
-          ref={(e) => (scrollRef.current = e)}
-        >
-          {imageList &&
-            imageList.map((image, index) => (
-              <div className="feed-create-form-image">
-                <div className="feed-create-form-image__button--delete">
-                  <button onClick={() => onClickRemoveImageHandler(index)}>
-                    <TiDelete size={24} color="black" />
-                  </button>
-                </div>
-                <div className="feed-create-form-image-upload__image">
-                  <Image
-                    src={image.image}
-                    key={image.sortOrder}
-                    width={100}
-                    height={100}
-                    alt="image"
-                  />
-                </div>
-              </div>
-            ))}
-        </div>
-        <form
-          className="feed-create-form-content"
-          onSubmit={(event) => onSubmitForm(event, feedCreate)}
-        >
-          <textarea
-            className="feed-create-form__textarea"
-            name="description"
-            placeholder="내용을 입력해주세요."
-            value={feedCreate.description}
-            onChange={onChange}
-          />
-          <Button
-            size="md"
-            variant="primary"
-            type="submit"
-            isEnglish
-            isFull
-            className="feed-create-form-complete__button"
+    <>
+      <TopHeader>
+        <TopHeader.Left>
+          <button onClick={() => router.back()}>뒤로</button>
+        </TopHeader.Left>
+        <TopHeader.Title>새 피드</TopHeader.Title>
+        <TopHeader.Right></TopHeader.Right>
+      </TopHeader>
+      <article className="article__container">
+        <div className="inner__container">
+          <AddPhotoButton mutiple onUploadImage={onClickUploadImageHandler} />
+          <ThumbCarousel>
+            {imageList &&
+              imageList.map((image, index) => (
+                <ThumbImage
+                  image={image}
+                  index={index}
+                  onClose={() => onClickRemoveImageHandler(index)}
+                />
+              ))}
+          </ThumbCarousel>
+          <form
+            className="feed-create-form-content"
+            onSubmit={(event) => onSubmitForm(event, feedCreate)}
           >
-            완료
-          </Button>
-        </form>
-      </div>
-    </div>
+            <TextAreaField
+              name="description"
+              value={feedCreate.description}
+              onReset={onReset}
+              onChange={onChange}
+              placeholder="내용을 입력해주세요."
+            />
+            <ButtonGroup>
+              <Button
+                size="md"
+                variant="primary"
+                type="submit"
+                isEnglish
+                isFull
+                className="feed-create-form-complete__button"
+              >
+                완료
+              </Button>
+            </ButtonGroup>
+          </form>
+        </div>
+      </article>
+    </>
   );
 }
 export default CreateFeed;
