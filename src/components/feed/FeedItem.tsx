@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { FeedType } from '@/core/types/feed';
 import FeedService from '@/services/feed';
 import useAuth from '@/hooks/useAuth';
@@ -30,27 +30,32 @@ const FeedItem = ({ item }: FeedItemProps) => {
 
   const setFeedModifyState = useSetRecoilState(feedState);
   const setScrollY = useLocalStorage('scroll_location', 0)[1];
-  const [feedModal, setFeedModalState] = useRecoilState(feedModalState);
-  const setIsFeedModalOpen = useSetRecoilState(isFeedModalOpenState);
+  const feedModal = useRecoilValue(feedModalState);
+  const [isFeedModalOpen, setIsFeedModalOpen] =
+    useRecoilState(isFeedModalOpenState);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const onResetFeedModalState = () => {
-    if (feedModal) {
+  const onInvalidateAndClaoseFeedModalHandler = () => {
+    // * 쿼리별 피드 목록 갱신
+    if (isFeedModalOpen && feedModal) {
       queryClient.invalidateQueries([...feedModal.queryKey]);
     }
-    queryClient.invalidateQueries(['user', payload?.username]);
+    // * 본인 프로필 페이지 정보 갱신
+    if (router.query.username === payload?.username) {
+      queryClient.invalidateQueries(['user', payload?.username]);
+    }
     setIsFeedModalOpen(false);
-    setFeedModalState(null);
   };
 
-  const onSuccessInvalidateQueries = () => {
-    if (feedModal) {
-      queryClient.invalidateQueries(['feed-item-modal', feedModal.id]);
+  const onInvalidateAndCloseDialogHandler = () => {
+    // * 피드 모달 OPEN 상태 일경우
+    if (isFeedModalOpen && feedModal) {
+      queryClient.invalidateQueries(['feed-modal', feedModal.id]);
     } else {
       queryClient.invalidateQueries(['feeds']);
     }
-    setIsModalOpen(false);
+    setIsDialogOpen(false);
   };
 
   const {
@@ -60,8 +65,8 @@ const FeedItem = ({ item }: FeedItemProps) => {
     mutationKey: ['delete-feed', item.id],
     mutationFn: (feedId: number) => FeedService.deleteFeed(feedId),
     onSuccess: () => {
-      onSuccessInvalidateQueries();
-      onResetFeedModalState();
+      onInvalidateAndCloseDialogHandler();
+      onInvalidateAndClaoseFeedModalHandler();
     },
   });
 
@@ -82,7 +87,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
       }
     },
     onSuccess: () => {
-      onSuccessInvalidateQueries();
+      onInvalidateAndCloseDialogHandler();
     },
   });
 
@@ -103,8 +108,8 @@ const FeedItem = ({ item }: FeedItemProps) => {
       }
     },
     onSuccess: () => {
-      onSuccessInvalidateQueries();
-      onResetFeedModalState();
+      onInvalidateAndCloseDialogHandler();
+      onInvalidateAndClaoseFeedModalHandler();
     },
   });
 
@@ -134,13 +139,13 @@ const FeedItem = ({ item }: FeedItemProps) => {
       >
         <FeedItemProfileInfo
           item={item}
-          onClickOptions={() => setIsModalOpen(true)}
+          onClickOptions={() => setIsDialogOpen(true)}
         />
         <FeedItemImageCarousel feedImages={item.feedImages} />
         <FeedItemDetailContent item={item} />
       </div>
-      <Dialog isOpen={isModalOpen}>
-        <Dialog.Dimmed onClick={() => setIsModalOpen(false)} />
+      <Dialog isOpen={isDialogOpen}>
+        <Dialog.Dimmed onClick={() => setIsDialogOpen(false)} />
         {item.user.username === payload?.username && (
           <Dialog.LabelButton
             color="essential"

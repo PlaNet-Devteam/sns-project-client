@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
 import { BaseProps } from '@/core/types/common';
 import { userState } from '@/store/userAtom';
@@ -8,7 +8,7 @@ import { AxiosErrorResponseType, UserType, YN } from '@/core';
 import useAuth from '@/hooks/useAuth';
 import UserService from '@/services/user';
 import { profileState } from '@/store/profileAtom';
-import { feedModalState, isFeedModalOpenState } from '@/store/feedAtom';
+import { isFeedModalOpenState } from '@/store/feedAtom';
 import BottomNav from '../nav/bottomNav/BottomNav';
 import ActivateUser from '../common/ActivateUser';
 import FeedModal from '../common/FeedModal';
@@ -20,13 +20,11 @@ const BaseLayout = ({ children }: BaseProps) => {
   const [user, setUser] = useRecoilState<UserType | null>(userState);
   const profile = useRecoilValue<UserType | null>(profileState);
 
-  const setFeedModalState = useSetRecoilState(feedModalState);
   const [isFeedModalOpen, setIsFeedModalOpen] =
     useRecoilState(isFeedModalOpenState);
 
-  const onClickFeedModalOpenHandler = () => {
+  const onClickFeedModalCloseHandler = () => {
     setIsFeedModalOpen(false);
-    setFeedModalState(null);
   };
 
   const { data: userInfo } = useQuery(
@@ -76,7 +74,7 @@ const BaseLayout = ({ children }: BaseProps) => {
       {isVisibleRoutes.includes(asPath) && <BottomNav />}
       <FeedModal
         isModalOpen={isFeedModalOpen}
-        onClickCloseModal={onClickFeedModalOpenHandler}
+        onClickCloseModal={onClickFeedModalCloseHandler}
       >
         <ProfileFeedModal />
       </FeedModal>

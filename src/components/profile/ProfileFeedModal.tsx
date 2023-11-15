@@ -9,8 +9,9 @@ import styles from './ProfileFeedModal.module.scss';
 
 const ProfileFeedModal = () => {
   const feedModal = useRecoilValue(feedModalState);
+
   const { data: item, isLoading } = useQuery({
-    queryKey: ['feed-item-modal', feedModal?.id],
+    queryKey: ['feed-modal', feedModal?.id],
     queryFn: () => {
       if (feedModal) {
         return FeedService.getFeed(feedModal?.id);

@@ -12,7 +12,7 @@ import { BiComment } from 'react-icons/bi';
 import { useRecoilValue } from 'recoil';
 import { FeedType } from '@/core';
 import FeedService from '@/services/feed';
-import { feedModalState } from '@/store/feedAtom';
+import { feedModalState, isFeedModalOpenState } from '@/store/feedAtom';
 import styles from './FeedItemActionButtons.module.scss';
 
 interface FeedItemActionButtonsProps {
@@ -23,14 +23,15 @@ const FeedItemActionButtons = ({ item }: FeedItemActionButtonsProps) => {
   const queryClient = useQueryClient();
   const [isClicked, setIsClicked] = useState(false);
   const feedModal = useRecoilValue(feedModalState);
+  const isFeedModalOpen = useRecoilValue(isFeedModalOpenState);
 
   useEffect(() => {
     setIsClicked(false);
   }, []);
 
   const onSuccessInvalidateQueries = () => {
-    if (feedModal) {
-      queryClient.invalidateQueries(['feed-item-modal', feedModal.id]);
+    if (isFeedModalOpen && feedModal) {
+      queryClient.invalidateQueries(['feed-modal', feedModal.id]);
     } else {
       queryClient.invalidateQueries(['feeds']);
     }
