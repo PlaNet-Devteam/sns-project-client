@@ -14,11 +14,11 @@ const HashTagWithLink = ({
   const sentenceArray = description.split('\n').map((sentence, index) => {
     return (
       <span key={index}>
-        {sentence.split(' ').map((word: string) => {
+        {sentence.split(' ').map((word: string, index2: number) => {
           if (word.match(hashTagRegEx)) {
             return (
               <Link
-                key={word}
+                key={index2}
                 href={`/explore/feed/tags/${word.slice(1)}`}
                 className={styles.tag}
               >
@@ -30,7 +30,7 @@ const HashTagWithLink = ({
             );
           } else {
             return (
-              <span key={word}>
+              <span key={index2}>
                 {word}
                 &nbsp;
               </span>
