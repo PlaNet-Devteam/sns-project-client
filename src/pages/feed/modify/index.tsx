@@ -98,6 +98,7 @@ function ModifyFeed() {
                     image: `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`,
                     sortOrder: image.sortOrder,
                   }}
+                  key={index}
                   index={index}
                   onClose={() => onClickRemoveImageHandler(index)}
                 />
