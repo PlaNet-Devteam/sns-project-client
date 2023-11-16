@@ -70,6 +70,9 @@ function ModifyFeed() {
   const onClickRemoveImageHandler = (index: number) => {
     if (imageList.length > 1) {
       setImageList((prevState) => prevState.filter((_, idx) => idx !== index));
+      if (feedItem) {
+        FeedService.deleteFeedImage(feedItem.id, index);
+      }
     } else {
       alert('이미지를 1개 이상 등록해야합니다');
     }

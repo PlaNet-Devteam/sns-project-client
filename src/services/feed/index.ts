@@ -83,6 +83,10 @@ const FeedService = {
     const { data } = await api.delete(`/feed/${feedId}`);
     return data;
   },
+  deleteFeedImage: async (feedId: number, sortOrder: number) => {
+    const { data } = await api.delete(`/feed/${feedId}/image/${sortOrder}`);
+    return data;
+  },
   likeFeed: async (feedId: number) => {
     const { data } = await api.post(`/feed/${feedId}/like`);
     return data;
