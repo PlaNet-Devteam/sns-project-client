@@ -13,10 +13,6 @@ import NoneLayout from '@/components/layouts/NoneLayout';
 import '@/styles/globals.scss';
 import useAuth from '@/hooks/useAuth';
 
-if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
-  import('../mocks');
-}
-
 const queryClient = new QueryClient();
 const routes = ['/', '/login', '/signup'];
 
