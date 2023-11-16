@@ -13,6 +13,7 @@ import FeedService from '@/services/feed';
 import Button from '@/components/common/Button';
 import useMouseDrag from '@/hooks/useMouseDrag';
 import { hashTagRegEx } from '@/utils/generateHashTag';
+import { useLocalStorage } from '../../../hooks/useLocalStorage';
 
 export interface FeedFileType {
   sortOrder: number;
@@ -27,6 +28,7 @@ function CreateFeed() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const { isDrag, onDragStart, onDragEnd, onThrottleDragMove } =
     useMouseDrag(scrollRef);
+  const setScrollY = useLocalStorage('scroll_location', 0)[1];
 
   const { formData: feedCreate, onChange } = useForm<FeedCreateType>({
     description: '',
@@ -187,6 +189,7 @@ function CreateFeed() {
             isEnglish
             isFull
             className="feed-create-form-complete__button"
+            onClick={() => setScrollY(0)}
           >
             완료
           </Button>
