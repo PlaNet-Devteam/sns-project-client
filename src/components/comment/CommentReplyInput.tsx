@@ -46,7 +46,7 @@ const CommentReplyInput = () => {
       }
     },
     onSuccess: () => {
-      onReset();
+      onReset('comment');
       setModifyReply(null);
       setIsReplyModalOpen(false);
       queryClient.invalidateQueries(['replies', commentId]);
