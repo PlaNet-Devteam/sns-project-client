@@ -10,9 +10,14 @@ import UserService from '@/services/user';
 import Button from '@/components/common/Button';
 import ButtonGroup from '@/components/common/ButtonGroup';
 import IconGoogle from '@/assets/icons/icon_google.svg';
+import InputField from '@/components/common/form/InputField';
 
 const SignUp = () => {
-  const { formData: userCreate, onChange } = useForm<UserCreateType>({
+  const {
+    formData: userCreate,
+    onChange,
+    onReset,
+  } = useForm<UserCreateType>({
     email: '',
     username: '',
     nickname: '',
@@ -68,61 +73,56 @@ const SignUp = () => {
             >
               <div className="form-group">
                 <div className="input-group">
-                  <div className="input-field">
-                    <input
-                      type="text"
-                      value={userCreate.email}
-                      name="email"
-                      placeholder="이메일"
-                      onChange={onChange}
-                    />
-                  </div>
+                  <InputField
+                    type="email"
+                    value={userCreate.email}
+                    name="email"
+                    placeholder="이메일"
+                    onChange={onChange}
+                    onReset={onReset}
+                  />
                 </div>
                 <div className="input-group">
-                  <div className="input-field">
-                    <input
-                      type="text"
-                      value={userCreate.username}
-                      name="username"
-                      placeholder="사용자명"
-                      onChange={onChange}
-                    />
-                  </div>
+                  <InputField
+                    type="text"
+                    value={userCreate.username}
+                    name="username"
+                    placeholder="사용자명"
+                    onChange={onChange}
+                    onReset={onReset}
+                  />
                 </div>
                 <div className="input-group">
-                  <div className="input-field">
-                    <input
-                      type="text"
-                      value={userCreate.nickname}
-                      name="nickname"
-                      placeholder="닉네임"
-                      onChange={onChange}
-                    />
-                  </div>
+                  <InputField
+                    type="text"
+                    value={userCreate.nickname}
+                    name="nickname"
+                    placeholder="닉네임"
+                    onChange={onChange}
+                    onReset={onReset}
+                  />
                 </div>
                 <div className="input-group">
-                  <div className="input-field">
-                    <input
-                      type="password"
-                      name="password"
-                      value={userCreate.password}
-                      placeholder="비밀번호"
-                      onChange={onChange}
-                      autoComplete="off"
-                    />
-                  </div>
+                  <InputField
+                    type="password"
+                    name="password"
+                    value={userCreate.password}
+                    placeholder="비밀번호"
+                    onChange={onChange}
+                    autoComplete="off"
+                    onReset={onReset}
+                  />
                 </div>
                 <div className="input-group">
-                  <div className="input-field">
-                    <input
-                      type="password"
-                      name="passwordConfirm"
-                      value={userCreate.passwordConfirm}
-                      placeholder="비밀번호 확인"
-                      onChange={onChange}
-                      autoComplete="off"
-                    />
-                  </div>
+                  <InputField
+                    type="password"
+                    name="passwordConfirm"
+                    value={userCreate.passwordConfirm}
+                    placeholder="비밀번호 확인"
+                    onChange={onChange}
+                    autoComplete="off"
+                    onReset={onReset}
+                  />
                 </div>
               </div>
               {isError && <ErrorMessage errorMessage={errorMessage} />}

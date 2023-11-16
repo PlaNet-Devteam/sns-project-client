@@ -36,6 +36,7 @@ function ProfileFeedList({ queryKey }: ProfileFeedListProps) {
             }
           }}
           ChildCompoentToRender={ProfileFeedListItem}
+          propsObject={{ queryKey: [`${queryKey}-${username}`] }}
         ></InfinityDataList>
       </div>
     </>

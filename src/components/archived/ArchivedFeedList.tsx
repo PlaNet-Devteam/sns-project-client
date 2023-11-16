@@ -21,6 +21,7 @@ const ArchivedFeedList = () => {
           })
         }
         ChildCompoentToRender={ProfileFeedListItem}
+        propsObject={{ queryKey: ['archived-feeds'] }}
       ></InfinityDataList>
     </div>
   );

@@ -5,12 +5,13 @@ import EmptyData from './EmptyData';
 import LoadingSpinner from './LoadingSpinner';
 import Button from './Button';
 import ButtonGroup from './ButtonGroup';
+import LoadingSpinnerContainer from './LoadingSpinnerContainer';
 
 interface InfinityDataListProps<T> extends BaseProps {
   queryKey: unknown[];
   listType: 'button' | 'scroll';
   ChildCompoentToRender: React.ComponentType<T>;
-  propsObject?: Record<string, string>;
+  propsObject?: Record<string, unknown>;
   fetchData: (page: number, limit?: number) => Promise<InfinitePagesType<T>>;
 }
 
@@ -55,11 +56,9 @@ const InfinityDataList = <T,>({
           {listType === 'scroll' ? (
             <>
               <div ref={bottom} />
-              <div className="spinner_container">
-                {status === 'success' && !hasNextPage === undefined && (
-                  <LoadingSpinner variant="white" />
-                )}
-              </div>
+              <LoadingSpinnerContainer
+                isLoading={status === 'success' && !hasNextPage === undefined}
+              />
             </>
           ) : (
             <>

@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import classNames from 'classnames';
+import { createPortal } from 'react-dom';
 import useModal from '@/hooks/useModal';
 import { BaseProps } from '@/core/types/common';
 
@@ -47,7 +48,7 @@ function Modal({
 
   const isOpen = useModal(isModalOpen, 100);
   if (!isOpen) return null;
-  return (
+  return createPortal(
     <div className={isOpen ? 'modal modal--opened' : 'modal modal--closed'}>
       <section
         ref={modalRef}
@@ -66,7 +67,8 @@ function Modal({
         </header>
         <main className="modal-main">{children}</main>
       </section>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

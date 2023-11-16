@@ -11,14 +11,14 @@ interface HashTagWithLinkProps {
 const HashTagWithLink = ({
   description,
 }: HashTagWithLinkProps): JSX.Element => {
-  const sentenceArray = description.split('\n').map((sentence) => {
+  const sentenceArray = description.split('\n').map((sentence, index) => {
     return (
-      <>
-        {sentence.split(' ').map((word: string, index: number) => {
+      <span key={index}>
+        {sentence.split(' ').map((word: string, index2: number) => {
           if (word.match(hashTagRegEx)) {
             return (
               <Link
-                key={index}
+                key={index2}
                 href={`/explore/feed/tags/${word.slice(1)}`}
                 className={styles.tag}
               >
@@ -30,15 +30,15 @@ const HashTagWithLink = ({
             );
           } else {
             return (
-              <>
+              <span key={index2}>
                 {word}
                 &nbsp;
-              </>
+              </span>
             );
           }
         })}
         <br />
-      </>
+      </span>
     );
   });
 

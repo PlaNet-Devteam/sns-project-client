@@ -1,54 +1,72 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
-import {
-  BsBookmark,
-  BsBookmarkFill,
-  BsThreeDotsVertical,
-} from 'react-icons/bs';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AiOutlineLike, AiFillLike } from 'react-icons/ai';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { FeedType } from '@/core/types/feed';
-import FeedImg from '@/components/feed/FeedImg';
 import FeedService from '@/services/feed';
-import { formattedDate } from '@/utils/formattedDate';
 import useAuth from '@/hooks/useAuth';
-import { feedState } from '@/store/feedAtom';
+import {
+  feedModalState,
+  feedState,
+  isFeedModalOpenState,
+} from '@/store/feedAtom';
 import { FEED_STATUS, YN } from '@/core';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import Dialog from '../dialog/Dialog';
-// import LoadingLayer from '../common/LoadingLayer';
-import FeedModal from '../common/FeedModal';
-import UserProfileImage from '../common/UserProfileImage';
 import LoadingSpinner from '../common/LoadingSpinner';
-import Carousel from './Carousel';
-import HashTagWithLink from './HashTagWithLink';
+import FeedItemProfileInfo from './FeedItemProfileInfo';
+import FeedItemImageCarousel from './FeedItemImageCarousel';
+import FeedItemDetailContent from './FeedItemDetailContent';
+import styles from './FeedItem.module.scss';
 
 interface FeedItemProps {
   item: FeedType;
 }
 
 const FeedItem = ({ item }: FeedItemProps) => {
-  const queryClient = useQueryClient(); // TODO: 체크
-  const { payload } = useAuth();
-  const setFeedModifyState = useSetRecoilState(feedState);
-
-  const setScrollY = useLocalStorage('scroll_location', 0)[1];
-  const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const { payload } = useAuth();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleModalOpen = () => {
-    setIsModalOpen((prevState) => !prevState);
+  const setFeedModifyState = useSetRecoilState(feedState);
+  const setScrollY = useLocalStorage('scroll_location', 0)[1];
+  const feedModal = useRecoilValue(feedModalState);
+  const [isFeedModalOpen, setIsFeedModalOpen] =
+    useRecoilState(isFeedModalOpenState);
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const onInvalidateAndClaoseFeedModalHandler = () => {
+    // * 쿼리별 피드 목록 갱신
+    if (isFeedModalOpen && feedModal) {
+      queryClient.invalidateQueries([...feedModal.queryKey]);
+    }
+    // * 본인 프로필 페이지 정보 갱신
+    if (router.query.username === payload?.username) {
+      queryClient.invalidateQueries(['user', payload?.username]);
+    }
+    setIsFeedModalOpen(false);
   };
 
-  const deleteFeedItemMutation = useMutation({
+  const onInvalidateAndCloseDialogHandler = () => {
+    // * 피드 모달 OPEN 상태 일경우
+    if (isFeedModalOpen && feedModal) {
+      queryClient.invalidateQueries(['feed-modal', feedModal.id]);
+    } else {
+      queryClient.invalidateQueries(['feeds']);
+    }
+    setIsDialogOpen(false);
+  };
+
+  const {
+    mutateAsync: deleteFeedItemMutation,
+    isLoading: isLoadingDeleteFeed,
+  } = useMutation({
     mutationKey: ['delete-feed', item.id],
     mutationFn: (feedId: number) => FeedService.deleteFeed(feedId),
     onSuccess: () => {
-      setIsModalOpen(false);
-      return queryClient.invalidateQueries(['feeds']);
+      onInvalidateAndCloseDialogHandler();
+      onInvalidateAndClaoseFeedModalHandler();
     },
   });
 
@@ -69,8 +87,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
       }
     },
     onSuccess: () => {
-      setIsModalOpen(false);
-      return queryClient.invalidateQueries(['feeds']);
+      onInvalidateAndCloseDialogHandler();
     },
   });
 
@@ -91,18 +108,18 @@ const FeedItem = ({ item }: FeedItemProps) => {
       }
     },
     onSuccess: () => {
-      setIsModalOpen(false);
-      return queryClient.invalidateQueries(['feeds']);
+      onInvalidateAndCloseDialogHandler();
+      onInvalidateAndClaoseFeedModalHandler();
     },
   });
 
   const handleDeleteFeedItem = async (feedId: number) => {
-    deleteFeedItemMutation.mutate(feedId);
+    deleteFeedItemMutation(feedId);
   };
 
   const handleModifyFeedItem = async (item: FeedType) => {
     setFeedModifyState(item);
-    router.replace('/feed/modify');
+    router.push('/feed/modify');
   };
 
   const onClickShowLikeCountHandler = (feedId: number) => {
@@ -113,146 +130,25 @@ const FeedItem = ({ item }: FeedItemProps) => {
     updateStatusArchivedMutation(feedId);
   };
 
-  const openModalIfImgCnt = () => {
-    if (item.feedImages) {
-      item.feedImages.length > 1 ? setIsImgModalOpen(true) : null;
-    }
-  };
-
-  const convertedDate = formattedDate()(item.updatedAt || item.createdAt);
-
-  const likeFeedItemMutation = useMutation({
-    mutationKey: ['like-feed', item.id],
-    mutationFn: (feedId: number) => FeedService.likeFeed(feedId),
-    onSuccess: () => {
-      return queryClient.invalidateQueries(['feeds']);
-    },
-  });
-
-  const deleteLikeFeedItemMutation = useMutation({
-    mutationKey: ['delete-like-feed', item.id],
-    mutationFn: (feedId: number) => FeedService.delteLikeFeed(feedId),
-    onSuccess: () => {
-      return queryClient.invalidateQueries(['feeds']);
-    },
-  });
-
-  const onClickFeedLkeHandler = (feedId: number) => {
-    if (item.likedYn) {
-      deleteLikeFeedItemMutation.mutate(feedId);
-    } else {
-      likeFeedItemMutation.mutate(feedId);
-    }
-  };
-
-  const bookmarkFeedItemMutation = useMutation({
-    mutationKey: ['bookmark-feed', item.id],
-    mutationFn: (feedId: number) => FeedService.bookmarkFeed(feedId),
-    onSuccess: () => {
-      return queryClient.invalidateQueries(['feeds']);
-    },
-  });
-
-  const deleteBookmarkFeedItemMutation = useMutation({
-    mutationKey: ['delete-bookmark-feed', item.id],
-    mutationFn: (feedId: number) => FeedService.deleteBookmarkFeed(feedId),
-    onSuccess: () => {
-      return queryClient.invalidateQueries(['feeds']);
-    },
-  });
-
-  const onClickBookmarkHandler = (feedId: number) => {
-    if (item.bookmarkedYn) {
-      deleteBookmarkFeedItemMutation.mutate(feedId);
-    } else {
-      bookmarkFeedItemMutation.mutate(feedId);
-    }
-  };
-
   return (
     <>
       <div
         id={String(item.id)}
-        className="feed-item_container"
+        className={styles.item}
         onClick={() => setScrollY(window.scrollY)}
       >
-        <div>
-          <div className="profile_container">
-            <figure>
-              <UserProfileImage
-                username={item.user.username}
-                imagePath={item.user.profileImage}
-              />
-            </figure>
-            <div className="profile_info">
-              <div className="profile_text">
-                <div>
-                  <Link href={`/${item.user?.username}`}>
-                    {item.user?.nickname}
-                  </Link>
-                </div>
-                <div className="upload_time">{convertedDate}</div>
-              </div>
-              <BsThreeDotsVertical onClick={handleModalOpen} />
-            </div>
-          </div>
-          <div className="feed_text">
-            {item.description && (
-              <HashTagWithLink description={item.description} />
-            )}
-          </div>
-          <FeedModal
-            modalPurpose="Img"
-            isModalOpen={isImgModalOpen}
-            onClickCloseModal={() => {
-              setIsImgModalOpen(false);
-            }}
-          >
-            {item.feedImages && <Carousel feedImages={item.feedImages} />}
-          </FeedModal>
-          <div onClick={openModalIfImgCnt}>
-            {item.feedImages && item.feedImages.length > 0 && (
-              <FeedImg feedImages={item.feedImages} />
-            )}
-          </div>
-          <div className="subscription_text_container">
-            <div>
-              {item.showLikeCountYn === YN.Y && <>좋아요 {item.likeCount}개</>}
-            </div>
-            <div>댓글 {item.commentCount}개 공유 0회</div>
-          </div>
-        </div>
-        <div className="subscription_icon_container">
-          <button
-            className="subscription_icon"
-            onClick={() => onClickFeedLkeHandler(item.id)}
-          >
-            {item.likedYn ? (
-              <AiFillLike color="white" size={'1.5rem'} />
-            ) : (
-              <AiOutlineLike color="white" size={'1.5rem'} />
-            )}
-          </button>
-          <Link href={`/feed/${item.id}/comment`} className="subscription_icon">
-            <img src="/comment.svg" alt="comment" />
-          </Link>
-          <button
-            className="subscription_icon"
-            onClick={() => onClickBookmarkHandler(item.id)}
-          >
-            {item.bookmarkedYn ? (
-              <BsBookmarkFill color="whtie" size={'1.5rem'} />
-            ) : (
-              <BsBookmark color="white" size={'1.5rem'} />
-            )}
-          </button>
-        </div>
+        <FeedItemProfileInfo
+          item={item}
+          onClickOptions={() => setIsDialogOpen(true)}
+        />
+        <FeedItemImageCarousel feedImages={item.feedImages} />
+        <FeedItemDetailContent item={item} />
       </div>
-      <Dialog isOpen={isModalOpen}>
-        <Dialog.Dimmed onClick={handleModalOpen} />
+      <Dialog isOpen={isDialogOpen}>
+        <Dialog.Dimmed onClick={() => setIsDialogOpen(false)} />
         {item.user.username === payload?.username && (
           <Dialog.LabelButton
-            color="white"
+            color="essential"
             onClick={() => handleModifyFeedItem(item)}
           >
             수정
@@ -266,7 +162,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
             {isLoadingStatusArchived ? (
               <LoadingSpinner variant="white" />
             ) : (
-              <>보관</>
+              <>{item.status === FEED_STATUS.ARCHIVED ? '보관 해제' : '보관'}</>
             )}
           </Dialog.LabelButton>
         )}
@@ -289,14 +185,17 @@ const FeedItem = ({ item }: FeedItemProps) => {
             color="danger"
             onClick={() => handleDeleteFeedItem(item.id)}
           >
-            삭제
+            {isLoadingDeleteFeed ? (
+              <LoadingSpinner variant="white" />
+            ) : (
+              <>삭제</>
+            )}
           </Dialog.LabelButton>
         )}
         {item.user.username !== payload?.username && (
           <Dialog.LabelButton color="danger">신고</Dialog.LabelButton>
         )}
       </Dialog>
-      {/* {deleteFeedItemMutation.isLoading && <LoadingLayer />} */}
     </>
   );
 };
