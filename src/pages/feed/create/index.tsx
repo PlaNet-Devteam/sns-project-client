@@ -157,7 +157,7 @@ function CreateFeed() {
                 isFull
                 className="feed-create-form-complete__button"
               >
-                완료
+                OK
               </Button>
             </ButtonGroup>
           </form>

@@ -119,7 +119,7 @@ const FeedItem = ({ item }: FeedItemProps) => {
 
   const handleModifyFeedItem = async (item: FeedType) => {
     setFeedModifyState(item);
-    router.replace('/feed/modify');
+    router.push('/feed/modify');
   };
 
   const onClickShowLikeCountHandler = (feedId: number) => {

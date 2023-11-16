@@ -1,5 +1,6 @@
 import { FEED_STATUS, YN } from '@/core/enum';
 import { UserType } from '../user';
+import { TagType } from '../tag';
 import { FeedImageType } from './feed-image.interface';
 
 export interface FeedType {
@@ -12,7 +13,7 @@ export interface FeedType {
   showLikeCountYn: YN;
   feedImages: FeedImageType[];
   comments?: string[];
-  tags: string[];
+  tags: TagType[];
   displayYn: YN;
   likedYn: boolean;
   status: FEED_STATUS;

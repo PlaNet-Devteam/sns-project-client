@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
 import { FormEvent } from 'react';
@@ -14,6 +14,7 @@ import ThumbCarousel from '@/components/common/img/ThumbCarousel';
 import ThumbImage from '@/components/common/img/ThumbImage';
 import ButtonGroup from '@/components/common/ButtonGroup';
 import TextAreaField from '@/components/common/form/TextAreaField';
+import { hashTagRegEx } from '@/utils/generateHashTag';
 
 function ModifyFeed() {
   const router = useRouter();
@@ -23,17 +24,31 @@ function ModifyFeed() {
   );
 
   const {
-    formData: feedModify,
+    formData: feedUpdate,
     onChange,
     onReset,
   } = useForm<FeedUpdateType>({
     description: feedItem?.description || '',
     feedImages: imageList,
+    tagNames: [],
   });
 
   const { mutateAsync } = useMutation((formData: FeedUpdateType) =>
     FeedService.updateFeed(feedItem?.id || 0, formData),
   );
+
+  useEffect(() => {
+    if (feedUpdate.description) {
+      const hashTags = feedUpdate.description
+        .match(hashTagRegEx)
+        ?.map((tag) => tag.slice(1));
+      if (hashTags) {
+        feedUpdate.tagNames = [...hashTags];
+      } else {
+        feedUpdate.tagNames = [];
+      }
+    }
+  }, [feedUpdate]);
 
   const onSubmitForm = async (
     event: FormEvent<HTMLFormElement>,
@@ -66,9 +81,10 @@ function ModifyFeed() {
         <TopHeader.Left>
           <button onClick={() => router.back()}>뒤로</button>
         </TopHeader.Left>
-        <TopHeader.Title>새 피드</TopHeader.Title>
+        <TopHeader.Title>피드 수정</TopHeader.Title>
         <TopHeader.Right></TopHeader.Right>
       </TopHeader>
+
       <article className="article__container">
         <div className="inner__container">
           <ThumbCarousel>
@@ -84,11 +100,11 @@ function ModifyFeed() {
                 />
               ))}
           </ThumbCarousel>
-          <form onSubmit={(event) => onSubmitForm(event, feedModify)}>
+          <form onSubmit={(event) => onSubmitForm(event, feedUpdate)}>
             <TextAreaField
               name="description"
               placeholder="내용을 입력해주세요."
-              value={feedModify.description}
+              value={feedUpdate.description}
               onChange={onChange}
               onReset={onReset}
             />
@@ -100,7 +116,7 @@ function ModifyFeed() {
                 isEnglish
                 isFull
               >
-                완료
+                EDIT
               </Button>
             </ButtonGroup>
           </form>
