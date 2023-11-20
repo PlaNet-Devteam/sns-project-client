@@ -6,9 +6,11 @@ import { FeedType } from '@/core';
 import FeedService from '@/services/feed';
 import ProfileFeedListItem from '@/components/profile/ProfileFeedListItem';
 import ExploreTagInfo from '@/components/explore/ExploreTagInfo';
+import useAuth from '@/hooks/useAuth';
 
 const FeedTagName = () => {
   const router = useRouter();
+  const { payload } = useAuth();
 
   return (
     <>
@@ -27,10 +29,11 @@ const FeedTagName = () => {
               queryKey={['feedByTags', router.query.tagName]}
               listType={'scroll'}
               fetchData={(page) =>
-                FeedService.getFeedsByTag({
+                FeedService.getFeeds({
                   page,
                   limit: 9,
                   tagName: router.query.tagName as string,
+                  viewerId: payload?._id,
                 })
               }
               ChildCompoentToRender={ProfileFeedListItem}

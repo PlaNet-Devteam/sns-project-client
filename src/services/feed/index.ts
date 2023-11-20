@@ -16,14 +16,6 @@ const FeedService = {
     });
     return data.data;
   },
-  getFeedsByTag: async (listData?: FeedListType) => {
-    const { data } = await api.get('/feed/tag', {
-      params: {
-        ...listData,
-      },
-    });
-    return data.data;
-  },
   getFeedsByFollowing: async (listData?: FeedListType) => {
     const { data } = await api.get('/feed/following', {
       params: {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FiUserPlus, FiTrash, FiUserMinus } from 'react-icons/fi';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
+import { BsShieldFillCheck } from 'react-icons/bs';
 import { FollowCreateType } from '@/core/types/follow';
 import { FOLLOW, UserType } from '@/core';
 import FollowService from '@/services/follow';
@@ -80,7 +81,8 @@ const FollowListItem = ({ queryKey, item }: FollowListItemProps) => {
         </div>
         <div className={styles.item_profileInfo}>
           <span className={styles.item_profileInfo_username}>
-            {item.username}
+            {item.username}&nbsp;
+            {item.id === myInfo?.id && <BsShieldFillCheck color="1ba2f3" />}
           </span>
           <span className={styles.item_profileInfo_nickname}>
             {item.nickname}
