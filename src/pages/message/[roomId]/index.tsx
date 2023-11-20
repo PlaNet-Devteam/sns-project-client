@@ -9,27 +9,34 @@ import { useRouter } from 'next/router';
 import { userState } from '@/store/userAtom';
 import ChatHeader from '@/components/message/ChatHeader';
 
-const socket = io('http://localhost:8080/');
+const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL);
 console.log(socket);
+
+interface ChatUserGatewayType {
+  userId: number;
+  message?: string;
+}
 
 const Message = () => {
   const [message, setMessage] = useState('');
-  const [messageList, setMessageList] = useState<any>([]);
+  const [messageList, setMessageList] = useState<ChatUserGatewayType[]>([]);
 
   const user = useRecoilValue(userState);
   const router = useRouter();
-  console.log(router.query);
 
   useEffect(() => {
-    socket.on('message', (data: string) => {
+    socket.on('message', (data: ChatUserGatewayType) => {
       console.log(data);
       setMessageList([...messageList, data]);
     });
   }, [messageList]);
 
   const handleSend = () => {
-    socket.emit('message', [user?.username, message]);
-    console.log(message);
+    socket.emit('message', {
+      roomId: router.query.roomId,
+      userId: user?.id,
+      message,
+    });
     setMessage('');
   };
 
@@ -42,20 +49,29 @@ const Message = () => {
     });
   }, []);
 
+  useEffect(() => {
+    socket.emit('join_room', {
+      roomId: router.query.roomId,
+    });
+    socket.on('join_room', (data: string) => {
+      console.log('data', data);
+    });
+  }, [router.query.roomId]);
+
   return (
     <div className="chat__container">
-      <ChatHeader username={router.query.username} />
+      <ChatHeader username={router.query.roomId} />
       <div className="message__container">
         <ul className="message__contents">
-          {messageList.map((msg: string, index: number) => (
+          {messageList.map((message: ChatUserGatewayType, index: number) => (
             <li
               className={classNames({
-                'message__my-content': msg[0] === user?.username,
-                'message__other-content': msg[0] !== user?.username,
+                'message__my-content': message.userId === user?.id,
+                'message__other-content': message.userId !== user?.id,
               })}
               key={index}
             >
-              {msg[1]}
+              {JSON.stringify(message)}
             </li>
           ))}
         </ul>
