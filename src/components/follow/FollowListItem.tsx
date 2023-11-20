@@ -12,6 +12,7 @@ import UserProfileImage from '../common/UserProfileImage';
 import Button from '../common/Button';
 import Dialog from '../dialog/Dialog';
 import TypoText from '../common/TypoText';
+import LoadingSpinner from '../common/LoadingSpinner';
 import styles from './FollowListItem.module.scss';
 
 interface FollowListItemProps {
@@ -28,28 +29,30 @@ const FollowListItem = ({ queryKey, item }: FollowListItemProps) => {
   );
   const [isDialogOpen, setIsModalOpen] = useState(false);
 
-  const { mutateAsync: followUserMutation } = useMutation({
-    mutationFn: (formData: FollowCreateType) =>
-      FollowService.createFollow(formData),
-    onSuccess: (data, formData) => {
-      setFollowings((prevState) => {
-        return prevState?.concat([formData.followingId]);
-      });
-      queryClient.invalidateQueries(['user', myInfo?.username]);
-    },
-  });
+  const { mutateAsync: followUserMutation, isLoading: isLoadingFollow } =
+    useMutation({
+      mutationFn: (formData: FollowCreateType) =>
+        FollowService.createFollow(formData),
+      onSuccess: (data, formData) => {
+        setFollowings((prevState) => {
+          return prevState?.concat([formData.followingId]);
+        });
+        queryClient.invalidateQueries(['user', myInfo?.username]);
+      },
+    });
 
-  const { mutateAsync: unfollowUserMutation } = useMutation({
-    mutationFn: (formData: FollowCreateType) =>
-      FollowService.deleteFollow(formData),
-    onSuccess: (data, formData) => {
-      setFollowings((prevState) => {
-        return prevState?.filter((number) => number !== formData.followingId);
-      });
-      queryClient.invalidateQueries([queryKey, router.query.username]);
-      queryClient.invalidateQueries(['user', myInfo?.username]);
-    },
-  });
+  const { mutateAsync: unfollowUserMutation, isLoading: isLoadingUnfollow } =
+    useMutation({
+      mutationFn: (formData: FollowCreateType) =>
+        FollowService.deleteFollow(formData),
+      onSuccess: (data, formData) => {
+        setFollowings((prevState) => {
+          return prevState?.filter((number) => number !== formData.followingId);
+        });
+        queryClient.invalidateQueries([queryKey, router.query.username]);
+        queryClient.invalidateQueries(['user', myInfo?.username]);
+      },
+    });
 
   const onClickFollowHandler = (item: UserType) => {
     if (myInfo) {
@@ -119,7 +122,11 @@ const FollowListItem = ({ queryKey, item }: FollowListItemProps) => {
                         size="sm"
                         onClick={() => onClickFollowHandler(item)}
                       >
-                        <FiUserPlus />
+                        {isLoadingFollow ? (
+                          <LoadingSpinner variant="white" />
+                        ) : (
+                          <FiUserPlus />
+                        )}
                       </Button>
                     </>
                   ) : (
@@ -131,7 +138,11 @@ const FollowListItem = ({ queryKey, item }: FollowListItemProps) => {
                         size="sm"
                         onClick={() => onClickUnfollowHandler(item)}
                       >
-                        <FiUserMinus />
+                        {isLoadingUnfollow ? (
+                          <LoadingSpinner variant="white" />
+                        ) : (
+                          <FiUserMinus />
+                        )}
                       </Button>
                     </>
                   )}
@@ -147,7 +158,11 @@ const FollowListItem = ({ queryKey, item }: FollowListItemProps) => {
                         size="sm"
                         onClick={() => onClickFollowHandler(item)}
                       >
-                        <FiUserPlus />
+                        {isLoadingFollow ? (
+                          <LoadingSpinner variant="white" />
+                        ) : (
+                          <FiUserPlus />
+                        )}
                       </Button>
                     </>
                   )}
@@ -190,7 +205,7 @@ const FollowListItem = ({ queryKey, item }: FollowListItemProps) => {
           color="danger"
           onClick={() => onClickDeleteUserHandler(item)}
         >
-          삭제
+          {isLoadingUnfollow ? <LoadingSpinner variant="white" /> : <>삭제</>}
         </Dialog.LabelButton>
         <Dialog.LabelButton color="gray" onClick={() => setIsModalOpen(false)}>
           취소
