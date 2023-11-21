@@ -106,7 +106,7 @@ const ProfileImage = ({ profile }: ProfileImageProps) => {
       )}
       <div className="profile-info__desc__image">
         <figure className="profile-info__desc__image--figure">
-          {isLoading && <LoadingSpinner />}
+          {isLoading && <LoadingSpinner variant="default" />}
           {!isLoading && imgSrc ? (
             <Image
               src={imgSrc}

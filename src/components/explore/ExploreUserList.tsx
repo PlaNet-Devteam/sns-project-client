@@ -23,7 +23,6 @@ const ExploreUserList = () => {
         onReset={onReset}
         placeholder="유저명 혹은 닉네임 검색"
       />
-      {myInfo && <UserListItem item={myInfo} />}
       <InfinityDataList<UserType>
         queryKey={['exploreUsers', debouncedSearchKeyword]}
         listType={'scroll'}

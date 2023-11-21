@@ -4,18 +4,22 @@ import Image from 'next/image';
 import { FeedType } from '@/core';
 import FeedService from '@/services/feed';
 import { useInfinityScroll } from '@/hooks/useInfinityScroll';
+import useAuth from '@/hooks/useAuth';
 import TypoText from '../common/TypoText';
 import styles from './ExploreTagInfo.module.scss';
 
 const ExploreTagInfo = () => {
   const router = useRouter();
+  const { payload } = useAuth();
+
   const { data: feeds } = useInfinityScroll<FeedType>(
     ['tagInfo', router.query.tagName],
     () =>
-      FeedService.getFeedsByTag({
+      FeedService.getFeeds({
         page: 1,
         limit: 9,
         tagName: router.query.tagName as string,
+        viewerId: payload?._id,
       }),
   );
 

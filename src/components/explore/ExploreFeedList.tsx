@@ -3,6 +3,7 @@ import { FeedType, TagType } from '@/core';
 import FeedService from '@/services/feed';
 import useSearchInput from '@/hooks/useSearchInput';
 import TagService from '@/services/tag';
+import useAuth from '@/hooks/useAuth';
 import InfinityDataList from '../common/InfinityDataList';
 import ProfileFeedListItem from '../profile/ProfileFeedListItem';
 import SearchInput from '../common/SearchInput';
@@ -11,6 +12,7 @@ import TagListItem from '../tag/TagListItem';
 const ExploreFeedList = () => {
   const { searchKeyword, onChange, onReset, debouncedSearchKeyword } =
     useSearchInput();
+  const { payload } = useAuth();
 
   return (
     <>
@@ -43,6 +45,7 @@ const ExploreFeedList = () => {
                 FeedService.getFeeds({
                   page,
                   limit: 9,
+                  viewerId: payload?._id,
                 })
               }
               ChildCompoentToRender={ProfileFeedListItem}
