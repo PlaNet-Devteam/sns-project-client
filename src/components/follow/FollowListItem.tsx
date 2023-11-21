@@ -49,24 +49,27 @@ const FollowListItem = ({ queryKey, item }: FollowListItemProps) => {
         setFollowings((prevState) => {
           return prevState?.filter((number) => number !== formData.followingId);
         });
+        queryClient.invalidateQueries(['user', myInfo?.username]);
+      },
+    });
+
+  const { mutateAsync: deleteUserMutation, isLoading: isLoadingDeleteUser } =
+    useMutation({
+      mutationFn: (formData: FollowCreateType) =>
+        FollowService.deleteFollow(formData),
+      onSuccess: () => {
         queryClient.invalidateQueries([queryKey, router.query.username]);
         queryClient.invalidateQueries(['user', myInfo?.username]);
+        setIsModalOpen(false);
       },
     });
 
   const onClickFollowHandler = (item: UserType) => {
     if (myInfo) {
-      if (queryKey === FOLLOW.FOLLOWINGS) {
-        followUserMutation({
-          userId: myInfo?.id,
-          followingId: item.id,
-        });
-      } else {
-        followUserMutation({
-          userId: myInfo?.id,
-          followingId: item.id,
-        });
-      }
+      followUserMutation({
+        userId: myInfo?.id,
+        followingId: item.id,
+      });
     }
   };
 
@@ -81,7 +84,7 @@ const FollowListItem = ({ queryKey, item }: FollowListItemProps) => {
 
   const onClickDeleteUserHandler = (item: UserType) => {
     if (myInfo) {
-      unfollowUserMutation({
+      deleteUserMutation({
         userId: item.id,
         followingId: myInfo?.id,
       });
@@ -205,7 +208,7 @@ const FollowListItem = ({ queryKey, item }: FollowListItemProps) => {
           color="danger"
           onClick={() => onClickDeleteUserHandler(item)}
         >
-          {isLoadingUnfollow ? <LoadingSpinner variant="white" /> : <>삭제</>}
+          {isLoadingDeleteUser ? <LoadingSpinner variant="white" /> : <>삭제</>}
         </Dialog.LabelButton>
         <Dialog.LabelButton color="gray" onClick={() => setIsModalOpen(false)}>
           취소
