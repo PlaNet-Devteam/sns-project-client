@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import io from 'socket.io-client';
 import { useEffect, useState } from 'react';
 import { FaPaperPlane } from 'react-icons/fa';
@@ -20,15 +20,19 @@ interface ChatUserGatewayType {
 const Message = () => {
   const [message, setMessage] = useState('');
   const [messageList, setMessageList] = useState<ChatUserGatewayType[]>([]);
+  const messagesEndRef = useRef<HTMLUListElement>(null);
+  const [messageTarget, setMessageTarget] = useState('');
 
   const user = useRecoilValue(userState);
   const router = useRouter();
 
   useEffect(() => {
     socket.on('message', (data: ChatUserGatewayType) => {
-      console.log(data);
       setMessageList([...messageList, data]);
     });
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+    }
   }, [messageList]);
 
   const handleSend = () => {
@@ -58,11 +62,21 @@ const Message = () => {
     });
   }, [router.query.roomId]);
 
+  useEffect(() => {
+    socket.emit('get_other_user', {
+      roomId: router.query.roomId,
+      user1Id: user?.username,
+    });
+    socket.on('get_other_user', (data: string) => {
+      setMessageTarget(data);
+    });
+  }, []);
+
   return (
     <div className="chat__container">
-      <ChatHeader username={router.query.roomId} />
+      <ChatHeader username={messageTarget} />
       <div className="message__container">
-        <ul className="message__contents">
+        <ul className="message__contents" ref={messagesEndRef}>
           {messageList.map((message: ChatUserGatewayType, index: number) => (
             <li
               className={classNames({
@@ -71,7 +85,7 @@ const Message = () => {
               })}
               key={index}
             >
-              {JSON.stringify(message)}
+              {message.message}
             </li>
           ))}
         </ul>
