@@ -90,7 +90,7 @@ const ProfileImage = ({ profile }: ProfileImageProps) => {
                 type="file"
                 accept="image/*"
                 ref={fileInputRef}
-                className="feed-create-form-input__input"
+                className="blind"
                 onInput={onChangeUploadImageHandler}
               />
               사진 업데이트
