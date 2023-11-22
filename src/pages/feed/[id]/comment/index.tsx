@@ -78,7 +78,7 @@ export default function CommentPage() {
               최신 순
             </button>
           </div>
-          <InfinityDataList<CommentType>
+          <InfinityDataList
             queryKey={['comments', router.query.id as string, orderBy]}
             listType={'scroll'}
             fetchData={(page, limit) =>
@@ -88,7 +88,7 @@ export default function CommentPage() {
                 orderBy,
               })
             }
-            ChildCompoentToRender={CommentItem}
+            renderToChildComponent={CommentItem}
           ></InfinityDataList>
         </div>
         <CommentInput />

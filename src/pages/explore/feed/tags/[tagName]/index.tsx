@@ -25,8 +25,8 @@ const FeedTagName = () => {
         <div className="inner__container">
           <ExploreTagInfo />
           <div className="profile-feeds-list">
-            <InfinityDataList<FeedType>
-              queryKey={['feedByTags', router.query.tagName]}
+            <InfinityDataList
+              queryKey={['feedByTags', router.query.tagName as string]}
               listType={'scroll'}
               fetchData={(page) =>
                 FeedService.getFeeds({
@@ -36,8 +36,7 @@ const FeedTagName = () => {
                   viewerId: payload?._id,
                 })
               }
-              ChildCompoentToRender={ProfileFeedListItem}
-              propsObject={{ queryKey: ['feedByTags', router.query.tagName] }}
+              renderToChildComponent={ProfileFeedListItem}
             ></InfinityDataList>
           </div>
         </div>
