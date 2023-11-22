@@ -1,6 +1,5 @@
 import React from 'react';
 import CommentReplyService from '@/services/comment-reply';
-import { CommentReplyType } from '@/core/types/comment-reply';
 import { ORDER_BY } from '@/core';
 import InfinityDataList from '../common/InfinityDataList';
 import CommentReplyItem from './CommentReplyItem';
@@ -12,7 +11,7 @@ interface CommentReplyListProps {
 const CommentReplyList = ({ commentId }: CommentReplyListProps) => {
   return (
     <>
-      <InfinityDataList<CommentReplyType>
+      <InfinityDataList
         queryKey={['replies', commentId]}
         listType={'button'}
         fetchData={(page) =>
@@ -22,7 +21,7 @@ const CommentReplyList = ({ commentId }: CommentReplyListProps) => {
             orderBy: ORDER_BY.ASC,
           })
         }
-        ChildCompoentToRender={CommentReplyItem}
+        renderToChildComponent={CommentReplyItem}
       ></InfinityDataList>
     </>
   );

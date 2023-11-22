@@ -1,6 +1,5 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { FeedType } from '@/core/types/feed';
 import FeedService from '@/services/feed';
 import useAuth from '@/hooks/useAuth';
 import InfinityDataList from '../common/InfinityDataList';
@@ -18,7 +17,7 @@ function ProfileFeedList({ queryKey }: ProfileFeedListProps) {
   return (
     <>
       <div className="profile-feeds-list">
-        <InfinityDataList<FeedType>
+        <InfinityDataList
           queryKey={[`${queryKey}-${username}`]}
           listType={'scroll'}
           fetchData={(page) => {
@@ -35,8 +34,7 @@ function ProfileFeedList({ queryKey }: ProfileFeedListProps) {
               });
             }
           }}
-          ChildCompoentToRender={ProfileFeedListItem}
-          propsObject={{ queryKey: [`${queryKey}-${username}`] }}
+          renderToChildComponent={ProfileFeedListItem}
         ></InfinityDataList>
       </div>
     </>

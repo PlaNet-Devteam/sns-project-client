@@ -55,7 +55,7 @@ const UserBlockListItem = ({ item }: UserBlockListItemProps) => {
             })
           }
         >
-          {isLoading ? <LoadingSpinner /> : <>차단 해제</>}
+          {isLoading ? <LoadingSpinner variant="white" /> : <>차단 해제</>}
         </Button>
       </div>
     </div>

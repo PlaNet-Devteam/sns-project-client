@@ -16,7 +16,7 @@ import LoadingSpinner from '../common/LoadingSpinner';
 import styles from './FollowListItem.module.scss';
 
 interface FollowListItemProps {
-  queryKey: string;
+  queryKey: unknown[];
   item: UserType;
 }
 
@@ -58,7 +58,7 @@ const FollowListItem = ({ queryKey, item }: FollowListItemProps) => {
       mutationFn: (formData: FollowCreateType) =>
         FollowService.deleteFollow(formData),
       onSuccess: () => {
-        queryClient.invalidateQueries([queryKey, router.query.username]);
+        queryClient.invalidateQueries([queryKey[0], router.query.username]);
         queryClient.invalidateQueries(['user', myInfo?.username]);
         setIsModalOpen(false);
       },
@@ -114,7 +114,7 @@ const FollowListItem = ({ queryKey, item }: FollowListItemProps) => {
         {myInfo?.id !== item.id && (
           <>
             <div className={styles.item_options}>
-              {queryKey === FOLLOW.FOLLOWINGS ? (
+              {queryKey[0] === FOLLOW.FOLLOWINGS ? (
                 <>
                   {followings && !followings.includes(item.id) ? (
                     <>
