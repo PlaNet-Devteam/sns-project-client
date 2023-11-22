@@ -13,7 +13,13 @@ import NoneLayout from '@/components/layouts/NoneLayout';
 import '@/styles/globals.scss';
 import useAuth from '@/hooks/useAuth';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+    },
+  },
+});
 const routes = ['/', '/login', '/signup'];
 
 export default function App({ Component, pageProps }: AppProps) {
