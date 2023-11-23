@@ -45,7 +45,7 @@ const DialogMain = ({ children, isOpen }: DialogMainProps) => {
   const dialogDimmed = getDialogDimmed(children);
 
   return createPortal(
-    <div>
+    <>
       {dialogLabelButtons && (
         <div className={styles.container}>
           {dialogDimmed}
@@ -55,7 +55,7 @@ const DialogMain = ({ children, isOpen }: DialogMainProps) => {
           </div>
         </div>
       )}
-    </div>,
+    </>,
     document.body,
   );
 };

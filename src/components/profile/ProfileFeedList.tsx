@@ -1,6 +1,5 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { FeedType } from '@/core/types/feed';
 import FeedService from '@/services/feed';
 import useAuth from '@/hooks/useAuth';
 import InfinityDataList from '../common/InfinityDataList';
@@ -18,24 +17,24 @@ function ProfileFeedList({ queryKey }: ProfileFeedListProps) {
   return (
     <>
       <div className="profile-feeds-list">
-        <InfinityDataList<FeedType>
+        <InfinityDataList
           queryKey={[`${queryKey}-${username}`]}
           listType={'scroll'}
           fetchData={(page) => {
             if (queryKey === 'bookmark') {
-              return FeedService.findAllByBookmark({
+              return FeedService.getFeedsByBookmark({
                 page,
                 limit: 9,
               });
             } else {
-              return FeedService.findAllByUser(username, {
+              return FeedService.getFeedsByUser(username, {
                 page,
                 limit: 9,
                 viewerId: payload?._id,
               });
             }
           }}
-          ChildCompoentToRender={ProfileFeedListItem}
+          renderToChildComponent={ProfileFeedListItem}
         ></InfinityDataList>
       </div>
     </>

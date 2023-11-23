@@ -1,13 +1,14 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import IconBookmark from '@/assets/icons/icon_bookmark.svg';
-import IconFeed from '@/assets/icons/icon_feed.svg';
+import { BsBookmark, BsBookmarkFill, BsGrid, BsGridFill } from 'react-icons/bs';
+import { useRouter } from 'next/router';
 import { userState } from '@/store/userAtom';
 import { UserType } from '@/core';
 import { profileState } from '@/store/profileAtom';
 import ProfileFeedTabItem from './ProfileFeedTabItem';
 
 function ProfileFeedTabs() {
+  const { asPath } = useRouter();
   const user = useRecoilValue<UserType | null>(userState);
   const profile = useRecoilValue<UserType | null>(profileState);
 
@@ -16,11 +17,19 @@ function ProfileFeedTabs() {
       {profile && (
         <div className="profile-feeds-tabs">
           <ProfileFeedTabItem path={`/${profile?.username}`}>
-            <IconFeed />
+            {asPath === `/${profile?.username}` ? (
+              <BsGridFill size={'1.5rem'} />
+            ) : (
+              <BsGrid size={'1.5rem'} />
+            )}
           </ProfileFeedTabItem>
           {profile?.username === user?.username && (
             <ProfileFeedTabItem path={`/${profile?.username}/bookmark`}>
-              <IconBookmark />
+              {asPath === `/${profile?.username}/bookmark` ? (
+                <BsBookmarkFill size={'1.5rem'} />
+              ) : (
+                <BsBookmark size={'1.5rem'} />
+              )}
             </ProfileFeedTabItem>
           )}
         </div>

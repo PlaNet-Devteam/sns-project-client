@@ -21,7 +21,7 @@ export default function useCarouselSize(
 
     const carouselRect = carouselRef.current.getBoundingClientRect();
     setCarouselSize({
-      width: carouselRect.width,
+      width: carouselRect.width + 14, // TODO: 넓이 값 오차
     });
   }, [carouselRef]);
 

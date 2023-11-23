@@ -1,0 +1,33 @@
+.container {
+  margin: 1rem 0;
+}
+
+.spinner {
+  display: inline-flex;
+  width: inherit;
+  height: inherit;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+
+  svg {
+    animation: rotateAni 2s cubic-bezier(0.23, 0, 0, 1) infinite;
+    color: #5323e0;
+  }
+
+  &.white {
+    svg {
+      color: white;
+    }
+  }
+}
+
+@keyframes rotateAni {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

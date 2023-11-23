@@ -9,9 +9,14 @@ const useSearchInput = () => {
     setSearchKeyword(event?.target.value);
   };
 
+  const onReset = () => {
+    setSearchKeyword('');
+  };
+
   return {
     searchKeyword,
     onChange,
+    onReset,
     debouncedSearchKeyword,
   };
 };

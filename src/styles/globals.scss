@@ -34,6 +34,17 @@ a {
   color: inherit;
 }
 
+input:autofill,
+input:autofill:hover,
+input:autofill:focus,
+input:autofill:active {
+	-webkit-text-fill-color: white;
+    -webkit-box-shadow: 0 0 0px 1000px #36395c inset;
+    box-shadow: 0 0 0px 1000px #36395c inset;
+    transition: background-color 5000s ease-in-out 0s;
+    border-radius: inherit;
+}
+
 :root {
   --border-color: #35395b;
   --bg-color: #1f2349;
@@ -50,7 +61,7 @@ a {
   --essential-color: #1ba2f3;
   --white: #ffffff;
   --black: #262626;
-  --gray: #727272;
+  --gray: #9b9b9b;
 
 
   --border-radius-md: 0.5rem; /* 8px */

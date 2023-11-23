@@ -1,0 +1,41 @@
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &_leftArea {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+  &_rightArea {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+
+  .button {
+    &.is_animated {
+      animation: heartBeatAni 0.8s forwards linear;
+    }
+  }
+}
+
+@keyframes heartBeatAni {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.5);
+  }
+  40% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

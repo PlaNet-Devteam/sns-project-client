@@ -9,10 +9,15 @@ import AuthService from '@/services/auth';
 import ErrorMessage from '@/components/common/ErrorMessage';
 import ButtonGroup from '@/components/common/ButtonGroup';
 import Button from '@/components/common/Button';
+import InputField from '@/components/common/form/InputField';
 
 const ChagePassword = () => {
   const router = useRouter();
-  const { formData: passwordUpdate, onChange } = useForm<ChangePasswordType>({
+  const {
+    formData: passwordUpdate,
+    onChange,
+    onReset,
+  } = useForm<ChangePasswordType>({
     password: '',
     newPassword: '',
     newPasswordConfirm: '',
@@ -62,39 +67,37 @@ const ChagePassword = () => {
           >
             <div className="form-group">
               <div className="input-group">
-                <div className="input-field">
-                  <input
-                    type="password"
-                    name="password"
-                    value={passwordUpdate.password}
-                    placeholder="현재 비밀번호"
-                    onChange={onChange}
-                  />
-                </div>
+                <InputField
+                  type="password"
+                  name="password"
+                  value={passwordUpdate.password}
+                  placeholder="현재 비밀번호"
+                  onChange={onChange}
+                  autoComplete="off"
+                  onReset={onReset}
+                />
               </div>
               <div className="input-group">
-                <div className="input-field">
-                  <input
-                    type="password"
-                    name="newPassword"
-                    value={passwordUpdate.newPassword}
-                    placeholder="새 비밀번호"
-                    onChange={onChange}
-                    autoComplete="off"
-                  />
-                </div>
+                <InputField
+                  type="password"
+                  name="newPassword"
+                  value={passwordUpdate.newPassword}
+                  placeholder="새 비밀번호"
+                  onChange={onChange}
+                  autoComplete="off"
+                  onReset={onReset}
+                />
               </div>
               <div className="input-group">
-                <div className="input-field">
-                  <input
-                    type="password"
-                    name="newPasswordConfirm"
-                    value={passwordUpdate.newPasswordConfirm}
-                    placeholder="새 비밀번호 확인"
-                    onChange={onChange}
-                    autoComplete="off"
-                  />
-                </div>
+                <InputField
+                  type="password"
+                  name="newPasswordConfirm"
+                  value={passwordUpdate.newPasswordConfirm}
+                  placeholder="새 비밀번호 확인"
+                  onChange={onChange}
+                  autoComplete="off"
+                  onReset={onReset}
+                />
               </div>
             </div>
             {isError && <ErrorMessage errorMessage={errorMessage} />}

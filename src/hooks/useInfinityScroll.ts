@@ -9,7 +9,6 @@ import { useObserver } from './useObserver';
 export const useInfinityScroll = <T>(
   queryKey: unknown[],
   callback: (page: number, limit?: number) => Promise<InfinitePagesType<T>>,
-  limit = 10,
 ) => {
   const bottom = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -18,7 +17,7 @@ export const useInfinityScroll = <T>(
     useInfiniteQuery(
       [...queryKey],
       ({ pageParam = 1 }) => {
-        return callback(pageParam, limit);
+        return callback(pageParam);
       },
       {
         getNextPageParam: (lastPage: InfinitePagesType<T>) => {

@@ -90,7 +90,7 @@ const ProfileImage = ({ profile }: ProfileImageProps) => {
                 type="file"
                 accept="image/*"
                 ref={fileInputRef}
-                className="feed-create-form-input__input"
+                className="blind"
                 onInput={onChangeUploadImageHandler}
               />
               사진 업데이트
@@ -106,7 +106,7 @@ const ProfileImage = ({ profile }: ProfileImageProps) => {
       )}
       <div className="profile-info__desc__image">
         <figure className="profile-info__desc__image--figure">
-          {isLoading && <LoadingSpinner />}
+          {isLoading && <LoadingSpinner variant="default" />}
           {!isLoading && imgSrc ? (
             <Image
               src={imgSrc}

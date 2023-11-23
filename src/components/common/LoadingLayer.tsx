@@ -1,13 +1,14 @@
 import React from 'react';
-import RocketSVG from '@/assets/intro/rocket.svg';
+import { createPortal } from 'react-dom';
+import LoadingAni from './LoadingAni';
+import styles from './LoadingLayer.module.scss';
 
 function LoadingLayer() {
-  return (
-    <div className="loading-layer">
-      <div>
-        <RocketSVG />
-      </div>
-    </div>
+  return createPortal(
+    <div className={styles.layer}>
+      <LoadingAni />
+    </div>,
+    document.body,
   );
 }
 

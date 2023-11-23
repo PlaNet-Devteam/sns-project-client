@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import styles from './SwitchButton.module.scss';
 import TypoText from './TypoText';
 

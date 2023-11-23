@@ -40,7 +40,7 @@ const CommentInput = () => {
       }
     },
     onSuccess: () => {
-      onReset();
+      onReset('comment');
       if (modifyComment) {
         setModifyComemnt(null);
         setModifyModdalOpen(false);
