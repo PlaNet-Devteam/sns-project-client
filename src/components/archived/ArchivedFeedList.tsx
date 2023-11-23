@@ -1,5 +1,5 @@
 import React from 'react';
-import { FEED_STATUS, FeedType } from '@/core';
+import { FEED_STATUS } from '@/core';
 import FeedService from '@/services/feed';
 import useAuth from '@/hooks/useAuth';
 import InfinityDataList from '../common/InfinityDataList';
@@ -10,7 +10,7 @@ const ArchivedFeedList = () => {
 
   return (
     <div className="profile-feeds-list">
-      <InfinityDataList<FeedType>
+      <InfinityDataList
         queryKey={['archived-feeds']}
         listType={'scroll'}
         fetchData={(page) =>
@@ -20,8 +20,7 @@ const ArchivedFeedList = () => {
             status: FEED_STATUS.ARCHIVED,
           })
         }
-        ChildCompoentToRender={ProfileFeedListItem}
-        propsObject={{ queryKey: ['archived-feeds'] }}
+        renderToChildComponent={ProfileFeedListItem}
       ></InfinityDataList>
     </div>
   );

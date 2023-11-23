@@ -57,6 +57,10 @@ const BaseLayout = ({ children }: BaseProps) => {
     setUser(userInfo);
   }, [userInfo, setUser]);
 
+  useEffect(() => {
+    setIsFeedModalOpen(false);
+  }, [router.asPath, setIsFeedModalOpen]);
+
   // * 계정 삭제 요청 상태 시 보여주는 화면
   if (userInfo?.delYn === YN.Y) {
     return (

@@ -49,7 +49,7 @@ const InputField = ({
           autoComplete={autoComplete}
         />
         <div className={styles.button_area}>
-          {value.length > 0 && (
+          {value && value.length > 0 && (
             <>
               {type === 'password' && (
                 <span

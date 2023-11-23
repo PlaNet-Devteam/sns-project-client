@@ -9,6 +9,7 @@ interface TextAreaFieldProps {
   onReset: (name: string) => void;
   onChange: ChangeEventHandler<HTMLTextAreaElement>;
   placeholder?: string;
+  maxLength?: number;
 }
 
 const TextAreaField = ({
@@ -17,6 +18,7 @@ const TextAreaField = ({
   onChange,
   onReset,
   placeholder,
+  maxLength = 2000,
 }: TextAreaFieldProps) => {
   return (
     <>
@@ -26,12 +28,12 @@ const TextAreaField = ({
           onChange={onChange}
           placeholder={placeholder}
           name={name}
-          maxLength={2000}
+          maxLength={maxLength}
         />
       </div>
       <div className={styles.button_container}>
         <div>
-          {value.length > 0 && (
+          {value && value.length > 0 && (
             <button onClick={() => onReset(name)}>
               <TypoText color="white">
                 초기화 <MdOutlineRefresh />
@@ -41,9 +43,9 @@ const TextAreaField = ({
         </div>
         <TypoText color="gray" tagName="span">
           <TypoText color="white" tagName="span">
-            {value.length}
+            {value.length || 0}
           </TypoText>{' '}
-          / {2000}
+          / {maxLength}
         </TypoText>
       </div>
     </>

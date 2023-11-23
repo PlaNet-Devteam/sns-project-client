@@ -11,7 +11,7 @@ import { FeedType } from '@/core/types/feed';
 import styles from './ProfileFeedListItem.module.scss';
 
 interface ProfileFeedListItemProps {
-  queryKey: string[];
+  queryKey: unknown[];
   item: FeedType;
 }
 
