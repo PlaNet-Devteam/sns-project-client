@@ -16,7 +16,7 @@ const UserList = () => {
   console.log(userlist);
 
   if (isLoading) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner variant="white" />;
   }
   return (
     <div>
