@@ -11,7 +11,7 @@ export interface UserType {
   followerCount: number;
   followingCount: number;
   feedCount: number;
-  profileImage?: string;
+  profileImage: string;
   bio?: string;
   gender?: GENDER;
   followingIds?: number[];
