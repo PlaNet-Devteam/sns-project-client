@@ -6,6 +6,7 @@ import { uploadFile } from '@/utils/uploadImage';
 import { UserType, UserUpdateType } from '@/core';
 import UserService from '@/services/user';
 import useAuth from '@/hooks/useAuth';
+import isExternalImage from '@/core/utils/is-external-image';
 import Dialog from '../dialog/Dialog';
 import Button from '../common/Button';
 import LoadingSpinner from '../common/LoadingSpinner';
@@ -64,7 +65,7 @@ const ProfileImage = ({ profile }: ProfileImageProps) => {
   };
 
   useEffect(() => {
-    setImgSrc(`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${profileImage}`);
+    setImgSrc(profileImage);
   }, [profileImage]);
 
   return (
@@ -109,7 +110,11 @@ const ProfileImage = ({ profile }: ProfileImageProps) => {
           {isLoading && <LoadingSpinner variant="default" />}
           {!isLoading && imgSrc ? (
             <Image
-              src={imgSrc}
+              src={
+                isExternalImage(imgSrc)
+                  ? imgSrc
+                  : `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${imgSrc}`
+              }
               width={120}
               height={120}
               alt="프로필 이미지"

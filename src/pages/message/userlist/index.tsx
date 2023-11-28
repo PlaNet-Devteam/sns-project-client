@@ -7,6 +7,7 @@ import Modal from '@/components/common/Modal';
 import ProfileImage from '@/components/profile/ProfileImage';
 import UserListHeader from '@/components/message/UserListHeader';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
+import isExternalImage from '@/core/utils/is-external-image';
 
 const UserList = () => {
   const [openModalIndex, setOpenModalIndex] = useState(null);
@@ -16,7 +17,7 @@ const UserList = () => {
   console.log(userlist);
 
   if (isLoading) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner variant="white" />;
   }
   return (
     <div>
@@ -58,7 +59,11 @@ const UserList = () => {
             {userdata?.profileImage ? (
               <Image
                 className="userdata__icon"
-                src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${userdata?.profileImage}`}
+                src={
+                  isExternalImage(userdata?.profileImage)
+                    ? userdata?.profileImage
+                    : `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${userdata?.profileImage}`
+                }
                 width={100}
                 height={100}
                 alt={`${userdata?.nickname}님의 프로필 이미지`}

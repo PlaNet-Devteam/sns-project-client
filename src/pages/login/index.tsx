@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
+import { useGoogleLogin } from '@react-oauth/google';
 import useForm from '@/hooks/useForm';
 import { AuthLoginType } from '@/core/types/auth';
 import JwtStorageService, { ACCESS_TOKEN } from '@/core/utils/jwt-storage';
@@ -29,6 +30,15 @@ const Login = () => {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState([]);
   const setUser = useSetRecoilState(userState);
+
+  const googleSocialLogin = useGoogleLogin({
+    flow: 'auth-code',
+    onSuccess: async (res) => {
+      const { code } = res;
+      const data = await AuthService.loginGoogle(code);
+      console.log('data 1', data);
+    },
+  });
 
   const { mutateAsync, isError, isSuccess } = useMutation(
     (formData: AuthLoginType) => {
@@ -59,7 +69,6 @@ const Login = () => {
 
   return (
     <div className="login grid">
-      {/* {isLoading && <LoadingLayer />} */}
       <div className="layout__container content-area">
         <div className="middle-area">
           <div className="form-area">
@@ -70,6 +79,7 @@ const Login = () => {
                 variant="ghost"
                 type="button"
                 isFull
+                onClick={googleSocialLogin}
               >
                 <IconGoogle />
                 Google 계정으로 로그인
@@ -115,7 +125,6 @@ const Login = () => {
                 </Button>
               </ButtonGroup>
             </form>
-
             <div className="text-group">
               <p className=" text-center text-white text-sm">
                 비밀번호를 잊으셨나요?

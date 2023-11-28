@@ -8,6 +8,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 import { RecoilRoot } from 'recoil';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import BaseLayout from '@/components/layouts/BaseLayout';
 import NoneLayout from '@/components/layouts/NoneLayout';
 import '@/styles/globals.scss';
@@ -51,12 +52,16 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [pathname, payload, replace]);
 
   return (
-    <CookiesProvider>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <RecoilRoot>{getLayout()}</RecoilRoot>
-        </Hydrate>
-      </QueryClientProvider>
-    </CookiesProvider>
+    <GoogleOAuthProvider
+      clientId={process.env.NEXT_PUBLIC_OAUTH_GOOGLE_CLIENT_ID as string}
+    >
+      <CookiesProvider>
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <RecoilRoot>{getLayout()}</RecoilRoot>
+          </Hydrate>
+        </QueryClientProvider>
+      </CookiesProvider>
+    </GoogleOAuthProvider>
   );
 }
