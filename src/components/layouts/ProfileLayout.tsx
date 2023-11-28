@@ -62,6 +62,7 @@ const ProfileLayout = ({ children }: BaseProps) => {
       mutationFn: (formData: FollowCreateType) =>
         FollowService.createFollow(formData),
       onSuccess: () => {
+        queryClient.invalidateQueries(['user', payload?.username]); // 본인 정보 업데이트 (팔로우 체크)
         queryClient.invalidateQueries(['user', router.query.username]);
       },
     });
@@ -71,6 +72,7 @@ const ProfileLayout = ({ children }: BaseProps) => {
       mutationFn: (formData: FollowCreateType) =>
         FollowService.deleteFollow(formData),
       onSuccess: () => {
+        queryClient.invalidateQueries(['user', payload?.username]); // 본인 정보 업데이트 (팔로우 체크)
         queryClient.invalidateQueries(['user', router.query.username]);
       },
     });
