@@ -7,8 +7,8 @@ const AuthService = {
     return data.data;
   },
   loginGoogle: async (token: string) => {
-    const data = await api.post(AUTH_API.LOGIN_GOOGLE, { token });
-    return data;
+    const { data } = await api.post(AUTH_API.LOGIN_GOOGLE, { token });
+    return data.data;
   },
   logout: async () => {
     const { data } = await api.post(AUTH_API.LOGOUT);
