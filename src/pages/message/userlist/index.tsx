@@ -2,6 +2,10 @@ import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import io from 'socket.io-client';
+import { useRecoilValue } from 'recoil';
+import { useRouter } from 'next/navigation';
+import { userState } from '@/store/userAtom';
 import UserService from '@/services/user';
 import Modal from '@/components/common/Modal';
 import ProfileImage from '@/components/profile/ProfileImage';
@@ -9,12 +13,31 @@ import UserListHeader from '@/components/message/UserListHeader';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import isExternalImage from '@/core/utils/is-external-image';
 
+const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL);
+
+interface UserData {
+  profileImage?: string;
+  nickname: string;
+  bio: string;
+  username: string;
+}
+
 const UserList = () => {
+  const router = useRouter();
   const [openModalIndex, setOpenModalIndex] = useState(null);
+  const user = useRecoilValue(userState);
   const { data: userlist, isLoading } = useQuery(['AllUser'], () =>
     UserService.findAllUserData(),
   );
-  console.log(userlist);
+
+  socket.on('create_room', (data: string) => {
+    console.log(data);
+    router.push(`/message/${data}`);
+  });
+  const myName = user?.username;
+  const handleLinkDMpage = (otherUserName: string) => {
+    socket.emit('create_room', { myName, otherUserName });
+  };
 
   if (isLoading) {
     return <LoadingSpinner variant="white" />;
@@ -23,7 +46,7 @@ const UserList = () => {
     <div>
       <UserListHeader />
       <div className="userlist__title">친구 리스트</div>
-      {userlist.map((userdata: any, index: any) => (
+      {userlist.map((userdata: UserData, index: any) => (
         <div key={index} className="userlist">
           <Modal
             headerText={userdata.username}
@@ -34,16 +57,11 @@ const UserList = () => {
           >
             <ProfileImage profile={userlist} />
             <div className="prfile__container">
-              <button className="profile__button">
-                <Link
-                  href={{
-                    pathname: `/message/${userdata.username}`,
-                    query: { username: userdata.username },
-                  }}
-                  as={userdata.username}
-                >
-                  DM 보내기
-                </Link>
+              <button
+                className="profile__button"
+                onClick={() => handleLinkDMpage(userdata.username)}
+              >
+                DM 보내기
               </button>
               <button className="profile__button">
                 <Link href={`/${userdata.username}`}>프로필 보기</Link>
