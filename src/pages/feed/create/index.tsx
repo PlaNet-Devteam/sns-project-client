@@ -13,7 +13,7 @@ import FeedService from '@/services/feed';
 import Button from '@/components/common/Button';
 import useMouseDrag from '@/hooks/useMouseDrag';
 import { hashTagRegEx } from '@/utils/generateHashTag';
-import { useLocalStorage } from '../../../hooks/useLocalStorage';
+import { useScrollYPosition } from '../../../hooks/useScrollYPosition';
 
 export interface FeedFileType {
   sortOrder: number;
@@ -28,7 +28,7 @@ function CreateFeed() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const { isDrag, onDragStart, onDragEnd, onThrottleDragMove } =
     useMouseDrag(scrollRef);
-  const setScrollY = useLocalStorage('scroll_location', 0)[1];
+  const { setScrollY } = useScrollYPosition(0);
 
   const { formData: feedCreate, onChange } = useForm<FeedCreateType>({
     description: '',
