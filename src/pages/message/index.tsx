@@ -12,6 +12,8 @@ interface roomListProps {
   user1: string | undefined;
   user2: string | undefined;
   roomId: string;
+  user1Name: string;
+  user2Name: string;
 }
 
 const MessageList = () => {
@@ -29,7 +31,6 @@ const MessageList = () => {
       setRoomList(data);
     });
   }, []);
-
   return (
     <div className="msglist__container">
       <MsgHeader username={user?.username} />
@@ -40,7 +41,7 @@ const MessageList = () => {
               className="valid__chatroom"
               onClick={() => handleLinkDMpage(list.roomId)}
             >
-              {user?.username === list.user1 ? list.user2 : list.user1}
+              {user?.id === list.user1 ? list.user2Name : list.user1Name}
             </div>
           ))
         ) : (
