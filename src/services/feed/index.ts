@@ -2,6 +2,7 @@ import { api } from '@/core/base.service';
 import {
   FeedCreateType,
   FeedListType,
+  FeedType,
   FeedUpdateStatusType,
 } from '@/core/types/feed';
 import { FeedUpdateType } from '@/core/types/feed/feed-update.interface';
@@ -9,14 +10,6 @@ import { FeedUpdateType } from '@/core/types/feed/feed-update.interface';
 const FeedService = {
   getFeeds: async (listData?: FeedListType) => {
     const { data } = await api.get('/feed', {
-      params: {
-        ...listData,
-      },
-    });
-    return data.data;
-  },
-  getFeedsByTag: async (listData?: FeedListType) => {
-    const { data } = await api.get('/feed/tag', {
       params: {
         ...listData,
       },
@@ -52,6 +45,10 @@ const FeedService = {
 
     return data.data;
   },
+  getFeed: async (feedId: number): Promise<FeedType> => {
+    const { data } = await api.get(`/feed/${feedId}`);
+    return data.data;
+  },
   createFeed: async (formData: FeedCreateType) => {
     const { data } = await api.post('/feed', formData);
     return data.data;
@@ -76,6 +73,10 @@ const FeedService = {
   },
   deleteFeed: async (feedId: number) => {
     const { data } = await api.delete(`/feed/${feedId}`);
+    return data;
+  },
+  deleteFeedImage: async (feedId: number, sortOrder: number) => {
+    const { data } = await api.delete(`/feed/${feedId}/image/${sortOrder}`);
     return data;
   },
   likeFeed: async (feedId: number) => {

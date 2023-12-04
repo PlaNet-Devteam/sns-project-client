@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import { useRecoilValue } from 'recoil';
 import { FOLLOW, UserType, followTransformer } from '@/core';
 import useAuth from '@/hooks/useAuth';
-import { userState } from '@/store/userAtom';
 import Modal from '../common/Modal';
 import FollowList from '../follow/FollowList';
 
@@ -16,18 +14,13 @@ function ProfileCount({ profile }: ProfileCountType) {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { payload } = useAuth();
-  const myInfo = useRecoilValue(userState);
   const [queryKey, setQueryKey] = useState('');
   const [isFollowingModalOpen, setIsFollowingModalOpen] = useState(false);
-
-  const isVisibleFollowModal =
-    payload?.username !== profile.username &&
-    !myInfo?.followingIds?.includes(profile.id);
 
   const onClickFollowUserModalOpen = (queryKey: string) => {
     if (profile?.isBlockedByViewer) return;
     if (!payload) return alert('로그인이 필요합니다');
-    if (isVisibleFollowModal) return alert('리스트를 보려면 팔로우하세요');
+
     setQueryKey(queryKey);
     setIsFollowingModalOpen(true);
   };
@@ -49,7 +42,7 @@ function ProfileCount({ profile }: ProfileCountType) {
           <span className="profile-counts__title">피드</span>
           <p className="profile-counts__count">{profile?.feedCount}</p>
         </div>
-        <div
+        <button
           className="profile-counts__box"
           onClick={() => onClickFollowUserModalOpen(FOLLOW.FOLLOWERS)}
         >
@@ -57,8 +50,8 @@ function ProfileCount({ profile }: ProfileCountType) {
           <p className="profile-counts__count">
             {profile?.isBlockedByViewer ? 0 : profile?.followerCount}
           </p>
-        </div>
-        <div
+        </button>
+        <button
           className="profile-counts__box"
           onClick={() => onClickFollowUserModalOpen(FOLLOW.FOLLOWINGS)}
         >
@@ -66,7 +59,7 @@ function ProfileCount({ profile }: ProfileCountType) {
           <p className="profile-counts__count">
             {profile?.isBlockedByViewer ? 0 : profile?.followingCount}
           </p>
-        </div>
+        </button>
       </section>
       {isFollowingModalOpen && (
         <Modal

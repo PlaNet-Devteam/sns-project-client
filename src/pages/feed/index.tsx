@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import { ImSpinner6 } from 'react-icons/im';
 import { FeedType } from '@/core/types/feed';
 import FeedItem from '@/components/feed/FeedItem';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
@@ -9,15 +8,19 @@ import LogoTitleSVG from '@/assets/intro/logo_title.svg';
 import FeedService from '@/services/feed';
 import { useInfinityScroll } from '@/hooks/useInfinityScroll';
 import { InfinitePagesType } from '@/core/types/common';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
+import LoadingSpinnerContainer from '@/components/common/LoadingSpinnerContainer';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 const Feed = () => {
   const [scrollY] = useLocalStorage('scroll_location', 0);
 
-  const { data: feeds } = useQuery<InfinitePagesType<FeedType>>(['feeds'], () =>
-    FeedService.getFeedsByFollowing({
-      page: 1,
-    }),
+  const { data: feeds, isLoading } = useQuery<InfinitePagesType<FeedType>>(
+    ['feeds'],
+    () =>
+      FeedService.getFeedsByFollowing({
+        page: 1,
+      }),
   );
 
   const {
@@ -45,8 +48,8 @@ const Feed = () => {
         </TopHeader.Left>
         <TopHeader.Right>메뉴</TopHeader.Right>
       </TopHeader>
-      <title>feed</title>
-      <div className="feed_container">
+      <article className="article__container">
+        {isLoading && <LoadingSpinner variant="white" />}
         {feeds &&
           feeds.items.map((feed) => <FeedItem key={feed.id} item={feed} />)}
         {AdditionalFeedData &&
@@ -57,14 +60,11 @@ const Feed = () => {
               ))}
             </div>
           ))}
-      </div>
-      <div ref={bottom} />
-
-      <div className="spinner_container">
-        {status === 'success' && !hasNextPage === undefined ? (
-          <ImSpinner6 className="spinner" />
-        ) : null}
-      </div>
+        <div ref={bottom} />
+        <LoadingSpinnerContainer
+          isLoading={status === 'success' && !hasNextPage === undefined}
+        />
+      </article>
     </>
   );
 };

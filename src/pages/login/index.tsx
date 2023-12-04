@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
+import { useGoogleLogin } from '@react-oauth/google';
 import useForm from '@/hooks/useForm';
 import { AuthLoginType } from '@/core/types/auth';
 import JwtStorageService, { ACCESS_TOKEN } from '@/core/utils/jwt-storage';
@@ -13,9 +14,14 @@ import Button from '@/components/common/Button';
 import ButtonGroup from '@/components/common/ButtonGroup';
 import IconGoogle from '@/assets/icons/icon_google.svg';
 import { userState } from '@/store/userAtom';
+import InputField from '@/components/common/form/InputField';
 
 const Login = () => {
-  const { formData: authLogin, onChange } = useForm<AuthLoginType>({
+  const {
+    formData: authLogin,
+    onChange,
+    onReset,
+  } = useForm<AuthLoginType>({
     email: '',
     password: '',
     rememberMe: true,
@@ -24,6 +30,15 @@ const Login = () => {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState([]);
   const setUser = useSetRecoilState(userState);
+
+  const googleSocialLogin = useGoogleLogin({
+    flow: 'auth-code',
+    onSuccess: async (res) => {
+      const { code } = res;
+      const data = await AuthService.loginGoogle(code);
+      console.log('data 1', data);
+    },
+  });
 
   const { mutateAsync, isError, isSuccess } = useMutation(
     (formData: AuthLoginType) => {
@@ -54,7 +69,6 @@ const Login = () => {
 
   return (
     <div className="login grid">
-      {/* {isLoading && <LoadingLayer />} */}
       <div className="layout__container content-area">
         <div className="middle-area">
           <div className="form-area">
@@ -65,6 +79,7 @@ const Login = () => {
                 variant="ghost"
                 type="button"
                 isFull
+                onClick={googleSocialLogin}
               >
                 <IconGoogle />
                 Google 계정으로 로그인
@@ -76,27 +91,25 @@ const Login = () => {
             >
               <div className="form-group">
                 <div className="input-group">
-                  <div className="input-field">
-                    <input
-                      type="text"
-                      value={authLogin.email}
-                      name="email"
-                      placeholder="이메일"
-                      onChange={onChange}
-                    />
-                  </div>
+                  <InputField
+                    type="text"
+                    value={authLogin.email}
+                    name="email"
+                    placeholder="이메일"
+                    onChange={onChange}
+                    onReset={onReset}
+                  />
                 </div>
                 <div className="input-group">
-                  <div className="input-field">
-                    <input
-                      type="password"
-                      name="password"
-                      value={authLogin.password}
-                      placeholder="비밀번호"
-                      onChange={onChange}
-                      autoComplete="off"
-                    />
-                  </div>
+                  <InputField
+                    type="password"
+                    name="password"
+                    value={authLogin.password}
+                    placeholder="비밀번호"
+                    onChange={onChange}
+                    onReset={onReset}
+                    autoComplete="off"
+                  />
                 </div>
               </div>
               {isError && <ErrorMessage errorMessage={errorMessage} />}
@@ -112,7 +125,6 @@ const Login = () => {
                 </Button>
               </ButtonGroup>
             </form>
-
             <div className="text-group">
               <p className=" text-center text-white text-sm">
                 비밀번호를 잊으셨나요?

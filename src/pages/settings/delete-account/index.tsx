@@ -8,11 +8,12 @@ import ErrorMessage from '@/components/common/ErrorMessage';
 import ButtonGroup from '@/components/common/ButtonGroup';
 import Button from '@/components/common/Button';
 import UserService from '@/services/user';
-import { AxiosErrorResponseType, UserDeleteType } from '@/core';
+import { UserDeleteType } from '@/core';
 import Dialog from '@/components/dialog/Dialog';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import TypoText from '@/components/common/TypoText';
 import useAuth from '@/hooks/useAuth';
+import InputField from '@/components/common/form/InputField';
 
 const DeleteAccount = () => {
   const router = useRouter();
@@ -24,7 +25,11 @@ const DeleteAccount = () => {
     mutationFn: (formData: UserDeleteType) => UserService.deleteUser(formData),
   });
 
-  const { formData: accountDelete, onChange } = useForm<UserDeleteType>({
+  const {
+    formData: accountDelete,
+    onChange,
+    onReset,
+  } = useForm<UserDeleteType>({
     password: '',
   });
 
@@ -70,15 +75,15 @@ const DeleteAccount = () => {
           <form className="form" onSubmit={onClickModalOpenHandler}>
             <div className="form-group">
               <div className="input-group">
-                <div className="input-field">
-                  <input
-                    type="password"
-                    name="password"
-                    value={accountDelete.password}
-                    placeholder="현재 비밀번호"
-                    onChange={onChange}
-                  />
-                </div>
+                <InputField
+                  type="password"
+                  name="password"
+                  value={accountDelete.password}
+                  placeholder="현재 비밀번호"
+                  onChange={onChange}
+                  autoComplete="off"
+                  onReset={onReset}
+                />
               </div>
             </div>
             {isError && <ErrorMessage errorMessage={errorMessage} />}

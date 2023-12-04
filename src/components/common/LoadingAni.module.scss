@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height:20rem;
+  text-align: center;
+  .loading {
+    display:inline-flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    align-self: center;
+    width: 8rem;
+    height:8rem;
+    border-radius: 50%;
+    background-color: #101010;
+    overflow: hidden;
+    margin:1rem auto;
+  }
+}
+
+
+
+
+
+

@@ -1,7 +1,7 @@
-import { FeedImageType } from './feed-image.interface';
+import { FeedImageCreateType } from './feed-image.interface';
 
 export interface FeedCreateType {
-  description?: string;
-  feedImages?: FeedImageType[];
+  description: string;
+  feedImages: FeedImageCreateType[];
   tagNames?: string[];
 }

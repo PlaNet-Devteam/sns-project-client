@@ -1,0 +1,10 @@
+.description {
+  color: var(--white);
+  .username {
+    display: inline-block;
+    margin-right: 0.5rem;
+    color: var(--gray);
+    font-weight: bold;
+    font-size: var(--font-size-sm);
+  }
+}

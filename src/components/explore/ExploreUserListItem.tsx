@@ -1,4 +1,5 @@
 import { useRecoilValue } from 'recoil';
+import { BsShieldFillCheck } from 'react-icons/bs';
 import { UserType } from '@/core';
 import useAuth from '@/hooks/useAuth';
 import { userState } from '@/store/userAtom';
@@ -27,7 +28,8 @@ const ExploreUserListItem = ({ item }: ExploreUserListItemProps) => {
         </div>
         <div className={styles.item_profileInfo}>
           <span className={styles.item_profileInfo_username}>
-            {item.username}
+            {item.username}&nbsp;
+            {item.id === payload?._id && <BsShieldFillCheck color="1ba2f3" />}
           </span>
           <span className={styles.item_profileInfo_nickname}>
             {item.nickname}

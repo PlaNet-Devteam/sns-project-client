@@ -1,26 +1,31 @@
-import React from 'react';
+import React, { ComponentType } from 'react';
 import { BaseProps, InfinitePagesType } from '@/core';
 import { useInfinityScroll } from '@/hooks/useInfinityScroll';
 import EmptyData from './EmptyData';
 import LoadingSpinner from './LoadingSpinner';
 import Button from './Button';
 import ButtonGroup from './ButtonGroup';
+import LoadingSpinnerContainer from './LoadingSpinnerContainer';
+
+interface ChildComponentProps<T> {
+  key: number;
+  item: T;
+  queryKey: unknown[];
+}
 
 interface InfinityDataListProps<T> extends BaseProps {
   queryKey: unknown[];
   listType: 'button' | 'scroll';
-  ChildCompoentToRender: React.ComponentType<T>;
-  propsObject?: Record<string, string>;
+  renderToChildComponent: ComponentType<ChildComponentProps<T>>;
   fetchData: (page: number, limit?: number) => Promise<InfinitePagesType<T>>;
 }
 
 const InfinityDataList = <T,>({
   queryKey,
   listType,
-  ChildCompoentToRender,
-  propsObject,
+  renderToChildComponent,
   fetchData,
-}: InfinityDataListProps<any>) => {
+}: InfinityDataListProps<T>) => {
   const {
     data: items,
     status,
@@ -28,6 +33,8 @@ const InfinityDataList = <T,>({
     fetchNextPage,
     hasNextPage,
   } = useInfinityScroll<T>([...queryKey], fetchData);
+
+  const ChildComponent = renderToChildComponent;
 
   if (items?.pages[0].totalCount === 0) {
     return (
@@ -44,22 +51,16 @@ const InfinityDataList = <T,>({
           {items?.pages.map((page, index) => (
             <div key={index}>
               {page.items.map((item, index2) => (
-                <ChildCompoentToRender
-                  key={index2}
-                  item={item}
-                  {...propsObject}
-                />
+                <ChildComponent queryKey={queryKey} key={index2} item={item} />
               ))}
             </div>
           ))}
           {listType === 'scroll' ? (
             <>
               <div ref={bottom} />
-              <div className="spinner_container">
-                {status === 'success' && !hasNextPage === undefined && (
-                  <LoadingSpinner variant="white" />
-                )}
-              </div>
+              <LoadingSpinnerContainer
+                isLoading={status === 'success' && !hasNextPage === undefined}
+              />
             </>
           ) : (
             <>

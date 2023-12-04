@@ -1,68 +1,49 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import classNames from 'classnames';
+import { createPortal } from 'react-dom';
+import { AiOutlineClose } from 'react-icons/ai';
 import useModal from '@/hooks/useModal';
 import { BaseProps } from '@/core/types/common';
+import styles from './FeedModal.module.scss';
+import Button from './Button';
 
-interface ModalProps extends BaseProps {
-  modalPurpose: string;
-  headerText?: string;
+interface FeedModalProps extends BaseProps {
   isModalOpen: boolean;
-  onClickCloseModal: () => void;
+  onClickCloseModal?: () => void;
 }
 
 const FeedModal = ({
-  modalPurpose,
   isModalOpen,
   onClickCloseModal,
   children,
-}: ModalProps) => {
+}: FeedModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node | null)
-      ) {
-        onClickCloseModal();
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, [onClickCloseModal]);
-
-  const getFeedModalSection = (modalPurpose: string, isModalOpen: boolean) => {
-    if (isModalOpen) {
-      return `${modalPurpose}-modal-section ${modalPurpose}-modal-section--opened`;
-    }
-    return `${modalPurpose}-modal-section ${modalPurpose}-modal-section--closed`;
-  };
-
   const isOpen = useModal(isModalOpen, 100);
+
   if (!isOpen) return null;
-  return (
-    <div className={isOpen ? 'modal modal--opened' : 'modal modal--closed'}>
-      <section
-        ref={modalRef}
+
+  return createPortal(
+    <>
+      <div
         className={classNames(
-          `${modalPurpose}-modal-section`,
-          getFeedModalSection(modalPurpose, isModalOpen),
+          styles.container,
+          { [styles.is_opened]: isOpen },
+          { [styles.is_closed]: !isOpen },
         )}
       >
-        <header className={`${modalPurpose}-modal-header`}>
-          <button
-            className={`${modalPurpose}-modal-header__button`}
+        <section ref={modalRef} className={styles.modal}>
+          <Button
+            iconOnly
+            className={styles.button}
             onClick={onClickCloseModal}
           >
-            &times;
-          </button>
-        </header>
-        <main className={`${modalPurpose}-modal-main`}>{children}</main>
-      </section>
-    </div>
+            <AiOutlineClose color="white" size={'1.5rem'} />
+          </Button>
+          <main className={styles.content}>{children}</main>
+        </section>
+      </div>
+    </>,
+    document.body,
   );
 };
 

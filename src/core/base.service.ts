@@ -9,7 +9,7 @@ import { RESPONSE_STATUS } from './enum';
 const accessToken = JwtStorageService.getToken(ACCESS_TOKEN);
 
 export const api = axios.create({
-  baseURL: 'http://localhost:4300',
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -34,10 +34,10 @@ api.interceptors.response.use(
   },
   async (error) => {
     if (error.code === 'ERR_NETWORK') {
-      alert('네트워크 오류');
-      location.replace('/');
-      JwtStorageService.removeToken(ACCESS_TOKEN);
-      JwtStorageService.removeToken(REFRESH_TOKEN);
+      // alert('네트워크 오류');
+      // location.replace('/');
+      // JwtStorageService.removeToken(ACCESS_TOKEN);
+      // JwtStorageService.removeToken(REFRESH_TOKEN);
     }
     if (error.response) {
       const { data } = error.response;
@@ -54,7 +54,7 @@ api.interceptors.response.use(
           JwtStorageService.setToken(REFRESH_TOKEN, data.refreshToken);
         }
         // ! : useQuery로 요청시 반복적으로 요청되는 이슈 발생
-        // location.reload();
+        location.reload();
         return;
       }
       // 리프레시 토큰이 없거나 만료되었을 때
@@ -63,6 +63,8 @@ api.interceptors.response.use(
         data.error === RESPONSE_STATUS.REFRESH_TOKEN_EXP
       ) {
         location.replace('/login');
+        JwtStorageService.removeToken(ACCESS_TOKEN);
+        JwtStorageService.removeToken(REFRESH_TOKEN);
         return;
       }
     }

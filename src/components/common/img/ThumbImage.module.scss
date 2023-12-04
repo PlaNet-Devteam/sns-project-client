@@ -1,0 +1,26 @@
+.thumbnail { 
+  position: relative;
+
+  + .thumbnail {
+    margin-left: 0.5rem;
+  }
+
+ .image {
+  display: flex;
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  img {
+    object-fit: cover;
+  }
+ }
+
+ .button {
+  position: absolute;
+  right:0.5rem;
+  bottom: 0.5rem;
+  width: 1.75rem;
+  height:1.75rem;
+  border-radius: 50%;
+  background-color: var(--black);
+ }
+}

@@ -27,8 +27,8 @@ $size-lg: 4rem;
 
   // variant
   &-bg--default {
-    background: var(--white);
-    color: var(--black);
+    background: transparent;
+    color: var(--white);
   }
   &-bg--primary {
     background: var(--primary-bg-color);

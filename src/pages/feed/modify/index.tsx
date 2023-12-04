@@ -1,20 +1,20 @@
-import Image from 'next/image';
-import { useRef, useState } from 'react';
-import { TiDelete } from 'react-icons/ti';
-import { AiOutlineCamera } from 'react-icons/ai';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
 import { FormEvent } from 'react';
 import { useRecoilValue } from 'recoil';
-import { uploadFile } from '@/utils/uploadImage';
-import FeedHeader from '@/components/feed/FeedHeader';
 import { FeedImageType } from '@/core/types/feed';
 import useForm from '@/hooks/useForm';
 import FeedService from '@/services/feed';
 import Button from '@/components/common/Button';
-import useMouseDrag from '@/hooks/useMouseDrag';
 import { feedState } from '@/store/feedAtom';
 import { FeedUpdateType } from '@/core/types/feed/feed-update.interface';
+import TopHeader from '@/components/nav/topHeader/TopHeader';
+import ThumbCarousel from '@/components/common/img/ThumbCarousel';
+import ThumbImage from '@/components/common/img/ThumbImage';
+import ButtonGroup from '@/components/common/ButtonGroup';
+import TextAreaField from '@/components/common/form/TextAreaField';
+import { hashTagRegEx } from '@/utils/generateHashTag';
 
 function ModifyFeed() {
   const router = useRouter();
@@ -22,18 +22,33 @@ function ModifyFeed() {
   const [imageList, setImageList] = useState<FeedImageType[]>(
     feedItem?.feedImages || [],
   );
-  const orderIndex = useRef<number>(0);
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-  const { isDrag, onDragStart, onDragEnd, onThrottleDragMove } =
-    useMouseDrag(scrollRef);
-  const { formData: feedModify, onChange } = useForm<FeedUpdateType>({
+
+  const {
+    formData: feedUpdate,
+    onChange,
+    onReset,
+  } = useForm<FeedUpdateType>({
     description: feedItem?.description || '',
     feedImages: imageList,
+    tagNames: [],
   });
 
   const { mutateAsync } = useMutation((formData: FeedUpdateType) =>
     FeedService.updateFeed(feedItem?.id || 0, formData),
   );
+
+  useEffect(() => {
+    if (feedUpdate.description) {
+      const hashTags = feedUpdate.description
+        .match(hashTagRegEx)
+        ?.map((tag) => tag.slice(1));
+      if (hashTags) {
+        feedUpdate.tagNames = [...hashTags];
+      } else {
+        feedUpdate.tagNames = [];
+      }
+    }
+  }, [feedUpdate]);
 
   const onSubmitForm = async (
     event: FormEvent<HTMLFormElement>,
@@ -41,145 +56,77 @@ function ModifyFeed() {
   ) => {
     event.preventDefault();
 
-    if (imageList?.length === 0) {
-      alert('사진을 첨부해주세요.');
-      return;
-    }
-
     try {
-      let list: FeedImageType[] = [];
-      for (let i = 0; i < imageList.length; i++) {
-        const result: FeedImageType = {
-          feedId: feedItem?.id,
-          sortOrder: orderIndex.current++,
-          image: imageList[i].image,
-        };
-        list = [...list, result];
-      }
-      console.log(list);
       await mutateAsync({
         ...formData,
-        feedImages: list,
       });
-      router.push('/feed');
       setImageList([]);
+      router.push('/feed');
     } catch (error: any) {
       console.log('error?.response', error?.response);
     }
-
-    console.log('imageList', imageList);
-  };
-
-  const onClickUploadImageHandler = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const imageLists = event.target.files || [];
-
-    let imageUrlLists = [...imageList];
-
-    for (let i = 0; i < imageLists.length; i++) {
-      const currentImageUrl = await uploadFile(imageLists[i], 'feed');
-      const result: FeedImageType = {
-        feedId: feedItem?.id,
-        sortOrder: 0,
-        image: currentImageUrl as string,
-      };
-      imageUrlLists = [...imageUrlLists, result];
-    }
-
-    if (imageUrlLists.length > 5) {
-      imageUrlLists = imageUrlLists.slice(0, 5);
-
-      alert('최대 5장까지 가능합니다.');
-    }
-
-    setImageList(imageUrlLists);
-    console.log(imageList);
   };
 
   const onClickRemoveImageHandler = (index: number) => {
-    setImageList((prev) => prev.filter((_, idx) => idx !== index));
+    if (imageList.length > 1) {
+      setImageList((prevState) => prevState.filter((_, idx) => idx !== index));
+      if (feedItem) {
+        FeedService.deleteFeedImage(feedItem.id, index);
+      }
+    } else {
+      alert('이미지를 1개 이상 등록해야합니다');
+    }
   };
 
   return (
-    <div className="feed-create">
-      <div className="feed-create-form inner__container">
-        <FeedHeader title="새 게시물" />
+    <>
+      <TopHeader>
+        <TopHeader.Left>
+          <button onClick={() => router.back()}>뒤로</button>
+        </TopHeader.Left>
+        <TopHeader.Title>피드 수정</TopHeader.Title>
+        <TopHeader.Right></TopHeader.Right>
+      </TopHeader>
 
-        <div className="feed-create-form-input">
-          <div className="feed-create-form-input__label">
-            <label
-              htmlFor="file"
-              className="button button-size--sm button-bg--ghost button-text--english"
-            >
-              <AiOutlineCamera
-                size={24}
-                className="feed-create-form-input__button-icon"
-              />
-              사진첨부하기
-            </label>
-          </div>
-          <input
-            id="file"
-            type="file"
-            accept="image/*"
-            multiple={true}
-            className="feed-create-form-input__input"
-            onInput={onClickUploadImageHandler}
-          />
+      <article className="article__container">
+        <div className="inner__container">
+          <ThumbCarousel>
+            {imageList &&
+              imageList.map((image, index) => (
+                <ThumbImage
+                  image={{
+                    image: `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`,
+                    sortOrder: image.sortOrder,
+                  }}
+                  key={index}
+                  index={index}
+                  onClose={() => onClickRemoveImageHandler(index)}
+                />
+              ))}
+          </ThumbCarousel>
+          <form onSubmit={(event) => onSubmitForm(event, feedUpdate)}>
+            <TextAreaField
+              name="description"
+              placeholder="내용을 입력해주세요."
+              value={feedUpdate.description}
+              onChange={onChange}
+              onReset={onReset}
+            />
+            <ButtonGroup>
+              <Button
+                size="md"
+                variant="primary"
+                type="submit"
+                isEnglish
+                isFull
+              >
+                EDIT
+              </Button>
+            </ButtonGroup>
+          </form>
         </div>
-        <div
-          className="feed-create-form-image-upload"
-          onMouseDown={onDragStart}
-          onMouseUp={onDragEnd}
-          onMouseLeave={onDragEnd}
-          onMouseMove={isDrag ? onThrottleDragMove : undefined}
-          ref={(e) => (scrollRef.current = e)}
-        >
-          {imageList &&
-            imageList.map((image, index) => (
-              <div className="feed-create-form-image">
-                <div className="feed-create-form-image__button--delete">
-                  <button onClick={() => onClickRemoveImageHandler(index)}>
-                    <TiDelete size={24} color="black" />
-                  </button>
-                </div>
-                <div className="feed-create-form-image-upload__image">
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`}
-                    key={image.sortOrder}
-                    width={100}
-                    height={100}
-                    alt="image"
-                  />
-                </div>
-              </div>
-            ))}
-        </div>
-        <form
-          className="feed-create-form-content"
-          onSubmit={(event) => onSubmitForm(event, feedModify)}
-        >
-          <textarea
-            className="feed-create-form__textarea"
-            name="description"
-            placeholder="내용을 입력해주세요."
-            value={feedModify.description}
-            onChange={onChange}
-          />
-          <Button
-            size="md"
-            variant="primary"
-            type="submit"
-            isEnglish
-            isFull
-            className="feed-create-form-complete__button"
-          >
-            완료
-          </Button>
-        </form>
-      </div>
-    </div>
+      </article>
+    </>
   );
 }
 export default ModifyFeed;

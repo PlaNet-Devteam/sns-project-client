@@ -8,16 +8,19 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 import { RecoilRoot } from 'recoil';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import BaseLayout from '@/components/layouts/BaseLayout';
 import NoneLayout from '@/components/layouts/NoneLayout';
 import '@/styles/globals.scss';
 import useAuth from '@/hooks/useAuth';
 
-if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
-  import('../mocks');
-}
-
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+    },
+  },
+});
 const routes = ['/', '/login', '/signup'];
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -49,12 +52,16 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [pathname, payload, replace]);
 
   return (
-    <CookiesProvider>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <RecoilRoot>{getLayout()}</RecoilRoot>
-        </Hydrate>
-      </QueryClientProvider>
-    </CookiesProvider>
+    <GoogleOAuthProvider
+      clientId={process.env.NEXT_PUBLIC_OAUTH_GOOGLE_CLIENT_ID as string}
+    >
+      <CookiesProvider>
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <RecoilRoot>{getLayout()}</RecoilRoot>
+          </Hydrate>
+        </QueryClientProvider>
+      </CookiesProvider>
+    </GoogleOAuthProvider>
   );
 }
