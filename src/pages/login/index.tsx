@@ -31,12 +31,23 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState([]);
   const setUser = useSetRecoilState(userState);
 
+  const { mutateAsync: googleLogoinMutation, isSuccess: isSuccessGoogleLogin } =
+    useMutation((code: string) => {
+      return AuthService.loginGoogle(code);
+    });
+
   const googleSocialLogin = useGoogleLogin({
     flow: 'auth-code',
-    onSuccess: async (res) => {
-      const { code } = res;
-      const data = await AuthService.loginGoogle(code);
-      console.log('data 1', data);
+    onSuccess: async ({ code }) => {
+      const { accessToken, userInfo } = await googleLogoinMutation(code);
+      if (accessToken) {
+        JwtStorageService.setToken(ACCESS_TOKEN, `${accessToken}`);
+        setUser(userInfo);
+        router.reload();
+        if (isSuccessGoogleLogin) {
+          router.replace('/feed');
+        }
+      }
     },
   });
 
