@@ -10,29 +10,31 @@ interface UserProfileImageProps {
 }
 
 const UserProfileImage = ({ username, imagePath }: UserProfileImageProps) => {
+  const profileImage = (
+    <Image
+      width={100}
+      height={100}
+      src={
+        imagePath
+          ? isExternalImage(imagePath)
+            ? imagePath
+            : `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${imagePath}`
+          : '/img/icons/icon_default_profile.svg'
+      }
+      alt={imagePath ? '프로필 이미지' : '기본 프로필 이미지'}
+    />
+  );
+
   return (
-    <Link href={`/${username}`} className={styles.profile_image}>
-      {imagePath ? (
-        <Image
-          width={100}
-          height={100}
-          src={
-            isExternalImage(imagePath)
-              ? imagePath
-              : `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${imagePath}`
-          }
-          alt="프로필 이미지"
-        />
+    <>
+      {username ? (
+        <Link href={`/${username}`} className={styles.profile_image}>
+          {profileImage}
+        </Link>
       ) : (
-        <Image
-          src={'/img/icons/icon_default_profile.svg'}
-          width={100}
-          height={100}
-          alt="기본 프로필 이미지"
-        />
+        <div className={styles.profile_image}>{profileImage}</div>
       )}
-    </Link>
+    </>
   );
 };
-
 export default UserProfileImage;

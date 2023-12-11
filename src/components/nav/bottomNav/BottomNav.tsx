@@ -32,7 +32,7 @@ const BottomNav = () => {
       icon: <IconNavAdd />,
     },
     {
-      path: '/message',
+      path: '/direct/inbox',
       name: '메세지',
       icon: <IconNavDM />,
     },

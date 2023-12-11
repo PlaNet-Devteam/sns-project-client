@@ -5,3 +5,5 @@ export * from './feed';
 export * from './follow';
 export * from './user';
 export * from './user-block';
+export * from './room';
+export * from './message';
