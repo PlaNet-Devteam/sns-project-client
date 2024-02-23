@@ -42,9 +42,11 @@ const RoomListItem = ({ item }: RoomListItemProps) => {
                 : `${item.messages[0].user.username}: `}
               {item.messages[0].message}
               &nbsp;·&nbsp;
+              <span>
+                {formattedDate()(item.messages[0].createdAt as string)}
+              </span>
             </>
           )}
-          <span>{formattedDate()(item.createdAt)}</span>
         </div>
       </div>
     </div>

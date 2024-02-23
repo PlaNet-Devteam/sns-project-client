@@ -133,36 +133,14 @@ const DirectMessageList = () => {
         <div>
           {messages &&
             messages.length > 0 &&
-            messages.map((message, index) => {
-              const prevUserId = index > 0 ? messages[index - 1].userId : null;
-
-              return (
-                <DirectMessageListItem
-                  item={message}
-                  key={message.id}
-                  isFirst={
-                    (prevUserId !== null && prevUserId !== message.userId) ||
-                    index === 0
-                  }
-                  isLast={messageLastIndexBeforeUserIdChange.includes(index)}
-                />
-              );
+            messages.map((message) => {
+              return <DirectMessageListItem item={message} key={message.id} />;
             })}
           {messageList &&
-            messageList.map((message, index) => {
-              const prevUserId =
-                index > 0 ? messageList[index - 1].userId : null;
+            messageList.map((message) => {
               return (
                 <>
-                  <DirectMessageListItem
-                    item={message}
-                    key={index}
-                    isFirst={
-                      (prevUserId !== null && prevUserId !== message.userId) ||
-                      index === 0
-                    }
-                    isLast={lastIndexBeforeUserIdChange.includes(index)}
-                  />
+                  <DirectMessageListItem item={message} key={message.id} />
                 </>
               );
             })}

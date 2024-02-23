@@ -2,10 +2,6 @@
   margin-top: 1rem;
   padding: 0 1rem;
 
-  + .is_next {
-    margin-top:0.25rem;
-  }
-
 
   .item_date {
     margin: 0.25rem 0.25rem;
@@ -57,20 +53,7 @@
 
   &:not(.is_mine) {
     .item_message {
-      border-top-left-radius: 0;
       border-bottom-left-radius: 0;
-    }
-  }
-
-  &.is_first, &:first-child {
-    .item_message{
-      border-top-left-radius: 1rem;
-    }
-  }
-
-  &.is_last, &:last-child  {
-    .item_message{
-      border-bottom-left-radius: 1rem;
     }
   }
 
@@ -79,26 +62,9 @@
     .item_inner {
       justify-content: flex-end;
     }
-
-    + .is_mine {
-      .item_message {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-      }
+    .item_message {
+      border-bottom-right-radius: 0;
     }
-
-    &.is_first, &:first-child {
-      .item_message{
-        border-bottom-right-radius: 0;
-      }
-    }
-
-    &.is_last, &:last-child {
-      .item_message{
-        border-bottom-right-radius: 1rem;
-      }
-    }
-
 
     .item_profileImage {
       display: none;
