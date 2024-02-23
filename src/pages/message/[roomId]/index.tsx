@@ -17,11 +17,17 @@ interface ChatUserGatewayType {
   message?: string;
 }
 
+interface MessageData {
+  sender: number;
+  content: string;
+}
+
 const Message = () => {
   const [message, setMessage] = useState('');
   const [messageList, setMessageList] = useState<ChatUserGatewayType[]>([]);
   const messagesEndRef = useRef<HTMLUListElement>(null);
   const [messageTarget, setMessageTarget] = useState('');
+  const [prevMessages, setPrevMessages] = useState<MessageData[]>([]);
 
   const user = useRecoilValue(userState);
   const router = useRouter();
@@ -65,10 +71,20 @@ const Message = () => {
   useEffect(() => {
     socket.emit('get_other_user', {
       roomId: router.query.roomId,
-      user1Id: user?.username,
+      user1Id: user?.id,
     });
     socket.on('get_other_user', (data: string) => {
       setMessageTarget(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.emit('get_chat_data', {
+      roomId: router.query.roomId,
+    });
+    socket.on('get_chat_data', (data: MessageData[]) => {
+      // console.log(data);
+      setPrevMessages(data);
     });
   }, []);
 
@@ -76,6 +92,21 @@ const Message = () => {
     <div className="chat__container">
       <ChatHeader username={messageTarget} />
       <div className="message__container">
+        <ul className="message__contents" ref={messagesEndRef}>
+          {prevMessages
+            ? prevMessages.map((message: MessageData, index: number) => (
+                <li
+                  className={classNames({
+                    'message__my-content': message.sender === user?.id,
+                    'message__other-content': message.sender !== user?.id,
+                  })}
+                  key={index}
+                >
+                  {message.content}
+                </li>
+              ))
+            : null}
+        </ul>
         <ul className="message__contents" ref={messagesEndRef}>
           {messageList.map((message: ChatUserGatewayType, index: number) => (
             <li

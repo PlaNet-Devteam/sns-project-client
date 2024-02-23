@@ -32,14 +32,20 @@ const ProfileLayout = ({ children }: BaseProps) => {
   const { data: profile } = useQuery(
     ['user', router.query.username],
     () => {
-      if (router.query.username === 'undefined') return router.push('/login');
-      if (payload?._id) {
-        // 로그인한 상태라면 'viewer id' 에 나의 아이디 전송
-        return UserService.findUserByUsername(router.query.username as string, {
-          viewerId: payload?._id,
-        });
-      } else {
-        return UserService.findUserByUsername(router.query.username as string);
+      if (router.query.username !== undefined) {
+        if (payload?._id) {
+          // 로그인한 상태라면 'viewer id' 에 나의 아이디 전송
+          return UserService.findUserByUsername(
+            router.query.username as string,
+            {
+              viewerId: payload?._id,
+            },
+          );
+        } else {
+          return UserService.findUserByUsername(
+            router.query.username as string,
+          );
+        }
       }
     },
     {
@@ -56,7 +62,7 @@ const ProfileLayout = ({ children }: BaseProps) => {
       mutationFn: (formData: FollowCreateType) =>
         FollowService.createFollow(formData),
       onSuccess: () => {
-        queryClient.invalidateQueries(['user', payload?.username]);
+        queryClient.invalidateQueries(['user', payload?.username]); // 본인 정보 업데이트 (팔로우 체크)
         queryClient.invalidateQueries(['user', router.query.username]);
       },
     });
@@ -66,7 +72,7 @@ const ProfileLayout = ({ children }: BaseProps) => {
       mutationFn: (formData: FollowCreateType) =>
         FollowService.deleteFollow(formData),
       onSuccess: () => {
-        queryClient.invalidateQueries(['user', payload?.username]);
+        queryClient.invalidateQueries(['user', payload?.username]); // 본인 정보 업데이트 (팔로우 체크)
         queryClient.invalidateQueries(['user', router.query.username]);
       },
     });
@@ -100,7 +106,7 @@ const ProfileLayout = ({ children }: BaseProps) => {
       },
       onSuccess: () => {
         setIsModalOpen(false);
-        queryClient.invalidateQueries(['user', payload?.username]);
+
         queryClient.invalidateQueries(['user', router.query.username]);
       },
     });

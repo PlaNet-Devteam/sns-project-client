@@ -20,6 +20,7 @@ interface UserData {
   nickname: string;
   bio: string;
   username: string;
+  id: number;
 }
 
 const UserList = () => {
@@ -34,9 +35,9 @@ const UserList = () => {
     console.log(data);
     router.push(`/message/${data}`);
   });
-  const myName = user?.username;
-  const handleLinkDMpage = (otherUserName: string) => {
-    socket.emit('create_room', { myName, otherUserName });
+  const myId = user?.id;
+  const handleLinkDMpage = (otherUserId: number) => {
+    socket.emit('create_room', { myId, otherUserId });
   };
 
   if (isLoading) {
@@ -59,7 +60,7 @@ const UserList = () => {
             <div className="prfile__container">
               <button
                 className="profile__button"
-                onClick={() => handleLinkDMpage(userdata.username)}
+                onClick={() => handleLinkDMpage(userdata.id)}
               >
                 DM 보내기
               </button>
