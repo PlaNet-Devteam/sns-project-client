@@ -45,6 +45,15 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: '/(.*)',
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/$1`,
+      },
+      // 다른 리다이렉트나 대체 규칙을 추가할 수 있습니다.
+    ];
+  },
 };
 
 module.exports = nextConfig;
