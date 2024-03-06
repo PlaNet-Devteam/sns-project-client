@@ -28,7 +28,7 @@ const nextConfig = {
     return [
       {
         // matching all API routes
-        source: '/api/:path*',
+        source: '/',
         headers: [
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
           { key: 'Access-Control-Allow-Origin', value: '*' },
@@ -43,15 +43,6 @@ const nextConfig = {
           },
         ],
       },
-    ];
-  },
-  async rewrites() {
-    return [
-      {
-        source: '/(.*)',
-        destination: `${process.env.NEXT_PUBLIC_API_URL}/$1`,
-      },
-      // 다른 리다이렉트나 대체 규칙을 추가할 수 있습니다.
     ];
   },
 };
