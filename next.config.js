@@ -22,6 +22,7 @@ const nextConfig = {
       'planet-sns.s3.ap-northeast-2.amazonaws.com',
       'planet-client.s3.ap-northeast-2.amazonaws.com',
       'lh3.googleusercontent.com',
+      'planet-sns.com',
     ],
   },
   async headers() {
