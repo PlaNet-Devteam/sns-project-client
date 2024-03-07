@@ -118,9 +118,6 @@ const ProfileImage = ({ profile }: ProfileImageProps) => {
               width={120}
               height={120}
               alt="프로필 이미지"
-              onError={() => {
-                setImgSrc('/img/icons/icon_default_profile.svg');
-              }}
             />
           ) : (
             <Image
