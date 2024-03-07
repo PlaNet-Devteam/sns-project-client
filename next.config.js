@@ -24,6 +24,12 @@ const nextConfig = {
       'lh3.googleusercontent.com',
       'planet-sns.com',
     ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'planet-sns.com',
+      },
+    ],
   },
   async headers() {
     return [
