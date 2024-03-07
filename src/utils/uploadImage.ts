@@ -14,14 +14,15 @@ AWS.config.update({
 });
 const s3 = new AWS.S3({
   useAccelerateEndpoint: false,
+  signatureVersion: 'v4',
 });
 
-export const uploadFile = (
+export const uploadFile = async (
   file: File,
   cate: string,
 ): Promise<string | void> => {
   console.log('file', file);
-  console.log(s3);
+  console.log('s3', s3);
   const params: AWS.S3.PutObjectRequest = {
     ACL: 'public-read',
     Body: file,

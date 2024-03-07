@@ -127,7 +127,7 @@ const ProfileImage = ({ profile }: ProfileImageProps) => {
               src={'/img/icons/icon_default_profile.svg'}
               width={120}
               height={120}
-              alt="프로필 이미지"
+              alt="프로필 기본 이미지"
             />
           )}
         </figure>
