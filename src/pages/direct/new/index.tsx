@@ -11,22 +11,22 @@ import useSocket from '@/hooks/useSocket';
 
 const DirectNew = () => {
   const router = useRouter();
-  const socket = useSocket();
+  // const socket = useSocket();
   const { payload } = useAuth();
   const { searchKeyword, onChange, onReset, debouncedSearchKeyword } =
     useSearchInput();
 
   useEffect(() => {
-    socket.on('create_room', (roomUniqueId: string) => {
-      console.log('create_room', roomUniqueId);
-      router.push(`/direct/${roomUniqueId}`);
-    });
-    socket.emit('join_create_room', {
-      userId: payload?._id,
-    });
-    socket.on('join_create_room', (userId: string) => {
-      console.log(`join the create room. user id : ${userId} `);
-    });
+    // socket.on('create_room', (roomUniqueId: string) => {
+    //   console.log('create_room', roomUniqueId);
+    //   router.push(`/direct/${roomUniqueId}`);
+    // });
+    // socket.emit('join_create_room', {
+    //   userId: payload?._id,
+    // });
+    // socket.on('join_create_room', (userId: string) => {
+    //   console.log(`join the create room. user id : ${userId} `);
+    // });
   }, [payload?._id, router]);
 
   return (

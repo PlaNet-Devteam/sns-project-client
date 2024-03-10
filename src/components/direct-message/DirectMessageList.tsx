@@ -15,7 +15,7 @@ import styles from './DirectMessageList.module.scss';
 
 const DirectMessageList = () => {
   const router = useRouter();
-  const socket = useSocket();
+  // const socket = useSocket();
   const queryClient = useQueryClient();
 
   queryClient.setDefaultOptions({
@@ -40,20 +40,20 @@ const DirectMessageList = () => {
       RoomService.getRoomByRoomUniqueId(router.query.roomUniqueId as string),
   );
 
-  useEffect(() => {
-    socket.on('message', (data: MessageType) => {
-      setMessageList([...messageList, data]);
-    });
-  }, [messageList]);
+  // useEffect(() => {
+  //   socket.on('message', (data: MessageType) => {
+  //     setMessageList([...messageList, data]);
+  //   });
+  // }, [messageList]);
 
-  useEffect(() => {
-    socket.on('message', () => {
-      socket.emit('save_message', {
-        roomUniqueId: router.query.roomUniqueId,
-        userId: user?.id,
-      });
-    });
-  }, [router.query.roomUniqueId, user?.id]);
+  // useEffect(() => {
+  //   socket.on('message', () => {
+  //     socket.emit('save_message', {
+  //       roomUniqueId: router.query.roomUniqueId,
+  //       userId: user?.id,
+  //     });
+  //   });
+  // }, [router.query.roomUniqueId, user?.id]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -61,14 +61,14 @@ const DirectMessageList = () => {
     }
   }, [messageList]);
 
-  useEffect(() => {
-    socket.emit('join_room', {
-      roomUniqueId: router.query.roomUniqueId,
-    });
-    socket.on('join_room', (roomUniqueId: string) => {
-      console.log(`${roomUniqueId} 채팅방에 접속중`);
-    });
-  }, [router.query.roomUniqueId, socket]);
+  // useEffect(() => {
+  //   socket.emit('join_room', {
+  //     roomUniqueId: router.query.roomUniqueId,
+  //   });
+  //   socket.on('join_room', (roomUniqueId: string) => {
+  //     console.log(`${roomUniqueId} 채팅방에 접속중`);
+  //   });
+  // }, [router.query.roomUniqueId, socket]);
 
   const messageLastIndexBeforeUserIdChange: number[] = [];
 
@@ -99,16 +99,16 @@ const DirectMessageList = () => {
     event.preventDefault();
     if (message.length > 0) {
       if (user) {
-        socket.emit('message', {
-          roomUniqueId: router.query.roomUniqueId,
-          message: {
-            userId: user?.id,
-            roomId: room?.id,
-            user: user,
-            createdAt: new Date(),
-            message,
-          },
-        });
+        // socket.emit('message', {
+        //   roomUniqueId: router.query.roomUniqueId,
+        //   message: {
+        //     userId: user?.id,
+        //     roomId: room?.id,
+        //     user: user,
+        //     createdAt: new Date(),
+        //     message,
+        //   },
+        // });
       }
       setMessage('');
     }
