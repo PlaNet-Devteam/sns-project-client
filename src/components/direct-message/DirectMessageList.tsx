@@ -1,5 +1,4 @@
 import React, { FormEvent, useRef } from 'react';
-import io from 'socket.io-client';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useRouter } from 'next/router';
@@ -10,13 +9,13 @@ import MessageService from '@/services/message';
 import { MessageType } from '@/core/types/message';
 import RoomService from '@/services/room';
 import { RoomType } from '@/core/types/room';
+import useSocket from '@/hooks/useSocket';
 import DirectMessageListItem from './DirectMessageListItem';
 import styles from './DirectMessageList.module.scss';
 
-const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL);
-
 const DirectMessageList = () => {
   const router = useRouter();
+  const socket = useSocket();
   const queryClient = useQueryClient();
 
   queryClient.setDefaultOptions({
@@ -42,27 +41,18 @@ const DirectMessageList = () => {
   );
 
   useEffect(() => {
-    socket.on('connect', () => {
-      console.log('socket server connected.');
-    });
-    socket.on('disconnect', () => {
-      console.log('socket server disconnected.');
-    });
-  }, []);
-
-  useEffect(() => {
     socket.on('message', (data: MessageType) => {
       setMessageList([...messageList, data]);
     });
   }, [messageList]);
 
   useEffect(() => {
-    return () => {
+    socket.on('message', () => {
       socket.emit('save_message', {
         roomUniqueId: router.query.roomUniqueId,
         userId: user?.id,
       });
-    };
+    });
   }, [router.query.roomUniqueId, user?.id]);
 
   useEffect(() => {
@@ -77,11 +67,8 @@ const DirectMessageList = () => {
     });
     socket.on('join_room', (roomUniqueId: string) => {
       console.log(`${roomUniqueId} 채팅방에 접속중`);
-      // if (data.messages && data.messages.length > 0) {
-      //   setMessageList([...data.messages]);
-      // }
     });
-  }, [router.query.roomUniqueId]);
+  }, [router.query.roomUniqueId, socket]);
 
   const messageLastIndexBeforeUserIdChange: number[] = [];
 
@@ -132,16 +119,13 @@ const DirectMessageList = () => {
       <div className={styles.list} ref={messagesEndRef}>
         <div>
           {messages &&
-            messages.length > 0 &&
             messages.map((message) => {
               return <DirectMessageListItem item={message} key={message.id} />;
             })}
           {messageList &&
-            messageList.map((message) => {
+            messageList.map((message, index) => {
               return (
-                <>
-                  <DirectMessageListItem item={message} key={message.id} />
-                </>
+                <DirectMessageListItem item={message} key={`socket-${index}`} />
               );
             })}
         </div>

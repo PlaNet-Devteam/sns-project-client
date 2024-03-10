@@ -21,7 +21,7 @@ const DirectInbox = () => {
 
   const roomList = (
     <>
-      {rooms ? (
+      {rooms && rooms.length > 0 ? (
         <>
           {rooms.map((room, index) => (
             <RoomListItem item={room} key={index} />
