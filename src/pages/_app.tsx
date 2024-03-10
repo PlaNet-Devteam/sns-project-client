@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { AppProps } from 'next/app';
 import { CookiesProvider } from 'react-cookie';
+import io from 'socket.io-client';
 import {
   Hydrate,
   QueryClient,
@@ -13,6 +14,7 @@ import BaseLayout from '@/components/layouts/BaseLayout';
 import NoneLayout from '@/components/layouts/NoneLayout';
 import '@/styles/globals.scss';
 import useAuth from '@/hooks/useAuth';
+import { SocketProvider } from '@/contexts/SocketContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,6 +24,11 @@ const queryClient = new QueryClient({
   },
 });
 const routes = ['/', '/login', '/signup'];
+const socket = io(process.env.NEXT_PUBLIC_API_URL, {
+  reconnectionDelayMax: 1000,
+  reconnection: true,
+  transports: ['websocket'],
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   const { pathname, replace } = useRouter();
@@ -55,13 +62,15 @@ export default function App({ Component, pageProps }: AppProps) {
     <GoogleOAuthProvider
       clientId={process.env.NEXT_PUBLIC_OAUTH_GOOGLE_CLIENT_ID as string}
     >
-      <CookiesProvider>
-        <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
-            <RecoilRoot>{getLayout()}</RecoilRoot>
-          </Hydrate>
-        </QueryClientProvider>
-      </CookiesProvider>
+      <SocketProvider socket={socket}>
+        <CookiesProvider>
+          <QueryClientProvider client={queryClient}>
+            <Hydrate state={pageProps.dehydratedState}>
+              <RecoilRoot>{getLayout()}</RecoilRoot>
+            </Hydrate>
+          </QueryClientProvider>
+        </CookiesProvider>
+      </SocketProvider>
     </GoogleOAuthProvider>
   );
 }

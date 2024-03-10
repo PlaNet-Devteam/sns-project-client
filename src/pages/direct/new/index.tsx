@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import io from 'socket.io-client';
 import { useEffect } from 'react';
 import UserService from '@/services/user';
 import MessageUserListItem from '@/components/direct-message/DirectMessageUserListItem';
@@ -8,11 +7,11 @@ import TopHeader from '@/components/nav/topHeader/TopHeader';
 import useAuth from '@/hooks/useAuth';
 import useSearchInput from '@/hooks/useSearchInput';
 import SearchInput from '@/components/common/SearchInput';
-
-const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL);
+import useSocket from '@/hooks/useSocket';
 
 const DirectNew = () => {
   const router = useRouter();
+  const socket = useSocket();
   const { payload } = useAuth();
   const { searchKeyword, onChange, onReset, debouncedSearchKeyword } =
     useSearchInput();
@@ -29,15 +28,6 @@ const DirectNew = () => {
       console.log(`join the create room. user id : ${userId} `);
     });
   }, [payload?._id, router]);
-
-  useEffect(() => {
-    socket.on('connect', () => {
-      console.log('socket server connected.');
-    });
-    socket.on('disconnect', () => {
-      console.log('socket server disconnected.');
-    });
-  }, []);
 
   return (
     <>
