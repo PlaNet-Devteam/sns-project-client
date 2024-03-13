@@ -25,7 +25,7 @@ interface UserData {
 
 const UserList = () => {
   const router = useRouter();
-  const [openModalIndex, setOpenModalIndex] = useState(null);
+  const [openModalIndex, setOpenModalIndex] = useState(0);
   const user = useRecoilValue(userState);
   const { data: userlist, isLoading } = useQuery(['AllUser'], () =>
     UserService.findAllUserData(),
@@ -53,7 +53,7 @@ const UserList = () => {
             headerText={userdata.username}
             isModalOpen={openModalIndex === index}
             onClickCloseModal={() => {
-              setOpenModalIndex(null);
+              setOpenModalIndex(0);
             }}
           >
             <ProfileImage profile={userlist} />
