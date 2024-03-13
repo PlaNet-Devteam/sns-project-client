@@ -17,6 +17,10 @@
   }
 }
 
+body {
+  font-family: Arial, sans-serif;
+}
+
 ul {
   list-style: none;
   padding-left: 0;
@@ -26,7 +30,7 @@ button {
   cursor: pointer;
   border: 0;
   background: transparent;
-  color:inherit;
+  color: inherit;
 }
 
 a {
@@ -38,21 +42,17 @@ input:autofill,
 input:autofill:hover,
 input:autofill:focus,
 input:autofill:active {
-	-webkit-text-fill-color: white;
-    -webkit-box-shadow: 0 0 0px 1000px #36395c inset;
-    box-shadow: 0 0 0px 1000px #36395c inset;
-    transition: background-color 5000s ease-in-out 0s;
-    border-radius: inherit;
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px #36395c inset;
+  box-shadow: 0 0 0px 1000px #36395c inset;
+  transition: background-color 5000s ease-in-out 0s;
+  border-radius: inherit;
 }
 
 :root {
   --border-color: #35395b;
   --bg-color: #1f2349;
-  --primary-bg-color: linear-gradient(
-    270deg,
-    #5322e0 3.82%,
-    #5fafd4 105.73%
-  );
+  --primary-bg-color: linear-gradient(270deg, #5322e0 3.82%, #5fafd4 105.73%);
   --primary-color: #5322e0;
   --secondary-color: #5356a5;
   --danger-color: #ff004d;
@@ -62,7 +62,6 @@ input:autofill:active {
   --white: #ffffff;
   --black: #262626;
   --gray: #9b9b9b;
-
 
   --border-radius-md: 0.5rem; /* 8px */
   --border-radius-lg: 1rem; /* 16px */
@@ -101,7 +100,6 @@ input:autofill:active {
     overflow-y: auto;
   }
 }
-
 
 * {
   + .row-box {
