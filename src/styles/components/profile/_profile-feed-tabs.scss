@@ -1,6 +1,6 @@
 .profile-feeds-tabs {
   position: sticky;
-  top: 0;
+  top: var(--top-header-height);
   left: 0;
   display: flex;
   align-items: center;
@@ -12,10 +12,13 @@
     width: 100%;
     padding: 0.5rem 0;
     text-align: center;
+    * {
+      fill: var(--border-color);
+    }
 
-    &.is-active {
+    &--active {
       * {
-        stroke: white;
+        fill: var(--white);
       }
     }
     + .feeds-tabs__tab {

@@ -2,22 +2,37 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { AppProps } from 'next/app';
 import { CookiesProvider } from 'react-cookie';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import JwtStorageService, { ACCESS_TOKEN } from '@/core/utils/jwt-storage';
-import BaseLayout from '@/components/Layouts/BaseLayout';
-import NoneLayout from '@/components/Layouts/NoneLayout';
+import io from 'socket.io-client';
+import {
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
+import { RecoilRoot } from 'recoil';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import BaseLayout from '@/components/layouts/BaseLayout';
+import NoneLayout from '@/components/layouts/NoneLayout';
 import '@/styles/globals.scss';
+import useAuth from '@/hooks/useAuth';
+// import { SocketProvider } from '@/contexts/SocketContext';
 
-if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
-  import('../mocks');
-}
-
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+    },
+  },
+});
 const routes = ['/', '/login', '/signup'];
-const accessToken = JwtStorageService.getToken(ACCESS_TOKEN);
+// const socket = io(process.env.NEXT_PUBLIC_API_URL, {
+//   reconnectionDelayMax: 1000,
+//   reconnection: true,
+//   transports: ['websocket'],
+// });
 
 export default function App({ Component, pageProps }: AppProps) {
   const { pathname, replace } = useRouter();
+  const { payload } = useAuth();
 
   const getLayout = () => {
     if (routes.includes(pathname)) {
@@ -37,17 +52,25 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     if (routes.includes(pathname)) {
-      if (accessToken) {
-        replace('/profile');
+      if (payload) {
+        replace('/feed');
       }
     }
-  }, [pathname, replace]);
+  }, [pathname, payload, replace]);
 
   return (
-    <CookiesProvider>
-      <QueryClientProvider client={queryClient}>
-        {getLayout()}
-      </QueryClientProvider>
-    </CookiesProvider>
+    <GoogleOAuthProvider
+      clientId={process.env.NEXT_PUBLIC_OAUTH_GOOGLE_CLIENT_ID as string}
+    >
+      {/* <SocketProvider socket={socket}> */}
+      <CookiesProvider>
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <RecoilRoot>{getLayout()}</RecoilRoot>
+          </Hydrate>
+        </QueryClientProvider>
+      </CookiesProvider>
+      {/* </SocketProvider> */}
+    </GoogleOAuthProvider>
   );
 }

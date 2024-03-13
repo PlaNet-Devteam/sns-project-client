@@ -3,15 +3,16 @@ import Link from 'next/link';
 import classNames from 'classnames';
 import { BaseProps } from '@/core/types/common';
 interface ButtonProps extends BaseProps {
-  variant?: 'default' | 'primary' | 'secondary' | 'essential' | 'ghost';
+  variant?: keyof VariantType;
   size?: 'sm' | 'md' | 'lg';
-  color?: 'essential' | 'white' | 'black' | 'success' | 'danger';
+  color?: keyof ColorType;
   isFull?: boolean;
   isEnglish?: boolean;
   isDisabled?: boolean;
   to?: string | undefined;
   type?: 'button' | 'submit' | undefined;
   iconSize?: 'sm' | 'md' | 'lg';
+  iconOnly?: boolean;
   onClick?: (
     event:
       | React.MouseEvent<Element, MouseEvent>
@@ -19,11 +20,8 @@ interface ButtonProps extends BaseProps {
   ) => void;
 }
 
-interface VariantType {
+interface VariantType extends ColorType {
   default: string;
-  primary: string;
-  secondary: string;
-  essential: string;
   ghost: string;
 }
 
@@ -34,11 +32,14 @@ interface SizeType {
 }
 
 interface ColorType {
+  primary: string;
+  secondary: string;
   essential: string;
   white: string;
   black: string;
   success: string;
   danger: string;
+  gray: string;
 }
 interface IconSizeType {
   sm: string;
@@ -57,15 +58,23 @@ const VARIANTS: VariantType = {
   primary: 'button-bg--primary',
   secondary: 'button-bg--secondary',
   essential: 'button-bg--essential',
+  success: 'button-text--success',
+  danger: 'button-bg--danger',
   ghost: 'button-bg--ghost',
+  gray: 'button-bg--gray',
+  white: 'button-bg--white',
+  black: 'button-bg--black',
 };
 
 const COLORS: ColorType = {
+  primary: 'button-text--primary',
+  secondary: 'button-text--secondary',
   essential: 'button-text--essential',
-  white: 'button-text--white',
-  black: 'button-text--black',
   success: 'button-text--success',
   danger: 'button-text--danger',
+  gray: 'button-text--gray',
+  white: 'button-text--white',
+  black: 'button-text--black',
 };
 
 const ICON_SIZES: IconSizeType = {
@@ -86,6 +95,7 @@ const Button = ({
   to,
   type,
   iconSize = 'sm',
+  iconOnly,
   onClick,
 }: ButtonProps) => {
   const classNameValues = classNames(
@@ -96,6 +106,7 @@ const Button = ({
     { 'button-size--full': isFull },
     { 'button-text--english': isEnglish },
     { 'button--disabled': isDisabled },
+    { 'button--icon-only': iconOnly },
     className,
   );
   // 링크 기능을 하는 버튼 (to props를 사용했을 때)

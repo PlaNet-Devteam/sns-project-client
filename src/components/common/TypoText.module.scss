@@ -1,0 +1,50 @@
+.text {
+  line-height: 1.6;
+
+  + .text {
+    margin-top:0.5rem;
+  }
+  + .span {
+    margin-top: 0;
+    line-height: 1;
+  }
+
+ 
+  &.primary {
+    color: var(--primary-color);
+  }
+
+  &.secondary {
+    color: var(--secondary-color);
+  }
+
+  &.success {
+    color: var(--success-color);
+  }
+
+  &.warning {
+    color: var(--warning-color);
+  }
+
+  &.danger {
+    color: var(--danger-color);
+  }
+
+  &.essential {
+    color: var(--essential-color);
+  }
+
+  &.black {
+    color: var(--black);
+  }
+
+  &.white {
+    color: var(--white);
+  }
+
+  &.gray {
+    color: var(--gray);
+  }
+  
+}
+

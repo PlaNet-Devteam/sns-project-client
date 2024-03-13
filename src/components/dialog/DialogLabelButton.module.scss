@@ -1,0 +1,27 @@
+.button {
+  padding: 1.5rem 1rem;
+  text-align: center;
+  font-weight: bold;
+
+  + .button {
+    border-top: 1px solid rgba($color: white, $alpha: 0.1);
+  }
+  &.essential {
+    color: var(--essential-color);
+  }
+  &.white {
+    color: var(--white);
+  }
+  &.black {
+    color: var(--black);
+  }
+  &.success {
+    color: var(--success-color);
+  }
+  &.danger {
+    color: var(--danger-color);
+  }
+  &.gray {
+    color: var(--gray);
+  }
+}

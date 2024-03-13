@@ -1,0 +1,50 @@
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  margin-top: 1rem;
+
+ 
+
+  .item_profileImages {
+    width: 4rem;
+    height: 4rem;
+
+    .item_profileImage {
+      border-radius: 50%;
+      width: inherit;
+      height: inherit;
+    }
+
+
+    &.is_groups {
+      position: relative;
+
+      .item_profileImage  {
+        width:3rem;
+        height:3rem;
+        &:nth-child(2) {
+          position: absolute;
+          bottom: 0;
+          right:0;
+          z-index: 2;
+          box-shadow: 0 0 0.25rem rgba($color: black, $alpha: 0.5);
+          outline:5px solid var(--bg-color);
+        }
+      }
+    }
+  }
+  .item_profileInfo {
+    color: white;
+    .item_usernames {
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+    .item_messages {
+      display: block;
+      color:var(--gray);
+      font-size: var(--font-size-sm);
+    }
+  }
+}

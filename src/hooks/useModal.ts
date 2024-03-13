@@ -14,7 +14,7 @@ function useModal(isModalOpen: boolean, delay: number) {
     return () => {
       clearTimeout(timer);
     };
-  }, [isModalOpen]);
+  }, [delay, isModalOpen]);
 
   return isOpen;
 }

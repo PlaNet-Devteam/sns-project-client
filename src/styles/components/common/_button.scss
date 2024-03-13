@@ -1,8 +1,12 @@
+$size-sm: 2.5rem;
+$size-md: 3.25rem;
+$size-lg: 4rem;
+
 .button {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem 0.5rem;
+  padding: 1rem 1rem;
   border-radius: var(--border-radius-md);
   border: 0;
   text-decoration: none;
@@ -10,32 +14,40 @@
   // size
   &-size--sm {
     font-size: var(--font-size-sm);
-    height: 3rem;
+    height: $size-sm;
   }
   &-size--md {
     font-size: var(--font-size-md);
-    height: 3.75rem;
+    height: $size-md;
   }
   &-size--lg {
     font-size: var(--font-size-lg);
-    height: 4rem;
+    height: $size-lg;
   }
 
   // variant
   &-bg--default {
-    background: var(--white);
-    color: var(--black);
+    background: transparent;
+    color: var(--white);
   }
   &-bg--primary {
-    background: var(--button-primary-color);
+    background: var(--primary-bg-color);
     color: var(--white);
   }
   &-bg--secondary {
-    background: var(--button-secondary-color);
+    background: var(--secondary-color);
     color: var(--white);
   }
   &-bg--essential {
     background: var(--essential-color);
+    color: var(--white);
+  }
+  &-bg--danger {
+    background: var(--danger-color);
+    color: var(--white);
+  }
+  &-bg--gray {
+    background: var(--gray);
     color: var(--white);
   }
 
@@ -49,6 +61,22 @@
       * {
         fill: var(--white);
       }
+    }
+  }
+
+  // icon only
+  &--icon-only {
+    border-radius: 50%;
+    padding: 0;
+
+    &.button-size--sm {
+      width: $size-sm;
+    }
+    &.button-size--md {
+      width: $size-md;
+    }
+    &.button-size--lg {
+      width: $size-lg;
     }
   }
 
@@ -89,9 +117,18 @@
     }
   }
 
+  &-text--gray {
+    color: var(--gray);
+    svg {
+      * {
+        fill: var(--gray);
+      }
+    }
+  }
+
   // full size
   &-size--full {
-    width: 100%;
+    width: 100%; 
   }
 
   // english
@@ -112,21 +149,18 @@
   flex-direction: row;
   align-items: center;
 
-  &-size--sm svg {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-right: 0.5rem;
+  + * {
+    margin-left: 0.5rem;
   }
 
-  &-size--md svg {
-    width: 2rem;
-    height: 2rem;
-    margin-right: 0.5rem;
+  svg {
+    width: 1.5em;
+    height: 1.5em;
   }
+}
 
-  &-size--lg svg {
-    width: 2.5rem;
-    height: 2.5rem;
-    margin-right: 0.5rem;
+.button-size--full {
+  + .button-size--full {
+    margin-top: 1rem;
   }
 }

@@ -1,0 +1,80 @@
+.error-page {
+  position: relative;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: white;
+  text-align: center;
+
+  &:before,
+  &:after {
+    display: block;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center center;
+    z-index: 1;
+  }
+
+  &:before {
+    animation: twinkle 2s infinite;
+    background-repeat: repeat;
+    background-image: url('../../../assets/intro/start_white.svg');
+  }
+
+  &:after {
+    animation: twinkle 2s infinite 1s;
+    background-repeat: repeat;
+    background-image: url('../../../assets/intro/start_white_2.svg');
+  }
+
+  .inner {
+    position: relative;
+    z-index: 2;
+  }
+  .en-title {
+    letter-spacing: 0.4rem;
+    font-size: var(--font-size-sm);
+  }
+  .title {
+    margin: 2rem 0;
+    svg {
+      min-height: 3.75rem;
+    }
+  }
+
+  .astronaut {
+    position: absolute;
+    right: -2.5rem;
+    bottom: 0;
+    width: 2.5rem;
+    height: 3.875rem;
+    background-image: url('../../../assets/intro/astronaut.svg');
+    animation: float 5s infinite;
+  }
+
+  .spaceship {
+    position: absolute;
+    left: 50%;
+    top: -3.125rem;
+    width: 5rem;
+    height: 5.5rem;
+    margin-left: -2.5rem;
+    background-image: url('../../../assets/intro/spaceship.svg');
+    animation: swing ease-in-out 1s infinite alternate;
+    transform-origin: top center;
+  }
+}
+
+@keyframes swing {
+  0% {
+    transform: rotate(10deg);
+  }
+  100% {
+    transform: rotate(-10deg);
+  }
+}

@@ -1,0 +1,9 @@
+@use './reply';
+@use './header';
+@use './input';
+
+.reply__contatiner {
+  height: 100%;
+  padding-top: 3.75rem;
+  padding-bottom: 3.75rem;
+}

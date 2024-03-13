@@ -1,0 +1,56 @@
+.contianer {
+  position: relative;
+  padding-bottom: 75.25%;
+
+  .images {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    gap: 0.5rem;
+  
+    &_column {
+      display: flex;
+      height: 100%;
+      gap: 0.5rem;
+    }
+  
+    &_row {
+      position: relative;
+    }
+  
+    &_image {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      &_more {
+        img {
+          filter: blur(0.25rem) grayscale(80%);
+        }
+      }
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        aspect-ratio: 3;
+      }
+    }
+  
+    &_button {
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      font-size: var(--font-size-xxxl);
+      color: white;
+    }
+  }
+}

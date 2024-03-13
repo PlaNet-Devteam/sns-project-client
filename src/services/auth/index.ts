@@ -1,21 +1,27 @@
-import { AUTH_API, AuthLoginType } from '@/core';
+import { AUTH_API, AuthLoginType, ChangePasswordType } from '@/core';
 import { api } from '@/core/base.service';
 
-const AuthService = () => {
-  const login = async (formData: AuthLoginType) => {
+const AuthService = {
+  login: async (formData: AuthLoginType) => {
     const { data } = await api.post(AUTH_API.LOGIN, formData);
     return data.data;
-  };
-
-  const refreshToken = async () => {
+  },
+  loginGoogle: async (token: string) => {
+    const { data } = await api.post(AUTH_API.LOGIN_GOOGLE, { token });
+    return data.data;
+  },
+  logout: async () => {
+    const { data } = await api.post(AUTH_API.LOGOUT);
+    return data.data;
+  },
+  refreshToken: async () => {
     const { data } = await api.post(AUTH_API.REFRESH_TOKEN);
     return data;
-  };
-
-  return {
-    login,
-    refreshToken,
-  };
+  },
+  changePassword: async (formData: ChangePasswordType) => {
+    const { data } = await api.patch(AUTH_API.CHANGE_PASSWORD, formData);
+    return data.data;
+  },
 };
 
-export default AuthService();
+export default AuthService;
