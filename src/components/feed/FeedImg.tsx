@@ -41,6 +41,8 @@ const FeedImg = ({ feedImages }: FeedImgProps) => {
                       alt={String(image.sortOrder)}
                       width={400}
                       height={300}
+                      placeholder="blur"
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
                     />
                   </figure>
                 </div>
@@ -57,6 +59,8 @@ const FeedImg = ({ feedImages }: FeedImgProps) => {
                         alt=""
                         width={400}
                         height={300}
+                        placeholder="blur"
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
                       />
                     </figure>
                     {moreImages && (

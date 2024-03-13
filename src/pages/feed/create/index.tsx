@@ -133,6 +133,7 @@ function CreateFeed() {
                 <ThumbImage
                   image={image}
                   index={index}
+                  key={index}
                   onClose={() => onClickRemoveImageHandler(index)}
                 />
               ))}
