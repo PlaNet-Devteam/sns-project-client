@@ -66,7 +66,7 @@ const Feed = () => {
       </TopHeader>
       <article className="article__container">
         {isLoading && <LoadingSpinner variant="white" />}
-        {!feeds?.items.length ? <EmptyData /> : fetchFeed}
+        {!isLoading && <> {!feeds?.items.length ? <EmptyData /> : fetchFeed}</>}
         <div ref={bottom} />
         <LoadingSpinnerContainer
           isLoading={status === 'success' && !hasNextPage === undefined}
