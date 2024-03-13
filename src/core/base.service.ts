@@ -62,7 +62,7 @@ api.interceptors.response.use(
         data.error === RESPONSE_STATUS.NO_REFRESH_TOKEN ||
         data.error === RESPONSE_STATUS.REFRESH_TOKEN_EXP
       ) {
-        // location.replace('/login');
+        location.replace('/login');
         JwtStorageService.removeToken(ACCESS_TOKEN);
         JwtStorageService.removeToken(REFRESH_TOKEN);
         return;
