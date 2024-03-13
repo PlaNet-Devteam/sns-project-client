@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import router from 'next/router';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { GiHamburgerMenu } from 'react-icons/gi';

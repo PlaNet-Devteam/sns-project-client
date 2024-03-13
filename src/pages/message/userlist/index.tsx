@@ -25,7 +25,7 @@ interface UserData {
 
 const UserList = () => {
   const router = useRouter();
-  const [openModalIndex, setOpenModalIndex] = useState(null);
+  const [openModalIndex, setOpenModalIndex] = useState(0);
   const user = useRecoilValue(userState);
   const { data: userlist, isLoading } = useQuery(['AllUser'], () =>
     UserService.findAllUserData(),
@@ -47,13 +47,13 @@ const UserList = () => {
     <div>
       <UserListHeader />
       <div className="userlist__title">친구 리스트</div>
-      {userlist.map((userdata: UserData, index: any) => (
+      {userlist.map((userdata: UserData, index: number) => (
         <div key={index} className="userlist">
           <Modal
             headerText={userdata.username}
             isModalOpen={openModalIndex === index}
             onClickCloseModal={() => {
-              setOpenModalIndex(null);
+              setOpenModalIndex(0);
             }}
           >
             <ProfileImage profile={userlist} />

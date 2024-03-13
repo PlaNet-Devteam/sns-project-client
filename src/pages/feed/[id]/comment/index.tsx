@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import CommentItem from '@/components/comment/CommentItem';
 import CommentInput from '@/components/comment/CommentInput';
-import { CommentType } from '@/core/types/comment/index';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
 import CommentService from '@/services/comment';
 import { ORDER_BY } from '@/core';

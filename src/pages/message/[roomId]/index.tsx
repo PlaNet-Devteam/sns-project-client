@@ -86,7 +86,7 @@ const Message = () => {
       // console.log(data);
       setPrevMessages(data);
     });
-  }, []);
+  }, [router.query.roomId]);
 
   return (
     <div className="chat__container">

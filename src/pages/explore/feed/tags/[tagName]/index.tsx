@@ -2,7 +2,6 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
 import InfinityDataList from '@/components/common/InfinityDataList';
-import { FeedType } from '@/core';
 import FeedService from '@/services/feed';
 import ProfileFeedListItem from '@/components/profile/ProfileFeedListItem';
 import ExploreTagInfo from '@/components/explore/ExploreTagInfo';

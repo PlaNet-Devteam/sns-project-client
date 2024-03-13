@@ -66,8 +66,8 @@ function CreateFeed() {
       });
       router.push('/feed');
       setImageList([]);
-    } catch (error: any) {
-      console.log('error?.response', error?.response);
+    } catch (error) {
+      console.error(error);
     }
 
     console.log('imageList', imageList);
@@ -133,6 +133,7 @@ function CreateFeed() {
                 <ThumbImage
                   image={image}
                   index={index}
+                  key={index}
                   onClose={() => onClickRemoveImageHandler(index)}
                 />
               ))}

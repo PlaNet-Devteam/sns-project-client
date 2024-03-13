@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  color:white;
+  color: white;
   text-align: center;
 
   &:before,
@@ -41,30 +41,29 @@
     font-size: var(--font-size-sm);
   }
   .title {
-    width:15rem;
     margin: 2rem 0;
-  }
-  p {
-
+    svg {
+      min-height: 3.75rem;
+    }
   }
 
   .astronaut {
-    position:absolute;
-    right:-2.5rem;
-    bottom:0;
-    width:2.5rem;
-    height:3.875rem;
+    position: absolute;
+    right: -2.5rem;
+    bottom: 0;
+    width: 2.5rem;
+    height: 3.875rem;
     background-image: url('../../../assets/intro/astronaut.svg');
     animation: float 5s infinite;
   }
 
   .spaceship {
-    position:absolute;
-    left:50%;
-    top:-3.125rem;
-    width:5rem;
-    height:5.5rem;
-    margin-left:-2.5rem;
+    position: absolute;
+    left: 50%;
+    top: -3.125rem;
+    width: 5rem;
+    height: 5.5rem;
+    margin-left: -2.5rem;
     background-image: url('../../../assets/intro/spaceship.svg');
     animation: swing ease-in-out 1s infinite alternate;
     transform-origin: top center;
@@ -72,6 +71,10 @@
 }
 
 @keyframes swing {
-  0% { transform: rotate(10deg); }
-  100% { transform: rotate(-10deg); }
+  0% {
+    transform: rotate(10deg);
+  }
+  100% {
+    transform: rotate(-10deg);
+  }
 }

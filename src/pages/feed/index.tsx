@@ -10,6 +10,7 @@ import { useInfinityScroll } from '@/hooks/useInfinityScroll';
 import { InfinitePagesType } from '@/core/types/common';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import LoadingSpinnerContainer from '@/components/common/LoadingSpinnerContainer';
+import EmptyData from '@/components/common/EmptyData';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 const Feed = () => {
@@ -36,6 +37,21 @@ const Feed = () => {
     if (scrollY !== 0) window.scrollTo(0, Number(scrollY));
   }, [scrollY]);
 
+  const fetchFeed = (
+    <>
+      {feeds &&
+        feeds.items.map((feed) => <FeedItem key={feed.id} item={feed} />)}
+      {AdditionalFeedData &&
+        AdditionalFeedData.pages.slice(1).map((page, index) => (
+          <div key={index}>
+            {page.items.map((feed) => (
+              <FeedItem key={feed.id} item={feed} />
+            ))}
+          </div>
+        ))}
+    </>
+  );
+
   return (
     <>
       <TopHeader>
@@ -46,20 +62,11 @@ const Feed = () => {
             </h1>
           </Link>
         </TopHeader.Left>
-        <TopHeader.Right>메뉴</TopHeader.Right>
+        <TopHeader.Right></TopHeader.Right>
       </TopHeader>
       <article className="article__container">
         {isLoading && <LoadingSpinner variant="white" />}
-        {feeds &&
-          feeds.items.map((feed) => <FeedItem key={feed.id} item={feed} />)}
-        {AdditionalFeedData &&
-          AdditionalFeedData.pages.slice(1).map((page, index) => (
-            <div key={index}>
-              {page.items.map((feed) => (
-                <FeedItem key={feed.id} item={feed} />
-              ))}
-            </div>
-          ))}
+        {!isLoading && <> {!feeds?.items.length ? <EmptyData /> : fetchFeed}</>}
         <div ref={bottom} />
         <LoadingSpinnerContainer
           isLoading={status === 'success' && !hasNextPage === undefined}
@@ -75,7 +82,7 @@ export async function getServerSideProps() {
   await queryClient.prefetchQuery<InfinitePagesType<FeedType>>(
     ['feeds'],
     async () => {
-      const { data } = await FeedService.getFeeds({
+      const { data } = await FeedService.getFeedsByFollowing({
         page: 1,
       });
 
