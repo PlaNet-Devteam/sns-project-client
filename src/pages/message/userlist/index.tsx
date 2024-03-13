@@ -47,7 +47,7 @@ const UserList = () => {
     <div>
       <UserListHeader />
       <div className="userlist__title">친구 리스트</div>
-      {userlist.map((userdata: UserData, index: any) => (
+      {userlist.map((userdata: UserData, index: number) => (
         <div key={index} className="userlist">
           <Modal
             headerText={userdata.username}

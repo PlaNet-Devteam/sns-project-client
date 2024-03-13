@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import FollowService from '@/services/follow';
-import { ORDER_BY, UserType } from '@/core';
+import { ORDER_BY } from '@/core';
 import useSearchInput from '@/hooks/useSearchInput';
 import SearchInput from '../common/SearchInput';
 import InfinityDataList from '../common/InfinityDataList';
