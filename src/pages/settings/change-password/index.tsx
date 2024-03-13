@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
 import SettingsHeader from '@/components/settings/SettingsHeader';
 import useForm from '@/hooks/useForm';
@@ -37,9 +38,11 @@ const ChagePassword = () => {
     try {
       await mutateAsync(formData);
       router.back();
-    } catch (error: any) {
-      console.log('error?.response', error?.response);
-      setErrorMessage(error?.response?.data.message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        console.error(error);
+        setErrorMessage(error.response?.data.message);
+      }
     }
   };
 

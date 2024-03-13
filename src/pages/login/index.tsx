@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
 import { useGoogleLogin } from '@react-oauth/google';
+import { AxiosError } from 'axios';
 import useForm from '@/hooks/useForm';
 import { AuthLoginType } from '@/core/types/auth';
 import JwtStorageService, { ACCESS_TOKEN } from '@/core/utils/jwt-storage';
-// import LoadingLayer from '@/components/common/LoadingLayer';
 import ErrorMessage from '@/components/common/ErrorMessage';
 import AuthService from '@/services/auth';
 import Button from '@/components/common/Button';
@@ -15,6 +15,7 @@ import ButtonGroup from '@/components/common/ButtonGroup';
 import IconGoogle from '@/assets/icons/icon_google.svg';
 import { userState } from '@/store/userAtom';
 import InputField from '@/components/common/form/InputField';
+import LoadingLayer from '@/components/common/LoadingLayer';
 
 const Login = () => {
   const {
@@ -28,7 +29,7 @@ const Login = () => {
   });
 
   const router = useRouter();
-  const [errorMessage, setErrorMessage] = useState([]);
+  const [errorMessage, setErrorMessage] = useState<string[]>([]);
   const setUser = useSetRecoilState(userState);
 
   const { mutateAsync: googleLogoinMutation, isSuccess: isSuccessGoogleLogin } =
@@ -51,7 +52,7 @@ const Login = () => {
     },
   });
 
-  const { mutateAsync, isError, isSuccess } = useMutation(
+  const { mutateAsync, isError, isSuccess, isLoading } = useMutation(
     (formData: AuthLoginType) => {
       return AuthService.login(formData);
     },
@@ -72,89 +73,94 @@ const Login = () => {
           router.replace('/feed');
         }
       }
-    } catch (error: any) {
-      console.log('error?.response', error?.response);
-      setErrorMessage(error?.response?.data.message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        console.error(error);
+        setErrorMessage(error.response?.data.message);
+      }
     }
   };
 
   return (
-    <div className="login grid">
-      <div className="layout__container content-area">
-        <div className="middle-area">
-          <div className="form-area">
-            <div className="sns-login">
-              <Button
-                size="sm"
-                color="white"
-                variant="ghost"
-                type="button"
-                isFull
-                onClick={googleSocialLogin}
-              >
-                <IconGoogle />
-                Google 계정으로 로그인
-              </Button>
-            </div>
-            <form
-              className="login-form"
-              onSubmit={(event) => onSubmitForm(event, authLogin)}
-            >
-              <div className="form-group">
-                <div className="input-group">
-                  <InputField
-                    type="text"
-                    value={authLogin.email}
-                    name="email"
-                    placeholder="이메일"
-                    onChange={onChange}
-                    onReset={onReset}
-                  />
-                </div>
-                <div className="input-group">
-                  <InputField
-                    type="password"
-                    name="password"
-                    value={authLogin.password}
-                    placeholder="비밀번호"
-                    onChange={onChange}
-                    onReset={onReset}
-                    autoComplete="off"
-                  />
-                </div>
-              </div>
-              {isError && <ErrorMessage errorMessage={errorMessage} />}
-              <ButtonGroup>
+    <>
+      {isLoading && <LoadingLayer />}
+      <div className="login grid">
+        <div className="layout__container content-area">
+          <div className="middle-area">
+            <div className="form-area">
+              <div className="sns-login">
                 <Button
-                  size="md"
-                  variant="primary"
-                  type="submit"
-                  isEnglish
+                  size="sm"
+                  color="white"
+                  variant="ghost"
+                  type="button"
                   isFull
+                  onClick={googleSocialLogin}
                 >
-                  LOGIN
+                  <IconGoogle />
+                  Google 계정으로 로그인
                 </Button>
-              </ButtonGroup>
-            </form>
+              </div>
+              <form
+                className="login-form"
+                onSubmit={(event) => onSubmitForm(event, authLogin)}
+              >
+                <div className="form-group">
+                  <div className="input-group">
+                    <InputField
+                      type="text"
+                      value={authLogin.email}
+                      name="email"
+                      placeholder="이메일"
+                      onChange={onChange}
+                      onReset={onReset}
+                    />
+                  </div>
+                  <div className="input-group">
+                    <InputField
+                      type="password"
+                      name="password"
+                      value={authLogin.password}
+                      placeholder="비밀번호"
+                      onChange={onChange}
+                      onReset={onReset}
+                      autoComplete="off"
+                    />
+                  </div>
+                </div>
+                {isError && <ErrorMessage errorMessage={errorMessage} />}
+                <ButtonGroup>
+                  <Button
+                    size="md"
+                    variant="primary"
+                    type="submit"
+                    isEnglish
+                    isFull
+                  >
+                    LOGIN
+                  </Button>
+                </ButtonGroup>
+              </form>
+              <div className="text-group">
+                <p className=" text-center text-white text-sm">
+                  비밀번호를 잊으셨나요?
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="bottom-area">
             <div className="text-group">
               <p className=" text-center text-white text-sm">
-                비밀번호를 잊으셨나요?
+                <span>계정이 없으신가요?</span>
+                <Link href="/signup" className="text-link">
+                  가입하기
+                </Link>
               </p>
             </div>
           </div>
         </div>
-        <div className="bottom-area">
-          <div className="text-group">
-            <p className=" text-center text-white text-sm">
-              <span>계정이 없으신가요?</span>
-              <Link href="/signup" className="text-link">
-                가입하기
-              </Link>
-            </p>
-          </div>
-        </div>
       </div>
-    </div>
+    </>
   );
 };
 

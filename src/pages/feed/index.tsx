@@ -46,7 +46,7 @@ const Feed = () => {
             </h1>
           </Link>
         </TopHeader.Left>
-        <TopHeader.Right>메뉴</TopHeader.Right>
+        <TopHeader.Right></TopHeader.Right>
       </TopHeader>
       <article className="article__container">
         {isLoading && <LoadingSpinner variant="white" />}
@@ -75,7 +75,7 @@ export async function getServerSideProps() {
   await queryClient.prefetchQuery<InfinitePagesType<FeedType>>(
     ['feeds'],
     async () => {
-      const { data } = await FeedService.getFeeds({
+      const { data } = await FeedService.getFeedsByFollowing({
         page: 1,
       });
 
