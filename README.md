@@ -100,22 +100,36 @@
 ## Pages
 
 ### 🚀 User
+| 인트로 | 로그인 | 회원가입 | 회원가입 |
+| --- | --- | --- | --- |
+| ![인트로](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/a7adf6ef-9214-4fe9-9c6e-317b4d285c63) | <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/ee83323a-5201-4fb4-92f2-908961f49f01" width=230 /> | ![회원가입2](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/4d9548a2-5254-41d9-99d9-95920f2a0986) | ![회원가입](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/2af3e108-e2df-4ac2-bbe7-d26a3cd87629) |
 
-|                                                                      회원가입                                                                      |                                                                       로그인                                                                       |                                                                   프로필 페이지                                                                    |                                                                    프로필 수정                                                                     |
-| :------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/96197310/3c38e897-55d2-4869-b288-f81e91ceaa1f" width="150px" height="200px"> | <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/96197310/f356cc37-8161-484f-af91-2f04ed49a7c0" width="150px" height="200px"> | <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/96197310/21c4d8a1-aece-4d22-b18d-2831caa1b41d" width="150px" height="200px"> | <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/96197310/949643fa-b6a0-41f8-8435-fb47a079734c" width="150px" height="200px"> |
+| 피드 등록 | 피드 수정 | 피드 삭제 | 피드 보관 |
+| --- | --- | --- | --- |
+| ![피드등록](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/7d330323-3f1b-4883-9ebd-e4f53298753d) | <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/0efde681-9f31-4ce3-87c0-c27378fb3254" width=230 /> | ![피드삭제](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/a9d4f14e-a3bb-461d-ab1c-570173c05e76) | ![피드보관해제](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/cab23a50-1b8b-4829-9e51-358bce382920) |
 
-### 🚀 Feed
+| 마이페이지 | 프로필 수정 | 팔로워 삭제 | 비밀번호 변경 |
+| --- | --- | --- | --- |
+| ![마이페이지](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/ed2f4b44-66f6-4ee5-bca4-bd593c45a648) | ![프로필 수정](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/4c9955f4-99b9-482f-96e3-d8c3df522251) | ![팔로워-삭제](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/8f94793f-4c7e-4b6a-861a-6bbd41f4f9e1) | ![비밀번호변경](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/6fae0c65-a880-478d-b5a4-7e998b9eb0c1) | 
 
-|                                                                     피드 목록                                                                      |                                                                    무한 스크롤                                                                     |                                                                       캐러셀                                                                       |                                                                        생성                                                                        |                                                                     수정&삭제                                                                      |
-| :------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/96197310/a87c194d-c6f2-4b66-a950-a6340ea41b32" width="150px" height="200px"> | <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/96197310/abe35ddd-3fbd-499c-8f3f-cecba74e01bd" width="150px" height="200px"> | <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/96197310/425023ed-79da-4c7a-9219-a232bcb86fd5" width="150px" height="200px"> | <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/96197310/2ef94175-4b2f-4330-a8db-f947d9a0e562" width="150px" height="200px"> | <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/96197310/1b70e230-8fbf-42cb-885d-a826b5c36a2e" width="150px" height="200px"> |
+| 유저 검색 | 유저 팔로우 | 유저 차단 |
+| --- | --- | --- |
+| <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/95199c1f-4eb1-45dd-8912-3f6d496bac48" width=300 /> | ![유저-검색-및-팔로우](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/5c776654-fe58-4346-bdec-03484675fc76) | ![유저차단해제](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/2ee75d8e-eab7-4298-9b99-766037687974) |
 
-### 🚀 Etc.
+| 좋아요 | 북마크 | 404 페이지 | 계종 활성 비활성 | 
+| --- | --- | --- | --- |
+| <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/d295a3ce-0d75-41df-9899-8ff9bd1bb41f" width=230 /> | ![북마크](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/712cf4c7-c05c-4b8f-a569-f37c35ca6fd7) | ![404](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/96fc2843-6c95-41fa-b2d0-05439196c11b) | <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/f9fbb591-60d5-4a5d-9f55-5486e629c715" width=230 /> |
 
-|                                                                       인트로                                                                       |                                                                      404에러                                                                       |
-| :------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/96197310/49adea30-2772-4831-ba88-d8087c0738ec" width="150px" height="200px"> | <img src="https://github.com/PlaNet-Devteam/sns-project-client/assets/96197310/862b34cc-8ac3-4192-bff7-0ffa29a50c05" width="150px" height="200px"> |
+| 댓글 등록 | 댓글 수정 | 댓글 정렬 |
+| --- | --- | --- |
+| ![댓글달기](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/0f7e4ea4-5eef-4d5b-a8bb-9b03e02fe2e8) | ![댓글 수정](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/5fefcc90-8a1b-4c99-b36e-f08e595f1236) | ![댓글 리스트 정렬](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/8fbb5d31-b9a6-414a-941c-12795f3a56f4) |
+
+| 태그 검색 | 피드 태그 검색 | 피드 캐러샐 |
+| --- | --- | --- |
+| ![태그검색](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/6607560c-4123-4ee4-8fd2-970c2c7f29fe) | ![피드 태그 검색](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/c962040f-72b2-4bf2-875a-511815e11049) | ![피드 캐러샐](https://github.com/PlaNet-Devteam/sns-project-client/assets/52031484/5ea81f87-268c-43bb-959d-e2978e41958e) |
+
+
+
 
 <br/>
 
