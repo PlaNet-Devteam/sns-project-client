@@ -30,15 +30,13 @@ const BaseLayout = ({ children }: BaseProps) => {
   const { data: userInfo } = useQuery(
     ['user', payload?.username],
     () => {
-      if (payload?.username === 'undefined') return router.push('/login');
-      return UserService.getFindMe();
+      if (payload) {
+        return UserService.getFindMe();
+      }
     },
     {
       onError: (error: AxiosErrorResponseType) => {
-        if (error?.response?.status === 404) {
-          // alert(error?.response?.data.message);
-          // router.push('/_error');
-        }
+        console.error(error);
       },
     },
   );
@@ -50,6 +48,7 @@ const BaseLayout = ({ children }: BaseProps) => {
     `/${profile?.username}`,
     '/explore',
     '/explore/feed',
+    `/explore/feed/tags/${encodeURIComponent(router.query.tagName as string)}`,
   ];
   const { asPath } = useRouter();
 
@@ -75,7 +74,7 @@ const BaseLayout = ({ children }: BaseProps) => {
   return (
     <main className="app-main">
       <div className="layout__container">{children}</div>
-      {isVisibleRoutes.includes(asPath) && <BottomNav />}
+      {user && payload && isVisibleRoutes.includes(asPath) && <BottomNav />}
       <FeedModal
         isModalOpen={isFeedModalOpen}
         onClickCloseModal={onClickFeedModalCloseHandler}
