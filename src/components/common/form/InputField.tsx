@@ -37,10 +37,11 @@ const InputField = ({
     setIsVisiblePassword((prevState) => !prevState);
   };
 
-  const onClickCopyClipBoard = async () => {
+  const onClickCopyClipBoardHandler = async () => {
     const url = inputRef.current?.value as string;
     try {
       await navigator.clipboard.writeText(url);
+      alert('클립보드로 복사 성공');
     } catch (error) {
       console.error('클립보드 복사 실패', error);
     }
@@ -88,7 +89,7 @@ const InputField = ({
                 <span
                   role="button"
                   className={styles.button}
-                  onClick={() => onClickCopyClipBoard()}
+                  onClick={() => onClickCopyClipBoardHandler()}
                 >
                   <IoCopy size={'1rem'} />
                 </span>

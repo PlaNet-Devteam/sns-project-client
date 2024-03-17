@@ -3,8 +3,11 @@ import Link from 'next/link';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { AxiosError } from 'axios';
+import { useGoogleLogin } from '@react-oauth/google';
+import { useSetRecoilState } from 'recoil';
 import useForm from '@/hooks/useForm';
 import { GENDER, USER_STATUS, UserCreateType } from '@/core';
+import JwtStorageService, { ACCESS_TOKEN } from '@/core/utils/jwt-storage';
 import ErrorMessage from '@/components/common/ErrorMessage';
 import UserService from '@/services/user';
 import Button from '@/components/common/Button';
@@ -12,6 +15,8 @@ import ButtonGroup from '@/components/common/ButtonGroup';
 import IconGoogle from '@/assets/icons/icon_google.svg';
 import InputField from '@/components/common/form/InputField';
 import LoadingLayer from '@/components/common/LoadingLayer';
+import AuthService from '@/services/auth';
+import { userState } from '@/store/userAtom';
 
 const SignUp = () => {
   const {
@@ -31,10 +36,31 @@ const SignUp = () => {
 
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState([]);
+  const setUser = useSetRecoilState(userState);
 
   const { mutateAsync, isError, isLoading } = useMutation(
     (formData: UserCreateType) => UserService.createUser(formData),
   );
+
+  const { mutateAsync: googleLogoinMutation, isSuccess: isSuccessGoogleLogin } =
+    useMutation((code: string) => {
+      return AuthService.loginGoogle(code);
+    });
+
+  const googleSocialLogin = useGoogleLogin({
+    flow: 'auth-code',
+    onSuccess: async ({ code }) => {
+      const { accessToken, userInfo } = await googleLogoinMutation(code);
+      if (accessToken) {
+        JwtStorageService.setToken(ACCESS_TOKEN, `${accessToken}`);
+        setUser(userInfo);
+        router.reload();
+        if (isSuccessGoogleLogin) {
+          router.replace('/feed');
+        }
+      }
+    },
+  });
 
   const onSubmitForm = async (
     event: FormEvent<HTMLFormElement>,
@@ -65,6 +91,7 @@ const SignUp = () => {
                 variant="ghost"
                 type="button"
                 isFull
+                onClick={googleSocialLogin}
               >
                 <IconGoogle />
                 Google 계정으로 로그인
