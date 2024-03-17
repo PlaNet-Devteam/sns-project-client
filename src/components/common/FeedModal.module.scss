@@ -6,7 +6,7 @@
   left: 0;
   z-index: 99;
   background-color: rgba(0, 0, 0, 0.6);
-  padding: 1rem 1.5rem;
+  padding: 3rem 1.5rem;
   overflow-y: auto;
 
   &.is_opened {
@@ -44,9 +44,9 @@
     color: var(--white);
     background-color: transparent;
     border: 0;
+    z-index: 100;
   }
 }
-
 
 @keyframes modal-open {
   from {
@@ -67,4 +67,3 @@
     transform: translateY(-3rem);
   }
 }
-
