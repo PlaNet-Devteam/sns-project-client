@@ -8,11 +8,15 @@ import { AxiosErrorResponseType, UserType, YN } from '@/core';
 import useAuth from '@/hooks/useAuth';
 import UserService from '@/services/user';
 import { profileState } from '@/store/profileAtom';
-import { isFeedModalOpenState } from '@/store/feedAtom';
+import {
+  isFeedModalOpenState,
+  isFeedShareModalOpenState,
+} from '@/store/feedAtom';
 import BottomNav from '../nav/bottomNav/BottomNav';
 import ActivateUser from '../common/ActivateUser';
 import FeedModal from '../common/FeedModal';
 import ProfileFeedModal from '../profile/ProfileFeedModal';
+import FeedShareModal from '../feed/FeedShareModal';
 
 const BaseLayout = ({ children }: BaseProps) => {
   const router = useRouter();
@@ -22,6 +26,10 @@ const BaseLayout = ({ children }: BaseProps) => {
 
   const [isFeedModalOpen, setIsFeedModalOpen] =
     useRecoilState(isFeedModalOpenState);
+
+  const [isFeedShareModalOpen, setIsFeedShareModalOpen] = useRecoilState(
+    isFeedShareModalOpenState,
+  );
 
   const onClickFeedModalCloseHandler = () => {
     setIsFeedModalOpen(false);
@@ -81,6 +89,10 @@ const BaseLayout = ({ children }: BaseProps) => {
       >
         <ProfileFeedModal />
       </FeedModal>
+      <FeedShareModal
+        isModalOpen={isFeedShareModalOpen}
+        onClickCloseModal={() => setIsFeedShareModalOpen(false)}
+      ></FeedShareModal>
     </main>
   );
 };

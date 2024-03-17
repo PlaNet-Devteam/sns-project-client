@@ -27,4 +27,23 @@ const feedModalState = atom<feedModalStateType | null>({
   default: null,
 });
 
-export { feedImageState, feedState, isFeedModalOpenState, feedModalState };
+//  * 피드 공유 모달 상태
+
+const isFeedShareModalOpenState = atom<boolean>({
+  key: 'isFeedShareModalOpenState',
+  default: false,
+});
+
+const feedShareModalState = atom<FeedType | null>({
+  key: 'feedShareModalState',
+  default: null,
+});
+
+export {
+  feedImageState,
+  feedState,
+  isFeedModalOpenState,
+  feedModalState,
+  isFeedShareModalOpenState,
+  feedShareModalState,
+};
