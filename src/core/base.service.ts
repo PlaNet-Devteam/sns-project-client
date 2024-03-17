@@ -34,17 +34,15 @@ api.interceptors.response.use(
   },
   async (error) => {
     if (error.code === 'ERR_NETWORK') {
-      // alert('네트워크 오류');
-      // location.replace('/');
-      // JwtStorageService.removeToken(ACCESS_TOKEN);
-      // JwtStorageService.removeToken(REFRESH_TOKEN);
+      alert('네트워크 오류');
+      location.replace('/');
     }
     if (error.response) {
       const { data } = error.response;
       // 토큰이 없을 때
       if (data.error === RESPONSE_STATUS.NO_ACCESS_TOKEN) {
         location.replace('/login');
-        return;
+        return Promise.reject(error);
       }
       // 엑세스 토큰 만료
       if (data.error === RESPONSE_STATUS.ACCESS_TOKEN_EXP) {
@@ -55,7 +53,7 @@ api.interceptors.response.use(
         }
         // ! : useQuery로 요청시 반복적으로 요청되는 이슈 발생
         location.reload();
-        return;
+        return Promise.reject(error);
       }
       // 리프레시 토큰이 없거나 만료되었을 때
       if (
@@ -65,7 +63,7 @@ api.interceptors.response.use(
         location.replace('/login');
         JwtStorageService.removeToken(ACCESS_TOKEN);
         JwtStorageService.removeToken(REFRESH_TOKEN);
-        return;
+        return Promise.reject(error);
       }
     }
     return Promise.reject(error); // 오류를 반환하여 다음 단계로 전달

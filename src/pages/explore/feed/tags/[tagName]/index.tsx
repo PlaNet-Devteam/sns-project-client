@@ -23,21 +23,29 @@ const FeedTagName = () => {
       <article className="article__container">
         <div className="inner__container">
           <ExploreTagInfo />
-          <div className="profile-feeds-list">
-            <InfinityDataList
-              queryKey={['feedByTags', router.query.tagName as string]}
-              listType={'scroll'}
-              fetchData={(page) =>
-                FeedService.getFeeds({
+        </div>
+        <div className="profile-feeds-list">
+          <InfinityDataList
+            queryKey={['feedByTags', router.query.tagName as string]}
+            listType={'scroll'}
+            fetchData={(page) => {
+              if (!payload) {
+                return FeedService.getFeedsByTags({
+                  page,
+                  limit: 9,
+                  tagName: router.query.tagName as string,
+                });
+              } else {
+                return FeedService.getFeeds({
                   page,
                   limit: 9,
                   tagName: router.query.tagName as string,
                   viewerId: payload?._id,
-                })
+                });
               }
-              renderToChildComponent={ProfileFeedListItem}
-            ></InfinityDataList>
-          </div>
+            }}
+            renderToChildComponent={ProfileFeedListItem}
+          ></InfinityDataList>
         </div>
       </article>
     </>

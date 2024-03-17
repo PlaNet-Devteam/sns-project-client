@@ -13,6 +13,11 @@
 </div>
 <br/>
 
+## 배포 URL
+https://planet-sns.com/ <br/>
+id - guest@gmail.com <br/>
+pw - test1234# <br/><br/>
+
 ## Contents
 
 - [👨‍👨‍👧‍👦 Role](#role)

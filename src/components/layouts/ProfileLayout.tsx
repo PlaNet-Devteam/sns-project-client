@@ -135,12 +135,8 @@ const ProfileLayout = ({ children }: BaseProps) => {
           <h1 className="blind">프로필</h1>
         </TopHeader.Title>
         <TopHeader.Right>
-          {payload && profile ? (
-            <>
-              <button onClick={() => setIsModalOpen(true)}>설정</button>
-            </>
-          ) : (
-            <button onClick={() => router.push('/login')}>로그인</button>
+          {payload && profile && (
+            <button onClick={() => setIsModalOpen(true)}>설정</button>
           )}
         </TopHeader.Right>
       </TopHeader>
