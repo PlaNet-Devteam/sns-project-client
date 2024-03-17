@@ -12,9 +12,11 @@
     &_images {
       white-space: nowrap;
       overflow: hidden;
+      background-color: #101010;
       div {
         display: flex;
         flex-direction: row;
+        margin: 0 auto;
       }
     }
 
