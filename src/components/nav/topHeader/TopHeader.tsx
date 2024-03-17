@@ -1,9 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
+import Link from 'next/link';
 import { BaseProps } from '@/core/types/common';
+import useAuth from '@/hooks/useAuth';
+import LogoTitleSVG from '@/assets/intro/logo_title.svg';
 
 const HeaderLeft = ({ children }: BaseProps) => {
-  return <div className="top-header__left-area">{children}</div>;
+  const { payload } = useAuth();
+  return (
+    <div className="top-header__left-area">
+      {!payload ? (
+        <Link href="/feed">
+          <h1 className="top-header__logo">
+            <LogoTitleSVG />
+          </h1>
+        </Link>
+      ) : (
+        children
+      )}
+    </div>
+  );
 };
 
 interface HeaderTitleProps extends BaseProps {
@@ -11,19 +27,26 @@ interface HeaderTitleProps extends BaseProps {
 }
 
 const HeaderTitle = ({ children, isEnglish }: HeaderTitleProps) => {
+  const { payload } = useAuth();
+
   return (
     <div
       className={classNames('top-header__title-area', {
         'is-english': isEnglish,
       })}
     >
-      {children}
+      {payload && children}
     </div>
   );
 };
 
 const HeaderRight = ({ children }: BaseProps) => {
-  return <div className="top-header__right-area">{children}</div>;
+  const { payload } = useAuth();
+  return (
+    <div className="top-header__right-area">
+      {!payload ? <Link href="/login">로그인</Link> : children}
+    </div>
+  );
 };
 
 const HeaderMain = ({ children, className }: BaseProps) => {

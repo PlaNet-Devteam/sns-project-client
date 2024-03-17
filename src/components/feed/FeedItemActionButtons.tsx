@@ -6,13 +6,14 @@ import {
   BsSuitHeart,
   BsSuitHeartFill,
 } from 'react-icons/bs';
-import Link from 'next/link';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { BiComment } from 'react-icons/bi';
 import { useRecoilValue } from 'recoil';
+import { useRouter } from 'next/router';
 import { FeedType } from '@/core';
 import FeedService from '@/services/feed';
 import { feedModalState, isFeedModalOpenState } from '@/store/feedAtom';
+import useAuth from '@/hooks/useAuth';
 import styles from './FeedItemActionButtons.module.scss';
 
 interface FeedItemActionButtonsProps {
@@ -20,7 +21,9 @@ interface FeedItemActionButtonsProps {
 }
 
 const FeedItemActionButtons = ({ item }: FeedItemActionButtonsProps) => {
+  const router = useRouter();
   const queryClient = useQueryClient();
+  const { payload } = useAuth();
   const [isClicked, setIsClicked] = useState(false);
   const feedModal = useRecoilValue(feedModalState);
   const isFeedModalOpen = useRecoilValue(isFeedModalOpenState);
@@ -70,20 +73,36 @@ const FeedItemActionButtons = ({ item }: FeedItemActionButtonsProps) => {
   });
 
   const onClickFeedLkeHandler = (feedId: number) => {
-    if (item.likedYn) {
-      deleteLikeFeedItemMutation.mutate(feedId);
-      setIsClicked(false);
+    if (!payload) {
+      alert('로그인이 필요합니다');
     } else {
-      likeFeedItemMutation.mutate(feedId);
-      setIsClicked(true);
+      if (item.likedYn) {
+        deleteLikeFeedItemMutation.mutate(feedId);
+        setIsClicked(false);
+      } else {
+        likeFeedItemMutation.mutate(feedId);
+        setIsClicked(true);
+      }
     }
   };
 
   const onClickBookmarkHandler = (feedId: number) => {
-    if (item.bookmarkedYn) {
-      deleteBookmarkFeedItemMutation.mutate(feedId);
+    if (!payload) {
+      alert('로그인이 필요합니다');
     } else {
-      bookmarkFeedItemMutation.mutate(feedId);
+      if (item.bookmarkedYn) {
+        deleteBookmarkFeedItemMutation.mutate(feedId);
+      } else {
+        bookmarkFeedItemMutation.mutate(feedId);
+      }
+    }
+  };
+
+  const onClickCommentHandler = () => {
+    if (!payload) {
+      alert('로그인이 필요합니다');
+    } else {
+      router.push(`/feed/${item.id}/comment`);
     }
   };
 
@@ -103,9 +122,12 @@ const FeedItemActionButtons = ({ item }: FeedItemActionButtonsProps) => {
             <BsSuitHeart color="white" size={'1.5rem'} />
           )}
         </button>
-        <Link href={`/feed/${item.id}/comment`} className={styles.button}>
+        <button
+          onClick={() => onClickCommentHandler()}
+          className={styles.button}
+        >
           <BiComment color="white" size={'1.5rem'} />
-        </Link>
+        </button>
       </div>
       <div className={styles.buttons_rightArea}>
         <button

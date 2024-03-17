@@ -14,13 +14,22 @@ const ExploreTagInfo = () => {
 
   const { data: feeds } = useInfinityScroll<FeedType>(
     ['tagInfo', router.query.tagName],
-    () =>
-      FeedService.getFeeds({
-        page: 1,
-        limit: 9,
-        tagName: router.query.tagName as string,
-        viewerId: payload?._id,
-      }),
+    (page) => {
+      if (!payload) {
+        return FeedService.getFeedsByTags({
+          page,
+          limit: 9,
+          tagName: router.query.tagName as string,
+        });
+      } else {
+        return FeedService.getFeeds({
+          page,
+          limit: 9,
+          tagName: router.query.tagName as string,
+          viewerId: payload?._id,
+        });
+      }
+    },
   );
 
   return (
