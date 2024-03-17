@@ -5,6 +5,7 @@ import DialogLabelButton from './DialogLabelButton';
 import styles from './Dialog.module.scss';
 import DialogDimmed from './DialogDimmed';
 import DialogContent from './DialogContent';
+import DialogHeader from './DialogHeader';
 
 const DialogLabelButtonType = (<DialogLabelButton />).type;
 function getDialogLabelButtons(children: ReactNode) {
@@ -26,6 +27,14 @@ interface DialogMainProps extends BaseProps {
   isOpen: boolean;
 }
 
+const DialogHeaderType = (<DialogHeader />).type;
+function getDialogHeader(children: ReactNode) {
+  const childrenArray = Children.toArray(children);
+  return childrenArray
+    .filter((child) => isValidElement(child) && child.type === DialogHeaderType)
+    .slice(0, 1);
+}
+
 const DialogContentType = (<DialogContent />).type;
 function getDialogContent(children: ReactNode) {
   const childrenArray = Children.toArray(children);
@@ -40,6 +49,7 @@ const DialogMain = ({ children, isOpen }: DialogMainProps) => {
   if (!isOpen) {
     return null;
   }
+  const dialogHeader = getDialogHeader(children);
   const dialogContent = getDialogContent(children);
   const dialogLabelButtons = getDialogLabelButtons(children);
   const dialogDimmed = getDialogDimmed(children);
@@ -50,6 +60,7 @@ const DialogMain = ({ children, isOpen }: DialogMainProps) => {
         <div className={styles.container}>
           {dialogDimmed}
           <div className={styles.dialog}>
+            {dialogHeader}
             {dialogContent}
             {dialogLabelButtons}
           </div>
@@ -61,6 +72,7 @@ const DialogMain = ({ children, isOpen }: DialogMainProps) => {
 };
 
 const Dialog = Object.assign(DialogMain, {
+  Header: DialogHeader,
   LabelButton: DialogLabelButton,
   Dimmed: DialogDimmed,
   Content: DialogContent,

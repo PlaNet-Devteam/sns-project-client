@@ -25,6 +25,14 @@ const FeedService = {
 
     return data.data;
   },
+  getFeedsByTags: async (listData?: FeedListType) => {
+    const { data } = await api.get('/feed/tag', {
+      params: {
+        ...listData,
+      },
+    });
+    return data.data;
+  },
   getFeedsByUser: async (
     username: string | string[] | undefined,
     listData?: FeedListType,
@@ -47,6 +55,10 @@ const FeedService = {
   },
   getFeed: async (feedId: number): Promise<FeedType> => {
     const { data } = await api.get(`/feed/${feedId}`);
+    return data.data;
+  },
+  getFeedByUser: async (feedId: number): Promise<FeedType> => {
+    const { data } = await api.get(`/user/feed/${feedId}`);
     return data.data;
   },
   createFeed: async (formData: FeedCreateType) => {

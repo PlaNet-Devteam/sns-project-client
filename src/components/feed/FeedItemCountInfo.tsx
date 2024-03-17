@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { FeedType, YN } from '@/core';
 import TypoText from '../common/TypoText';
 import styles from './FeedItemCountInfo.module.scss';
@@ -17,7 +18,9 @@ const FeedItemCountInfo = ({ item }: FeedItemCountInfoProps) => {
       )}
       {item.commentCount > 0 && (
         <TypoText color="white" tagName="span">
-          댓글 {item.commentCount}개
+          <Link href={`/feed/${item.id}/comment `}>
+            댓글 {item.commentCount}개
+          </Link>
         </TypoText>
       )}
     </div>

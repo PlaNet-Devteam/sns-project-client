@@ -7,8 +7,10 @@ import FeedService from '@/services/feed';
 import useAuth from '@/hooks/useAuth';
 import {
   feedModalState,
+  feedShareModalState,
   feedState,
   isFeedModalOpenState,
+  isFeedShareModalOpenState,
 } from '@/store/feedAtom';
 import { FEED_STATUS, YN } from '@/core';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
@@ -33,6 +35,9 @@ const FeedItem = ({ item }: FeedItemProps) => {
   const feedModal = useRecoilValue(feedModalState);
   const [isFeedModalOpen, setIsFeedModalOpen] =
     useRecoilState(isFeedModalOpenState);
+
+  const setFeedShareModal = useSetRecoilState(feedShareModalState);
+  const setIsFeedShareModalOpen = useSetRecoilState(isFeedShareModalOpenState);
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -130,6 +135,11 @@ const FeedItem = ({ item }: FeedItemProps) => {
     updateStatusArchivedMutation(feedId);
   };
 
+  const onClickFeedShareHandler = () => {
+    setFeedShareModal(item);
+    setIsFeedShareModalOpen(true);
+  };
+
   return (
     <>
       <div
@@ -180,6 +190,12 @@ const FeedItem = ({ item }: FeedItemProps) => {
             )}
           </Dialog.LabelButton>
         )}
+        <Dialog.LabelButton
+          color="white"
+          onClick={() => onClickFeedShareHandler()}
+        >
+          피드 공유
+        </Dialog.LabelButton>
         {item.user.username === payload?.username && (
           <Dialog.LabelButton
             color="danger"

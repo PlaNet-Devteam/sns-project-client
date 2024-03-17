@@ -23,7 +23,8 @@ const queryClient = new QueryClient({
     },
   },
 });
-const routes = ['/', '/login', '/signup'];
+const routes = ['/', '/login', '/signup', '/signup/complete', '/_error'];
+
 // const socket = io(process.env.NEXT_PUBLIC_API_URL, {
 //   reconnectionDelayMax: 1000,
 //   reconnection: true,
