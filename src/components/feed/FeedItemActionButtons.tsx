@@ -35,6 +35,8 @@ const FeedItemActionButtons = ({ item }: FeedItemActionButtonsProps) => {
   const onSuccessInvalidateQueries = () => {
     if (isFeedModalOpen && feedModal) {
       queryClient.invalidateQueries(['feed-modal', feedModal.id]);
+    } else if ((router.query.id as string) !== undefined) {
+      queryClient.invalidateQueries(['feed-detail', String(item.id)]);
     } else {
       queryClient.invalidateQueries(['feeds']);
     }

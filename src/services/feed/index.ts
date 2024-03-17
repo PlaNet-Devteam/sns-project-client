@@ -57,6 +57,10 @@ const FeedService = {
     const { data } = await api.get(`/feed/${feedId}`);
     return data.data;
   },
+  getFeedByUser: async (feedId: number): Promise<FeedType> => {
+    const { data } = await api.get(`/user/feed/${feedId}`);
+    return data.data;
+  },
   createFeed: async (formData: FeedCreateType) => {
     const { data } = await api.post('/feed', formData);
     return data.data;

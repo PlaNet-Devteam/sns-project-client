@@ -2,17 +2,27 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { useRecoilValue } from 'recoil';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
 import FeedItem from '@/components/feed/FeedItem';
-import { FeedType } from '@/core';
 import FeedService from '@/services/feed';
+import useAuth from '@/hooks/useAuth';
+import { userState } from '@/store/userAtom';
 
 const FeedDetail = () => {
   const router = useRouter();
+  const { payload } = useAuth();
+  const user = useRecoilValue(userState);
   const feedId = router.query.id as string;
-  const { data: feed } = useQuery<FeedType>(['feed', feedId], () =>
-    FeedService.getFeed(parseInt(feedId)),
-  );
+  const { data: feed } = useQuery(['feed-detail', feedId], () => {
+    if (feedId) {
+      if (user || payload) {
+        return FeedService.getFeedByUser(parseInt(feedId));
+      } else {
+        return FeedService.getFeed(parseInt(feedId));
+      }
+    }
+  });
 
   return (
     <>
