@@ -1,23 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useRecoilValue } from 'recoil';
+import { NextPageContext } from 'next';
 import TopHeader from '@/components/nav/topHeader/TopHeader';
 import FeedItem from '@/components/feed/FeedItem';
 import FeedService from '@/services/feed';
 import useAuth from '@/hooks/useAuth';
 import { userState } from '@/store/userAtom';
 import MetaTag from '@/components/metatag/MetaTag';
+import { FeedType } from '@/core';
 
-const FeedDetail = () => {
+interface FeedDetailProps {
+  initialFeed: FeedType;
+}
+
+const FeedDetail = ({ initialFeed }: FeedDetailProps) => {
   const router = useRouter();
   const { payload } = useAuth();
-  const user = useRecoilValue(userState);
+  const myInfo = useRecoilValue(userState);
   const feedId = router.query.id as string;
-  const { data: feed } = useQuery(['feed-detail', feedId], () => {
+  const { data: feed, refetch } = useQuery(['feed-detail', feedId], () => {
     if (feedId) {
-      if (user || payload) {
+      if (myInfo || payload) {
         return FeedService.getFeedByUser(parseInt(feedId));
       } else {
         return FeedService.getFeed(parseInt(feedId));
@@ -25,14 +31,20 @@ const FeedDetail = () => {
     }
   });
 
+  useEffect(() => {
+    if (myInfo) {
+      refetch();
+    }
+  }, [myInfo, refetch]);
+
   return (
     <>
-      {feed && (
+      {initialFeed && (
         <MetaTag
-          title={`${feed.user.username}님의 피드`}
-          url={`${process.env.NEXT_PUBLIC_SITE_URL}feed/${feed.id}`}
-          description={feed?.description}
-          image={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${feed.feedImages[0].image}`}
+          title={`${initialFeed.user.username}님의 피드`}
+          url={`${process.env.NEXT_PUBLIC_SITE_URL}feed/${initialFeed.id}`}
+          description={initialFeed?.description}
+          image={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${initialFeed.feedImages[0].image}`}
         />
       )}
       <TopHeader>
@@ -43,10 +55,26 @@ const FeedDetail = () => {
         <TopHeader.Right></TopHeader.Right>
       </TopHeader>
       <article className="article__container">
-        {feed && <FeedItem item={feed} />}
+        {payload || myInfo ? (
+          <> {feed && <FeedItem item={feed} />} </>
+        ) : (
+          <FeedItem item={initialFeed} />
+        )}
       </article>
     </>
   );
 };
 
 export default FeedDetail;
+
+export const getServerSideProps = async function ({ query }: NextPageContext) {
+  const feedId = query.id as string;
+
+  const initialFeed = await FeedService.getFeed(parseInt(feedId));
+
+  return {
+    props: {
+      initialFeed,
+    },
+  };
+};
