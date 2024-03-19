@@ -2,6 +2,7 @@
   width: 100%;
   height: 100%;
   max-width: 90%;
+  max-height: 90vh;
   margin: 0 auto;
   overflow: hidden;
 
@@ -12,11 +13,12 @@
     &_images {
       white-space: nowrap;
       overflow: hidden;
-      background-color: #101010;
       div {
         display: flex;
         flex-direction: row;
         margin: 0 auto;
+        width: 100%;
+        max-height: 80vh;
       }
     }
 
@@ -24,7 +26,7 @@
       display: inline-block;
       width: 100%;
       height: 90vh;
-      background-color: var(--black);
+      background-color: #101010;
 
       img {
         width: 100%;

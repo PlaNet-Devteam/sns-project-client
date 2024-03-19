@@ -47,6 +47,7 @@ const FeedItemActionButtons = ({ item }: FeedItemActionButtonsProps) => {
       queryClient.invalidateQueries(['feed-detail', String(item.id)]);
     } else {
       queryClient.invalidateQueries(['feeds']);
+      queryClient.invalidateQueries(['newFeeds']);
     }
   };
 
@@ -122,8 +123,7 @@ const FeedItemActionButtons = ({ item }: FeedItemActionButtonsProps) => {
     if (isMobile) {
       if (navigator.share) {
         navigator.share({
-          text: item.description,
-          title: `${item.user.username} 님의 피드`,
+          title: `[PlaNet SNS] ${item.user.username} 님의 피드`,
           url: `${process.env.NEXT_PUBLIC_SITE_URL}feed/${item.id}`,
         });
       } else {

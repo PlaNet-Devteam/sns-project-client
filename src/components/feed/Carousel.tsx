@@ -31,24 +31,22 @@ const Carousel = ({ feedImages }: FeedImgProps) => {
     <>
       <div className={styles.container}>
         <div className={styles.carousel}>
-          <div>
-            <TypoText color="white">
-              {ImageState + 1} / {feedImages.length}
-            </TypoText>
-            <Slider className={styles.carousel_images} {...settings}>
-              {feedImages.map((image: FeedImageType, index: number) => (
-                <div className={styles.carousel_image} key={index + 1}>
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`}
-                    alt="모달 이미지"
-                    width={1000}
-                    height={1000}
-                    draggable={false}
-                  />
-                </div>
-              ))}
-            </Slider>
-          </div>
+          <TypoText color="white">
+            {ImageState + 1} / {feedImages.length}
+          </TypoText>
+          <Slider className={styles.carousel_images} {...settings}>
+            {feedImages.map((image: FeedImageType, index: number) => (
+              <div className={styles.carousel_image} key={index + 1}>
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`}
+                  alt="모달 이미지"
+                  width={1000}
+                  height={1000}
+                  draggable={false}
+                />
+              </div>
+            ))}
+          </Slider>
         </div>
       </div>
     </>
