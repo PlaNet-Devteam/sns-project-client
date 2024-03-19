@@ -41,7 +41,7 @@ const FeedDetail = ({ initialFeed }: FeedDetailProps) => {
     <>
       {initialFeed && (
         <MetaTag
-          title={`${initialFeed.user.username}님의 피드`}
+          title={`[PlaNet SNS] ${initialFeed.user.username}님의 피드`}
           url={`${process.env.NEXT_PUBLIC_SITE_URL}feed/${initialFeed.id}`}
           description={initialFeed?.description}
           image={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${initialFeed.feedImages[0].image}`}
