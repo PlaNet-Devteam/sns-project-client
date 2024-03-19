@@ -69,8 +69,6 @@ function CreateFeed() {
     } catch (error) {
       console.error(error);
     }
-
-    console.log('imageList', imageList);
   };
 
   const onClickUploadImageHandler = async (
@@ -97,7 +95,6 @@ function CreateFeed() {
     }
 
     setImageList(imageUrlLists);
-    console.log(imageList);
   };
 
   const onClickRemoveImageHandler = (index: number) => {
