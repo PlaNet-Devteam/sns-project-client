@@ -32,7 +32,6 @@ const UserList = () => {
   );
 
   socket.on('create_room', (data: string) => {
-    console.log(data);
     router.push(`/message/${data}`);
   });
   const myId = user?.id;

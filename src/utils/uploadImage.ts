@@ -20,8 +20,6 @@ export const uploadFile = (
   file: File,
   cate: string,
 ): Promise<string | void> => {
-  console.log('file', file);
-  console.log(s3);
   const params: AWS.S3.PutObjectRequest = {
     ACL: 'public-read',
     Body: file,
@@ -47,8 +45,7 @@ export const uploadFile = (
   };
 
   return uploadToS3()
-    .then((data) => {
-      console.log('upload Image', data);
+    .then(() => {
       return params.Key;
     })
     .catch((error) => {
