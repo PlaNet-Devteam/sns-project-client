@@ -47,6 +47,7 @@ const FeedItemActionButtons = ({ item }: FeedItemActionButtonsProps) => {
       queryClient.invalidateQueries(['feed-detail', String(item.id)]);
     } else {
       queryClient.invalidateQueries(['feeds']);
+      queryClient.invalidateQueries(['newFeeds']);
     }
   };
 
