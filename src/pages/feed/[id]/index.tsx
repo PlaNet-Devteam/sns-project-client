@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -21,7 +21,7 @@ const FeedDetail = ({ initialFeed }: FeedDetailProps) => {
   const { payload } = useAuth();
   const myInfo = useRecoilValue(userState);
   const feedId = router.query.id as string;
-  const { data: feed, refetch } = useQuery(['feed-detail', feedId], () => {
+  const { data: feed } = useQuery(['feed-detail', feedId], () => {
     if (feedId) {
       if (myInfo || payload) {
         return FeedService.getFeedByUser(parseInt(feedId));
@@ -30,12 +30,6 @@ const FeedDetail = ({ initialFeed }: FeedDetailProps) => {
       }
     }
   });
-
-  useEffect(() => {
-    if (myInfo) {
-      refetch();
-    }
-  }, [myInfo, refetch]);
 
   return (
     <>
@@ -55,7 +49,7 @@ const FeedDetail = ({ initialFeed }: FeedDetailProps) => {
         <TopHeader.Right></TopHeader.Right>
       </TopHeader>
       <article className="article__container">
-        {payload || myInfo ? (
+        {myInfo ? (
           <> {feed && <FeedItem item={feed} />} </>
         ) : (
           <FeedItem item={initialFeed} />
