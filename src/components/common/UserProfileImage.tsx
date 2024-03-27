@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import styles from './UserProfileImage.module.scss';
-import SkeletonImage from './img/BaseImage';
+import BaseImage from './img/BaseImage';
 
 interface UserProfileImageProps {
   username?: string;
@@ -10,7 +10,7 @@ interface UserProfileImageProps {
 
 const UserProfileImage = ({ username, imagePath }: UserProfileImageProps) => {
   const profileImage = (
-    <SkeletonImage
+    <BaseImage
       width={100}
       height={100}
       src={imagePath}
