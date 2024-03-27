@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import Link from 'next/link';
+import { useRecoilValue } from 'recoil';
 import { BaseProps } from '@/core/types/common';
-import useAuth from '@/hooks/useAuth';
 import LogoTitleSVG from '@/assets/intro/logo_title.svg';
+import { userState } from '@/store/userAtom';
 
 const HeaderLeft = ({ children }: BaseProps) => {
-  const { payload } = useAuth();
+  const myInfo = useRecoilValue(userState);
+
   return (
     <div className="top-header__left-area">
-      {!payload ? (
+      {!myInfo ? (
         <Link href="/feed">
           <h1 className="top-header__logo">
             <LogoTitleSVG />
@@ -27,7 +29,9 @@ interface HeaderTitleProps extends BaseProps {
 }
 
 const HeaderTitle = ({ children, isEnglish }: HeaderTitleProps) => {
-  const { payload } = useAuth();
+  const myInfo = useRecoilValue(userState);
+
+  if (!myInfo) return <></>;
 
   return (
     <div
@@ -35,16 +39,17 @@ const HeaderTitle = ({ children, isEnglish }: HeaderTitleProps) => {
         'is-english': isEnglish,
       })}
     >
-      {payload && children}
+      {children}
     </div>
   );
 };
 
 const HeaderRight = ({ children }: BaseProps) => {
-  const { payload } = useAuth();
+  const myInfo = useRecoilValue(userState);
+
   return (
     <div className="top-header__right-area">
-      {!payload ? <Link href="/login">로그인</Link> : children}
+      {!myInfo ? <Link href="/login">로그인</Link> : children}
     </div>
   );
 };

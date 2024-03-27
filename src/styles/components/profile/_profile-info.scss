@@ -64,6 +64,7 @@
         height: 100%;
         border-radius: 50%;
         background-color: white;
+        overflow: hidden;
         img {
           aspect-ratio: 1;
           object-fit: cover;
@@ -89,7 +90,7 @@
   }
 
   &__btn-follow {
-    min-width:6rem;
+    min-width: 6rem;
   }
 }
 

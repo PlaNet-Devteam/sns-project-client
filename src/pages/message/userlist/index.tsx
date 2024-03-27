@@ -1,7 +1,6 @@
 import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import io from 'socket.io-client';
 import { useRecoilValue } from 'recoil';
 import { useRouter } from 'next/navigation';
@@ -11,7 +10,7 @@ import Modal from '@/components/common/Modal';
 import ProfileImage from '@/components/profile/ProfileImage';
 import UserListHeader from '@/components/message/UserListHeader';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
-import isExternalImage from '@/core/utils/is-external-image';
+import BaseImage from '@/components/common/img/BaseImage';
 
 const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL);
 
@@ -74,25 +73,13 @@ const UserList = () => {
               setOpenModalIndex(index);
             }}
           >
-            {userdata?.profileImage ? (
-              <Image
+            {userdata?.profileImage && (
+              <BaseImage
                 className="userdata__icon"
-                src={
-                  isExternalImage(userdata?.profileImage)
-                    ? userdata?.profileImage
-                    : `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${userdata?.profileImage}`
-                }
+                src={userdata?.profileImage}
                 width={100}
                 height={100}
                 alt={`${userdata?.nickname}님의 프로필 이미지`}
-              />
-            ) : (
-              <Image
-                className="userdata__icon"
-                src={'/img/icons/icon_default_profile.svg'}
-                width={100}
-                height={100}
-                alt="프로필 이미지"
               />
             )}
             <div className="userInfo">

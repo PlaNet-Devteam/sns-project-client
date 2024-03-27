@@ -95,7 +95,7 @@ function ModifyFeed() {
               imageList.map((image, index) => (
                 <ThumbImage
                   image={{
-                    image: `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`,
+                    image: `${image.image}`,
                     sortOrder: image.sortOrder,
                   }}
                   key={index}

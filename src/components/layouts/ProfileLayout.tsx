@@ -106,7 +106,7 @@ const ProfileLayout = ({ children }: BaseProps) => {
       },
       onSuccess: () => {
         setIsModalOpen(false);
-
+        queryClient.invalidateQueries(['user', payload?.username]);
         queryClient.invalidateQueries(['user', router.query.username]);
       },
     });
