@@ -69,10 +69,12 @@ const CommentInput = () => {
     <>
       <div className="comment__input">
         <div className="comment__profile-image">
-          <UserProfileImage
-            username={user?.username}
-            imagePath={user?.profileImage}
-          />
+          {user && (
+            <UserProfileImage
+              username={user.username}
+              imagePath={user.profileImage}
+            />
+          )}
         </div>
         <form
           onSubmit={(event) => onSubmitForm(event, commentCreate)}
