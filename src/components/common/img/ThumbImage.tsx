@@ -1,7 +1,7 @@
 import React from 'react';
-import Image from 'next/image';
 import { FiTrash } from 'react-icons/fi';
 import styles from './ThumbImage.module.scss';
+import BaseImage from './BaseImage';
 
 interface ThumbImageProps {
   image: {
@@ -19,7 +19,7 @@ const ThumbImage = ({ image, index, onClose }: ThumbImageProps) => {
         <FiTrash color="white" />
       </button>
       <div className={styles.image}>
-        <Image
+        <BaseImage
           src={image.image}
           key={image.sortOrder}
           width={100}

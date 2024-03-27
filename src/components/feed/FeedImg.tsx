@@ -1,9 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
-import Image from 'next/image';
 import { useSetRecoilState } from 'recoil';
 import { FeedImageIndexType, FeedImageType } from '@/core/types/feed';
 import { feedImageState } from '@/store/feedAtom';
+import BaseImage from '../common/img/BaseImage';
 import styles from './FeedImg.module.scss';
 
 interface FeedImgProps {
@@ -11,7 +11,6 @@ interface FeedImgProps {
 }
 
 const FeedImg = ({ feedImages }: FeedImgProps) => {
-  const BUCKET = process.env.NEXT_PUBLIC_AWS_S3_BUCKET;
   const setImageState = useSetRecoilState(feedImageState);
   const imageCount = feedImages.length;
   const modifiedFeedImages: FeedImageIndexType[] = feedImages.map(
@@ -36,13 +35,11 @@ const FeedImg = ({ feedImages }: FeedImgProps) => {
                     className={styles.images_image}
                     onClick={() => setImageState(image.firIndex)}
                   >
-                    <Image
-                      src={`${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${image.image}`}
+                    <BaseImage
+                      src={`${image.image}`}
                       alt={String(image.sortOrder)}
                       width={400}
                       height={300}
-                      placeholder="blur"
-                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
                     />
                   </figure>
                 </div>
@@ -54,13 +51,11 @@ const FeedImg = ({ feedImages }: FeedImgProps) => {
                       })}
                       onClick={() => setImageState(image.secIndex)}
                     >
-                      <Image
-                        src={`${BUCKET}${feedImages[index + 1].image}`}
+                      <BaseImage
+                        src={`${feedImages[index + 1].image}`}
                         alt=""
                         width={400}
                         height={300}
-                        placeholder="blur"
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
                       />
                     </figure>
                     {moreImages && (

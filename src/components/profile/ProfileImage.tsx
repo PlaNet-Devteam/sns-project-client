@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 import { AiOutlineCamera } from 'react-icons/ai';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { uploadFile } from '@/utils/uploadImage';
 import { UserType, UserUpdateType } from '@/core';
 import UserService from '@/services/user';
 import useAuth from '@/hooks/useAuth';
-import isExternalImage from '@/core/utils/is-external-image';
 import Dialog from '../dialog/Dialog';
 import Button from '../common/Button';
 import LoadingSpinner from '../common/LoadingSpinner';
+import BaseImage from '../common/img/BaseImage';
 
 interface ProfileImageProps {
   profile: UserType;
@@ -108,26 +107,15 @@ const ProfileImage = ({ profile }: ProfileImageProps) => {
       <div className="profile-info__desc__image">
         <figure className="profile-info__desc__image--figure">
           {isLoading && <LoadingSpinner variant="default" />}
-          {!isLoading && imgSrc ? (
-            <Image
-              src={
-                isExternalImage(imgSrc)
-                  ? imgSrc
-                  : `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}${imgSrc}`
-              }
+          {!isLoading && (
+            <BaseImage
+              src={imgSrc}
               width={120}
               height={120}
-              alt="프로필 이미지"
+              alt={`${payload?.username} 프로필 이미지`}
               onError={() => {
                 setImgSrc('/img/icons/icon_default_profile.svg');
               }}
-            />
-          ) : (
-            <Image
-              src={'/img/icons/icon_default_profile.svg'}
-              width={120}
-              height={120}
-              alt="프로필 이미지"
             />
           )}
         </figure>
