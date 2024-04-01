@@ -1,7 +1,6 @@
 import React, { FormEvent, useRef } from 'react';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useRouter } from 'next/router';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { FaPaperPlane } from 'react-icons/fa';
 import { userState } from '@/store/userAtom';
@@ -13,9 +12,12 @@ import useSocket from '@/hooks/useSocket';
 import DirectMessageListItem from './DirectMessageListItem';
 import styles from './DirectMessageList.module.scss';
 
-const DirectMessageList = () => {
-  const router = useRouter();
-  // const socket = useSocket();
+interface DirectMessageListProps {
+  roomId: string;
+}
+
+const DirectMessageList = ({ roomId }: DirectMessageListProps) => {
+  const socket = useSocket();
   const queryClient = useQueryClient();
 
   queryClient.setDefaultOptions({
@@ -29,31 +31,19 @@ const DirectMessageList = () => {
   const [messageList, setMessageList] = useState<MessageType[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const { data: messages } = useQuery(
-    ['messages', router.query.roomUniqueId],
-    () => MessageService.getMessages(router.query.roomUniqueId as string),
+  const { data: messages } = useQuery(['messages', roomId], () =>
+    MessageService.getMessages(roomId as string),
   );
 
-  const { data: room } = useQuery<RoomType>(
-    ['room', router.query.roomUniqueId],
-    () =>
-      RoomService.getRoomByRoomUniqueId(router.query.roomUniqueId as string),
+  const { data: room } = useQuery<RoomType>(['room', roomId], () =>
+    RoomService.getRoomByRoomUniqueId(roomId as string),
   );
 
-  // useEffect(() => {
-  //   socket.on('message', (data: MessageType) => {
-  //     setMessageList([...messageList, data]);
-  //   });
-  // }, [messageList]);
-
-  // useEffect(() => {
-  //   socket.on('message', () => {
-  //     socket.emit('save_message', {
-  //       roomUniqueId: router.query.roomUniqueId,
-  //       userId: user?.id,
-  //     });
-  //   });
-  // }, [router.query.roomUniqueId, user?.id]);
+  useEffect(() => {
+    socket.on('message', (data: MessageType) => {
+      setMessageList([...messageList, data]);
+    });
+  }, [messageList, socket]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -61,14 +51,18 @@ const DirectMessageList = () => {
     }
   }, [messageList]);
 
-  // useEffect(() => {
-  //   socket.emit('join_room', {
-  //     roomUniqueId: router.query.roomUniqueId,
-  //   });
-  //   socket.on('join_room', (roomUniqueId: string) => {
-  //     console.log(`${roomUniqueId} 채팅방에 접속중`);
-  //   });
-  // }, [router.query.roomUniqueId, socket]);
+  useEffect(() => {
+    if (roomId) {
+      socket.emit('join_room', {
+        roomUniqueId: roomId,
+      });
+      if (process.env.NODE_ENV !== 'production') {
+        socket.on('join_room', (roomUniqueId: string) => {
+          console.log(`${roomUniqueId} 채팅방에 접속중`);
+        });
+      }
+    }
+  }, [roomId, socket]);
 
   const messageLastIndexBeforeUserIdChange: number[] = [];
 
@@ -99,16 +93,20 @@ const DirectMessageList = () => {
     event.preventDefault();
     if (message.length > 0) {
       if (user) {
-        // socket.emit('message', {
-        //   roomUniqueId: router.query.roomUniqueId,
-        //   message: {
-        //     userId: user?.id,
-        //     roomId: room?.id,
-        //     user: user,
-        //     createdAt: new Date(),
-        //     message,
-        //   },
-        // });
+        socket.emit('message', {
+          roomUniqueId: roomId,
+          message: {
+            userId: user?.id,
+            roomId: room?.id,
+            user: user,
+            createdAt: new Date(),
+            message,
+          },
+        });
+        socket.emit('save_message', {
+          roomUniqueId: roomId,
+          userId: user?.id,
+        });
       }
       setMessage('');
     }

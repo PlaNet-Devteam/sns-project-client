@@ -1,4 +1,4 @@
-import { Socket } from 'dgram';
+import { Socket } from 'net';
 import { createContext, ReactNode, useEffect } from 'react';
 
 interface SocketContextProps {

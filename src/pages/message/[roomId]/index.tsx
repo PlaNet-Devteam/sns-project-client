@@ -10,7 +10,6 @@ import { userState } from '@/store/userAtom';
 import ChatHeader from '@/components/message/ChatHeader';
 
 const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL);
-console.log(socket);
 
 interface ChatUserGatewayType {
   userId: number;

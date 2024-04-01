@@ -10,10 +10,9 @@ import DirectMessageList from '@/components/direct-message/DirectMessageList';
 const DirectMessage = () => {
   const router = useRouter();
   const { payload } = useAuth();
-  const { data: room } = useQuery<RoomType>(
-    ['room', router.query.roomUniqueId],
-    () =>
-      RoomService.getRoomByRoomUniqueId(router.query.roomUniqueId as string),
+  const roomId = router.query.roomUniqueId as string;
+  const { data: room } = useQuery<RoomType>(['room', roomId], () =>
+    RoomService.getRoomByRoomUniqueId(router.query.roomUniqueId as string),
   );
 
   const roomUsers = room?.users
@@ -25,12 +24,12 @@ const DirectMessage = () => {
     <>
       <TopHeader>
         <TopHeader.Left>
-          <button onClick={() => router.back()}>뒤로</button>
+          <button onClick={() => router.push('/direct/inbox')}>뒤로</button>
         </TopHeader.Left>
         <TopHeader.Title>{roomUsers}</TopHeader.Title>
         <TopHeader.Right></TopHeader.Right>
       </TopHeader>
-      <DirectMessageList />
+      {roomId && <DirectMessageList roomId={roomId} />}
     </>
   );
 };

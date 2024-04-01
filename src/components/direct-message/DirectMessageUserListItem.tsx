@@ -14,13 +14,13 @@ const DirectMessageUserListItem = ({
   item,
 }: DirectMessageUserListItemProps) => {
   const { payload } = useAuth();
-  // const socket = useSocket();
+  const socket = useSocket();
 
   const onClickCreateRoomHandler = (userId: number) => {
-    // socket.emit('create_room', {
-    //   userId: payload?._id,
-    //   userIds: [payload?._id, userId],
-    // });
+    socket.emit('create_room', {
+      userId: payload?._id,
+      userIds: [payload?._id, userId],
+    });
   };
 
   return (

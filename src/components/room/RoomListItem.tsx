@@ -47,6 +47,7 @@ const RoomListItem = ({ item }: RoomListItemProps) => {
               </span>
             </>
           )}
+          {!item.messages.length && <>새로운 메세지를 입력해주세요</>}
         </div>
       </div>
     </div>
