@@ -5,7 +5,7 @@ import ButtonGroup from '@/components/common/ButtonGroup';
 
 const SinUpComplete = () => (
   <div className="signup-complete grid">
-    <div className="content-area">
+    <div className="layout__container content-area">
       <div className="middle-area">
         <div className="inner__container">
           {/** TODO : 컴포넌트  */}
