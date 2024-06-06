@@ -11,6 +11,7 @@ import { InfinitePagesType } from '@/core/types/common';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import LoadingSpinnerContainer from '@/components/common/LoadingSpinnerContainer';
 import EmptyData from '@/components/common/EmptyData';
+import { useScrollObserver } from '@/hooks/useObserver';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 const Feed = () => {
@@ -51,6 +52,8 @@ const Feed = () => {
         ))}
     </>
   );
+
+  useScrollObserver();
 
   return (
     <>
