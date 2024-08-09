@@ -14,9 +14,7 @@
 <br/>
 
 ## 배포 URL
-https://planet-sns.com/ <br/>
-id - guest@gmail.com <br/>
-pw - test1234# <br/><br/>
+현재 요금 문제로 서버 중지
 
 ## Contents
 
