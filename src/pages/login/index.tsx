@@ -32,10 +32,13 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState<string[]>([]);
   const setUser = useSetRecoilState(userState);
 
-  const { mutateAsync: googleLogoinMutation, isSuccess: isSuccessGoogleLogin } =
-    useMutation((code: string) => {
-      return AuthService.loginGoogle(code);
-    });
+  const {
+    mutateAsync: googleLogoinMutation,
+    isSuccess: isSuccessGoogleLogin,
+    isLoading: isLoadingGoogleLogin,
+  } = useMutation((code: string) => {
+    return AuthService.loginGoogle(code);
+  });
 
   const googleSocialLogin = useGoogleLogin({
     flow: 'auth-code',
@@ -59,11 +62,16 @@ const Login = () => {
   );
 
   const onSubmitForm = async (
-    event: FormEvent<HTMLFormElement>,
+    event: FormEvent<HTMLFormElement> | React.MouseEvent<Element, MouseEvent>,
     formData: AuthLoginType,
+    guest?: boolean,
   ) => {
     event.preventDefault();
     try {
+      if (guest) {
+        authLogin.email = 'guest@gmail.com';
+        authLogin.password = 'test1234#';
+      }
       const { accessToken, userInfo } = await mutateAsync(formData);
       if (accessToken) {
         JwtStorageService.setToken(ACCESS_TOKEN, `${accessToken}`);
@@ -81,9 +89,13 @@ const Login = () => {
     }
   };
 
+  const isShowLoadingLayer =
+    (!isSuccessGoogleLogin && isLoadingGoogleLogin) ||
+    (!isSuccess && isLoading);
+
   return (
     <>
-      {isLoading && <LoadingLayer />}
+      {isShowLoadingLayer && <LoadingLayer />}
       <div className="login grid">
         <div className="layout__container content-area">
           <div className="middle-area">
@@ -139,12 +151,22 @@ const Login = () => {
                   >
                     LOGIN
                   </Button>
+                  <Button
+                    size="md"
+                    variant="secondary"
+                    type="button"
+                    isEnglish
+                    isFull
+                    onClick={(event) => onSubmitForm(event, authLogin, true)}
+                  >
+                    GUEST LOGIN
+                  </Button>
                 </ButtonGroup>
               </form>
               <div className="text-group">
-                <p className=" text-center text-white text-sm">
+                {/* <p className=" text-center text-white text-sm">
                   비밀번호를 잊으셨나요?
-                </p>
+                </p> */}
               </div>
             </div>
           </div>

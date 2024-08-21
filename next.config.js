@@ -17,6 +17,7 @@ const nextConfig = {
   images: {
     domains: [
       'github-production-user-asset-6210df.s3.amazonaws.com',
+      'planet-bucket-dev.s3.ap-northeast-2.amazonaws.com',
       'planet-bucket-staging.s3.ap-northeast-2.amazonaws.com',
       'planet-bucket-prod.s3.ap-northeast-2.amazonaws.com',
       'planet-sns.s3.ap-northeast-2.amazonaws.com',
